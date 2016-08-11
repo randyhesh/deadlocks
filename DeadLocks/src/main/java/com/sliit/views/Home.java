@@ -5,14 +5,7 @@
  */
 package com.sliit.views;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JLabel;
-import jpcap.JpcapCaptor;
+import javax.swing.JPanel;
 import jpcap.NetworkInterface;
 
 /**
@@ -20,8 +13,8 @@ import jpcap.NetworkInterface;
  * @author Heshani
  */
 public class Home extends javax.swing.JFrame {
-
-    private NetworkInterface[] devices;
+    
+    public static JPanel containerPanel;
 
     /**
      * Creates new form Home
@@ -36,47 +29,11 @@ public class Home extends javax.swing.JFrame {
 
         setLocationRelativeTo(null);
 
-        showDevices();
-    }
+        containerPanel = this.contentPanel;
 
-    private void showDevices() {
-
-        devices = JpcapCaptor.getDeviceList();
-
-        for (int i = 0; i < devices.length; i++) {
-
-            System.out.println(devices[i].name);
-
-            DevicePanel devicePanel = new DevicePanel();
-
-            JLabel nameLabel = new JLabel("nameLabel");
-            nameLabel.setText(devices[i].name);
-
-            JLabel descLabel = new JLabel("descLabel");
-            descLabel.setText(devices[i].description);
-
-            JLabel datalinkLabel = new JLabel("datalinkLabel");
-            datalinkLabel.setText(devices[i].datalink_name);
-
-            JLabel datalinkDescLabel = new JLabel("datalinkDescLabel");
-            datalinkDescLabel.setText(devices[i].datalink_description);
-
-            devicePanel.add(nameLabel);
-            devicePanel.add(descLabel);
-            devicePanel.add(datalinkLabel);
-            devicePanel.add(datalinkDescLabel);
-
-            contentPanel.add(devicePanel);
-
-        }
-    }
-
-    class PanelListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
+        containerPanel.removeAll();
+        containerPanel.add(new NetworkInterfacesPanel(), "networkInterfacesPanel", 0);
+        containerPanel.revalidate();
 
     }
 
@@ -97,22 +54,46 @@ public class Home extends javax.swing.JFrame {
         contentPanel = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         menuPanel.setBackground(new java.awt.Color(255, 255, 255));
 
+        analyzerButton.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\analyzer.png")); // NOI18N
         analyzerButton.setText("Analyzer");
+        analyzerButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        analyzerButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        analyzerButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        analyzerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                analyzerButtonActionPerformed(evt);
+            }
+        });
 
-        showDevicesButton.setText("Netwok Interfaces");
+        showDevicesButton.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\incoming.png")); // NOI18N
+        showDevicesButton.setText("Network Interfaces");
+        showDevicesButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        showDevicesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        showDevicesButton.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        showDevicesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         showDevicesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showDevicesButtonActionPerformed(evt);
             }
         });
 
+        predictorButton.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\predictor.png")); // NOI18N
         predictorButton.setText("Predictor");
+        predictorButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        predictorButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        predictorButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        predictorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                predictorButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
@@ -121,14 +102,14 @@ public class Home extends javax.swing.JFrame {
             .addGroup(menuPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(analyzerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(predictorButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
+                    .addComponent(analyzerButton, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                    .addComponent(predictorButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(menuPanelLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(showDevicesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-                    .addContainerGap()))
+                    .addComponent(showDevicesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         menuPanelLayout.setVerticalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,7 +118,7 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(analyzerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(predictorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(menuPanelLayout.createSequentialGroup()
                     .addGap(21, 21, 21)
@@ -146,10 +127,13 @@ public class Home extends javax.swing.JFrame {
         );
 
         contentPanel.setBackground(new java.awt.Color(255, 255, 255));
-        contentPanel.setMaximumSize(new java.awt.Dimension(905, 509));
-        contentPanel.setMinimumSize(new java.awt.Dimension(905, 509));
+        contentPanel.setMinimumSize(new java.awt.Dimension(0, 0));
 
         jMenu1.setText("File");
+
+        jMenuItem1.setText("Exit");
+        jMenu1.add(jMenuItem1);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -164,12 +148,12 @@ public class Home extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 925, Short.MAX_VALUE))
+                .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(menuPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(contentPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -177,9 +161,25 @@ public class Home extends javax.swing.JFrame {
 
     private void showDevicesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDevicesButtonActionPerformed
 
-        NetworkInterfacesPanel networkInterfacesPanel = new NetworkInterfacesPanel();
-        contentPanel.add(networkInterfacesPanel);
+        containerPanel.removeAll();
+        containerPanel.add(new NetworkInterfacesPanel(), "networkInterfacesPanel", 0);
+        containerPanel.revalidate();
+
     }//GEN-LAST:event_showDevicesButtonActionPerformed
+
+    private void analyzerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analyzerButtonActionPerformed
+
+        containerPanel.removeAll();
+        containerPanel.add(new TrafficAnalyserPanel(), "trafficAnalyserPanel", 0);
+        containerPanel.revalidate();
+    }//GEN-LAST:event_analyzerButtonActionPerformed
+
+    private void predictorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_predictorButtonActionPerformed
+
+        containerPanel.removeAll();
+        containerPanel.add(new PredictorPanel(), "predictorPanel", 0);
+        containerPanel.revalidate();
+    }//GEN-LAST:event_predictorButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,6 +223,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JToggleButton predictorButton;
     private javax.swing.JToggleButton showDevicesButton;

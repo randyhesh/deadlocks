@@ -5,6 +5,9 @@
  */
 package com.sliit.views;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import jpcap.JpcapCaptor;
 import jpcap.NetworkInterface;
@@ -15,13 +18,20 @@ import jpcap.NetworkInterface;
  */
 public class NetworkInterfacesPanel extends javax.swing.JPanel {
 
+    private NetworkInterface[] networkInterfacesList;
+
     /**
      * Creates new form networkInterfacesList
      */
     public NetworkInterfacesPanel() {
         initComponents();
-        
-         NetworkInterface[] devices = JpcapCaptor.getDeviceList();
+        getNetworkInterfaces();
+    }
+
+    private void getNetworkInterfaces() {
+
+        NetworkInterface[] devices = JpcapCaptor.getDeviceList();
+        this.networkInterfacesList = devices;
 
         for (int i = 0; i < devices.length; i++) {
 
@@ -29,9 +39,8 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
 
             DevicePanel devicePanel = new DevicePanel();
 
-            JLabel nameLabel = new JLabel("nameLabel");
-            nameLabel.setText(devices[i].name);
-
+            //JLabel nameLabel = new JLabel("nameLabel");
+            //nameLabel.setText(devices[i].name);
             JLabel descLabel = new JLabel("descLabel");
             descLabel.setText(devices[i].description);
 
@@ -41,7 +50,13 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
             JLabel datalinkDescLabel = new JLabel("datalinkDescLabel");
             datalinkDescLabel.setText(devices[i].datalink_description);
 
-            devicePanel.add(nameLabel);
+            JButton processButton = new JButton(devices[i].name);
+
+            DeviceListener deviceListener = new DeviceListener();
+            processButton.addActionListener(deviceListener);
+
+            devicePanel.add(processButton);
+            //devicePanel.add(nameLabel);
             devicePanel.add(descLabel);
             devicePanel.add(datalinkLabel);
             devicePanel.add(datalinkDescLabel);
@@ -49,6 +64,18 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
             this.add(devicePanel);
 
         }
+    }
+
+    class DeviceListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            Home.containerPanel.removeAll();
+            Home.containerPanel.add(new TrafficAnalyserPanel(networkInterfacesList, e.getActionCommand()), "trafficAnalyserPanel", 0);
+            Home.containerPanel.revalidate();
+        }
+
     }
 
     /**
@@ -61,20 +88,8 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(905, 509));
-        setMinimumSize(new java.awt.Dimension(905, 509));
+        setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(905, 509));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 905, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 509, Short.MAX_VALUE)
-        );
     }// </editor-fold>//GEN-END:initComponents
 
 

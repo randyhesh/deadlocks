@@ -5,25 +5,46 @@
  */
 package com.sliit.views;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jpcap.JpcapCaptor;
 import jpcap.NetworkInterface;
+import jpcap.PacketReceiver;
+import jpcap.packet.DatalinkPacket;
+import jpcap.packet.IPPacket;
+import jpcap.packet.Packet;
 
 /**
  *
  * @author Heshani
  */
-public class trafficAnalyser extends javax.swing.JPanel {
+public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketReceiver {
 
-    private NetworkInterface networkInterface;
+    private NetworkInterface selectedDevice;
+    private String networkTraffic;
 
     /**
      * Creates new form trafficAnalyser
      */
-    public trafficAnalyser() {
+    public TrafficAnalyserPanel() {
         initComponents();
     }
 
-    public trafficAnalyser(NetworkInterface[] networkInterface,int index) {
-       
+    public TrafficAnalyserPanel(NetworkInterface[] networkInterfaces, String deviceName) {
+        this();
+
+        for (int i = 0; i < networkInterfaces.length; i++) {
+
+            if (networkInterfaces[i].name.equals(deviceName)) {
+                selectedDevice = networkInterfaces[i];
+                break;
+            }
+        }
+
+        if (selectedDevice != null) {
+            deviceLabel.setText(selectedDevice.name);
+        }
     }
 
     /**
@@ -48,7 +69,14 @@ public class trafficAnalyser extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(905, 509));
         setPreferredSize(new java.awt.Dimension(905, 509));
 
+        deviceLabel.setText("Select Device");
+
         startButton.setText("Start");
+        startButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startButtonActionPerformed(evt);
+            }
+        });
 
         stopButton.setText("Stop");
 
@@ -94,6 +122,56 @@ public class trafficAnalyser extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+        NetworkInterface[] dev = JpcapCaptor.getDeviceList();
+        try {
+            //openDevice(open specified device,man no of bytes captured at once,promiscous mode,timeout for capture in milliseconds)
+            //-1 to continue capturing packets infinitely
+            JpcapCaptor captor = JpcapCaptor.openDevice(dev[3], -1, false, 10000);
+
+            networkTraffic = "Starting... \n";
+
+            //processPacket() supports timeout and non blocking mode, no of captures -1 infinite captures
+            captor.processPacket(-1, new TrafficAnalyserPanel());
+
+            trafficDisplayTextArea.setText(networkTraffic);
+            System.out.println(networkTraffic);
+            captor.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(TrafficAnalyserPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }//GEN-LAST:event_startButtonActionPerformed
+
+    @Override
+    public void receivePacket(Packet packet) {
+
+        //System.out.println(packet);
+        networkTraffic += packet + "\n";
+
+//        IPPacket ipPacket = (IPPacket) packet;
+//
+//        byte header[] = packet.header;
+//        byte data[] = packet.data;
+//        int caplen = packet.caplen;
+//        DatalinkPacket datalink = packet.datalink;
+//        int length = packet.len;
+//        long sec = packet.sec;
+//        long usec = packet.usec;
+//
+//        System.out.println("source ip " + ipPacket.src_ip + " " + ipPacket.src_ip.getHostAddress() + " " + ipPacket.src_ip.getHostName());
+//        System.out.println("dest ip " + ipPacket.dst_ip + " " + ipPacket.dst_ip.getHostAddress() + " " + ipPacket.dst_ip.getHostName());
+//        System.out.println("options " + ipPacket.options + " flow_label " + ipPacket.flow_label + " version " + ipPacket.version + " ident " + ipPacket.ident);
+//        System.out.println("protocol " + ipPacket.protocol);
+//        System.out.println("hop_limit " + ipPacket.hop_limit);
+//        System.out.println("caplen " + caplen);
+//        System.out.println("datalink " + datalink);
+//        System.out.println("length " + length);
+//        System.out.println("sec " + sec);
+//        System.out.println("usec " + usec + "\n");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel deviceLabel;
@@ -104,4 +182,5 @@ public class trafficAnalyser extends javax.swing.JPanel {
     private javax.swing.JTextField timeText;
     private javax.swing.JTextArea trafficDisplayTextArea;
     // End of variables declaration//GEN-END:variables
+
 }
