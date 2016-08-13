@@ -35,7 +35,7 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
 
         for (int i = 0; i < devices.length; i++) {
 
-            System.out.println(devices[i].name);
+            //System.out.println(devices[i].name);
 
             DevicePanel devicePanel = new DevicePanel();
 
