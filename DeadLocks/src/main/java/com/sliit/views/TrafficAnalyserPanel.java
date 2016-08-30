@@ -36,16 +36,8 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketRe
      */
     public TrafficAnalyserPanel() {
         initComponents();
-        
+
         header = "source,destination,protocol,length \n";
-        
-        try {
-            String filePath = locationText.getText() + "" + fileNameText.getText();
-            file = new File(filePath);
-            fileWriter = new FileWriter(file);
-        } catch (IOException ex) {
-            Logger.getLogger(TrafficAnalyserPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
     }
 
@@ -120,7 +112,7 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketRe
 
         jLabel3.setText("Save :");
 
-        locationText.setText("D:/");
+        locationText.setText("C:/Desktop");
 
         jLabel4.setText("secs");
 
@@ -174,6 +166,11 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketRe
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
 
         try {
+
+            String filePath = locationText.getText() + "" + fileNameText.getText();
+            file = new File(filePath);
+            fileWriter = new FileWriter(file);
+
             fileWriter.write(header);
 
             //1000 - mili, 10000mili sec = 10sec
@@ -207,24 +204,24 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketRe
             System.out.println("IP---------");
             System.out.println(ipPacket);
 
-//            byte header[] = packet.header;
-//            byte data[] = packet.data;
-//            int caplen = packet.caplen;
-//            DatalinkPacket datalink = packet.datalink;
-//            int length = packet.len;
-//            long sec = packet.sec;
-//            long usec = packet.usec;
-//
-//            System.out.println("source ip " + ipPacket.src_ip + " " + ipPacket.src_ip.getHostAddress() + " " + ipPacket.src_ip.getHostName());
-//            System.out.println("dest ip " + ipPacket.dst_ip + " " + ipPacket.dst_ip.getHostAddress() + " " + ipPacket.dst_ip.getHostName());
-//            System.out.println("options " + ipPacket.options + " flow_label " + ipPacket.flow_label + " version " + ipPacket.version + " ident " + ipPacket.ident);
-//            System.out.println("protocol " + ipPacket.protocol);
-//            System.out.println("hop_limit " + ipPacket.hop_limit);
-//            System.out.println("caplen " + caplen);
-//            System.out.println("datalink " + datalink);
-//            System.out.println("length " + length);
-//            System.out.println("sec " + sec);
-//            System.out.println("usec " + usec + "\n");
+            byte header[] = packet.header;
+            //byte data[] = packet.data;
+            int caplen = packet.caplen;
+            DatalinkPacket datalink = packet.datalink;
+            int length = packet.len;
+            long sec = packet.sec;
+            long usec = packet.usec;
+
+            System.out.println("source ip " + ipPacket.src_ip + " " + ipPacket.src_ip.getHostAddress() + " " + ipPacket.src_ip.getHostName());
+            System.out.println("dest ip " + ipPacket.dst_ip + " " + ipPacket.dst_ip.getHostAddress() + " " + ipPacket.dst_ip.getHostName());
+            System.out.println("options " + ipPacket.options + " flow_label " + ipPacket.flow_label + " version " + ipPacket.version + " ident " + ipPacket.ident);
+            System.out.println("protocol " + ipPacket.protocol);
+            System.out.println("hop_limit " + ipPacket.hop_limit);
+            System.out.println("caplen " + caplen);
+            System.out.println("datalink " + datalink);
+            System.out.println("length " + length);
+            System.out.println("sec " + sec);
+            System.out.println("usec " + usec + "\n");
         } else if (packet instanceof ARPPacket) {
             ARPPacket arpPacket = (ARPPacket) packet;
 
@@ -233,12 +230,12 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketRe
         }
 
         //writing to file
-        try {
-            fileWriter.write(packet.toString() + "\n");
-            fileWriter.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(TrafficAnalyserPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            fileWriter.write(packet.toString() + "\n");
+//            fileWriter.flush();
+//        } catch (IOException ex) {
+//            Logger.getLogger(TrafficAnalyserPanel.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
