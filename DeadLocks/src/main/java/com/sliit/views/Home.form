@@ -27,12 +27,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <Component id="menuPanel" min="-2" pref="145" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <Component id="menuPanel" min="-2" pref="154" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="contentPanel" pref="1086" max="32767" attributes="0"/>
+              <Component id="contentPanel" pref="1077" max="32767" attributes="0"/>
           </Group>
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+          <Component id="jPanel1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -42,7 +42,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="menuPanel" max="32767" attributes="0"/>
-                  <Component id="contentPanel" pref="523" max="32767" attributes="0"/>
+                  <Component id="contentPanel" pref="538" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -60,18 +60,22 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="analyzerButton" max="32767" attributes="0"/>
-                      <Component id="predictorButton" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="predictorButton1" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="analyzerButton" min="-2" pref="133" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="predictorButton" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="showDevicesButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="27" max="32767" attributes="0"/>
+                      <Component id="showDevicesButton" min="-2" pref="134" max="-2" attributes="0"/>
+                      <EmptySpace pref="18" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -81,9 +85,11 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="150" max="-2" attributes="0"/>
                   <Component id="analyzerButton" min="-2" pref="119" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="predictorButton1" min="-2" pref="119" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="predictorButton" min="-2" pref="119" max="-2" attributes="0"/>
-                  <EmptySpace pref="117" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
@@ -98,14 +104,20 @@
       <SubComponents>
         <Component class="javax.swing.JToggleButton" name="analyzerButton">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\analyzer.png"/>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Analyzer"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\incoming.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Traffic Analyzer"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\pressedincoming.png"/>
+            </Property>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
           <Events>
@@ -118,13 +130,16 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\incoming.png"/>
+              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\devices.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Network Interfaces"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\presseddevices.png"/>
+            </Property>
             <Property name="verticalAlignment" type="int" value="1"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
@@ -134,6 +149,9 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="predictorButton">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\predictor.png"/>
             </Property>
@@ -142,10 +160,35 @@
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\pressedpredictor.png"/>
+            </Property>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="predictorButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JToggleButton" name="predictorButton1">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\analyzer.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Data Visualiser"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\pressedanalyzer.png"/>
+            </Property>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="predictorButton1ActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

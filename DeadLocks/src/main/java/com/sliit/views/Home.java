@@ -13,7 +13,7 @@ import jpcap.NetworkInterface;
  * @author Heshani
  */
 public class Home extends javax.swing.JFrame {
-    
+
     public static JPanel containerPanel;
 
     /**
@@ -51,6 +51,7 @@ public class Home extends javax.swing.JFrame {
         analyzerButton = new javax.swing.JToggleButton();
         showDevicesButton = new javax.swing.JToggleButton();
         predictorButton = new javax.swing.JToggleButton();
+        predictorButton1 = new javax.swing.JToggleButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -62,10 +63,12 @@ public class Home extends javax.swing.JFrame {
 
         menuPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        analyzerButton.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\analyzer.png")); // NOI18N
-        analyzerButton.setText("Analyzer");
+        analyzerButton.setBackground(new java.awt.Color(255, 255, 255));
+        analyzerButton.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\incoming.png")); // NOI18N
+        analyzerButton.setText("Traffic Analyzer");
         analyzerButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         analyzerButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        analyzerButton.setPressedIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\pressedincoming.png")); // NOI18N
         analyzerButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         analyzerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,10 +77,11 @@ public class Home extends javax.swing.JFrame {
         });
 
         showDevicesButton.setBackground(new java.awt.Color(255, 255, 255));
-        showDevicesButton.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\incoming.png")); // NOI18N
+        showDevicesButton.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\devices.png")); // NOI18N
         showDevicesButton.setText("Network Interfaces");
         showDevicesButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         showDevicesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        showDevicesButton.setPressedIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\presseddevices.png")); // NOI18N
         showDevicesButton.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         showDevicesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         showDevicesButton.addActionListener(new java.awt.event.ActionListener() {
@@ -86,14 +90,29 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        predictorButton.setBackground(new java.awt.Color(255, 255, 255));
         predictorButton.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\predictor.png")); // NOI18N
         predictorButton.setText("Predictor");
         predictorButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         predictorButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        predictorButton.setPressedIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\pressedpredictor.png")); // NOI18N
         predictorButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         predictorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 predictorButtonActionPerformed(evt);
+            }
+        });
+
+        predictorButton1.setBackground(new java.awt.Color(255, 255, 255));
+        predictorButton1.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\analyzer.png")); // NOI18N
+        predictorButton1.setText("Data Visualiser");
+        predictorButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        predictorButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        predictorButton1.setPressedIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\pressedanalyzer.png")); // NOI18N
+        predictorButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        predictorButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                predictorButton1ActionPerformed(evt);
             }
         });
 
@@ -102,25 +121,30 @@ public class Home extends javax.swing.JFrame {
         menuPanelLayout.setHorizontalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(analyzerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(predictorButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(29, 29, 29))
+                .addContainerGap()
+                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(predictorButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(menuPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(analyzerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(predictorButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
             .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(menuPanelLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(showDevicesButton)
-                    .addContainerGap(27, Short.MAX_VALUE)))
+                    .addComponent(showDevicesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(18, Short.MAX_VALUE)))
         );
         menuPanelLayout.setVerticalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuPanelLayout.createSequentialGroup()
                 .addGap(150, 150, 150)
                 .addComponent(analyzerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(predictorButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(predictorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(menuPanelLayout.createSequentialGroup()
                     .addGap(21, 21, 21)
@@ -190,10 +214,10 @@ public class Home extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1086, Short.MAX_VALUE))
+                .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1077, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -203,7 +227,7 @@ public class Home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(menuPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)))
+                    .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)))
         );
 
         pack();
@@ -230,6 +254,10 @@ public class Home extends javax.swing.JFrame {
         containerPanel.add(new PredictorPanel(), "predictorPanel", 0);
         containerPanel.revalidate();
     }//GEN-LAST:event_predictorButtonActionPerformed
+
+    private void predictorButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_predictorButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_predictorButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -277,6 +305,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JToggleButton predictorButton;
+    private javax.swing.JToggleButton predictorButton1;
     private javax.swing.JToggleButton showDevicesButton;
     // End of variables declaration//GEN-END:variables
 }

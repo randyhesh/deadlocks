@@ -15,7 +15,6 @@ public class MainWindow {
 
     public static void main(String[] args) {
         Home home = new Home();
-        home.setSize(1072, 530);
         home.setLocationRelativeTo(null);
         home.pack();
         home.setVisible(true);

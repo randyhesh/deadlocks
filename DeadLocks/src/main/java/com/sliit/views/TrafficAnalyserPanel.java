@@ -9,18 +9,17 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import jpcap.JpcapCaptor;
-import jpcap.JpcapWriter;
 import jpcap.NetworkInterface;
 import jpcap.PacketReceiver;
 import jpcap.packet.ARPPacket;
 import jpcap.packet.DatalinkPacket;
 import jpcap.packet.IPPacket;
 import jpcap.packet.Packet;
+import jpcap.packet.TCPPacket;
 
 /**
  *
@@ -100,6 +99,8 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketRe
         setMinimumSize(new java.awt.Dimension(905, 509));
         setPreferredSize(new java.awt.Dimension(905, 509));
 
+        deviceLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        deviceLabel.setForeground(new java.awt.Color(51, 204, 255));
         deviceLabel.setText("Select Device");
 
         startButton.setText("Start");
@@ -137,27 +138,28 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketRe
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(deviceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 875, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(timeText, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addGap(17, 17, 17)
-                        .addComponent(startButton)
-                        .addGap(46, 46, 46)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fileNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(locationText)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(deviceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(18, 18, 18)
+                            .addComponent(timeText, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel4)
+                            .addGap(17, 17, 17)
+                            .addComponent(startButton)
+                            .addGap(46, 46, 46)
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(fileNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(locationText))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -284,6 +286,10 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketRe
             //Object ob[] = {usec, arpPacket.getSenderProtocolAddress(), arpPacket.getTargetProtocolAddress(), "ARP", length, caplen, "", "", datalink};
         }
 
+         if (packet instanceof TCPPacket) {
+             
+         }
+        
 //        System.out.println("caplen " + caplen); //Captured length
 //        System.out.println("data " + data); //Packet data (excluding the header)
 //        System.out.println("datalink " + datalink); //Datalink layer header
