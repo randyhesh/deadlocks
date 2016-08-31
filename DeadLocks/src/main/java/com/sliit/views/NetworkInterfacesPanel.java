@@ -75,11 +75,11 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
         datalinkDescList[5] = dataLinkDescDev6;
 
         panelList[0] = panelDev1;
-        panelList[1] = panelDev1;
-        panelList[2] = panelDev1;
-        panelList[3] = panelDev1;
-        panelList[4] = panelDev1;
-        panelList[5] = panelDev1;
+        panelList[1] = panelDev2;
+        panelList[2] = panelDev3;
+        panelList[3] = panelDev4;
+        panelList[4] = panelDev5;
+        panelList[5] = panelDev6;
 
         getNetworkInterfaces();
     }
@@ -91,7 +91,7 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
 
         int exist = 0;
         for (int i = 0; i < devices.length; i++) {
-            ++exist;
+            exist++;
             buttnList[i].setText(devices[i].name);;
             descList[i].setText(devices[i].description);
             datalinkList[i].setText(devices[i].datalink_name);
@@ -101,7 +101,7 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
             DeviceListener deviceListener = new DeviceListener();
             buttnList[i].addActionListener(deviceListener);
         }
-
+      
         for (int i = exist; i < panelList.length; i++) {
 
             this.remove(panelList[i]);
@@ -172,7 +172,8 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
         dataLinkDescDev5 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setMinimumSize(new java.awt.Dimension(0, 0));
+        setMaximumSize(new java.awt.Dimension(1061, 480));
+        setMinimumSize(new java.awt.Dimension(1061, 480));
         setPreferredSize(new java.awt.Dimension(905, 509));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -181,334 +182,165 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
 
         panelDev1.setBackground(new java.awt.Color(0, 153, 255));
         panelDev1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelDev1.setMaximumSize(new java.awt.Dimension(330, 178));
+        panelDev1.setMinimumSize(new java.awt.Dimension(330, 178));
+        panelDev1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\Industry-Rfid-Signal-icon.png")); // NOI18N
+        panelDev1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 76, -1, -1));
 
         device1.setBackground(new java.awt.Color(0, 153, 255));
         device1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         device1.setText("jToggleButton1");
+        panelDev1.add(device1, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 28, 320, 30));
 
         descDev1.setText("jLabel1");
+        panelDev1.add(descDev1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 76, 171, -1));
 
         dataLinkDev1.setText("jLabel1");
+        panelDev1.add(dataLinkDev1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 108, 171, -1));
 
         dataLinkDescDev1.setText("jLabel1");
-
-        javax.swing.GroupLayout panelDev1Layout = new javax.swing.GroupLayout(panelDev1);
-        panelDev1.setLayout(panelDev1Layout);
-        panelDev1Layout.setHorizontalGroup(
-            panelDev1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDev1Layout.createSequentialGroup()
-                .addGroup(panelDev1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(device1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelDev1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addGroup(panelDev1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(dataLinkDev1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(descDev1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dataLinkDescDev1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 27, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        panelDev1Layout.setVerticalGroup(
-            panelDev1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDev1Layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .addComponent(device1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(panelDev1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDev1Layout.createSequentialGroup()
-                        .addComponent(descDev1)
-                        .addGap(18, 18, 18)
-                        .addComponent(dataLinkDev1)
-                        .addGap(18, 18, 18)
-                        .addComponent(dataLinkDescDev1))
-                    .addComponent(jLabel5)))
-        );
+        panelDev1.add(dataLinkDescDev1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 171, -1));
 
         panelDev4.setBackground(new java.awt.Color(255, 0, 204));
         panelDev4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelDev4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel8.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\Industry-Rfid-Signal-icon.png")); // NOI18N
+        panelDev4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 68, -1, -1));
 
         device4.setBackground(new java.awt.Color(255, 0, 204));
         device4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         device4.setText("jToggleButton1");
+        panelDev4.add(device4, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 22, 326, 30));
 
         descDev4.setText("jLabel1");
+        panelDev4.add(descDev4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 68, 198, -1));
 
         dataLinkDev4.setText("jLabel1");
+        panelDev4.add(dataLinkDev4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 198, -1));
 
         dataLinkDescDev4.setText("jLabel1");
-
-        javax.swing.GroupLayout panelDev4Layout = new javax.swing.GroupLayout(panelDev4);
-        panelDev4.setLayout(panelDev4Layout);
-        panelDev4Layout.setHorizontalGroup(
-            panelDev4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDev4Layout.createSequentialGroup()
-                .addComponent(jLabel8)
-                .addGap(18, 18, 18)
-                .addGroup(panelDev4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(dataLinkDev4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(descDev4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                    .addComponent(dataLinkDescDev4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 10, Short.MAX_VALUE))
-            .addGroup(panelDev4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelDev4Layout.createSequentialGroup()
-                    .addGap(5, 5, 5)
-                    .addComponent(device4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGap(5, 5, 5)))
-        );
-        panelDev4Layout.setVerticalGroup(
-            panelDev4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDev4Layout.createSequentialGroup()
-                .addGap(0, 66, Short.MAX_VALUE)
-                .addGroup(panelDev4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDev4Layout.createSequentialGroup()
-                        .addComponent(descDev4)
-                        .addGap(18, 18, 18)
-                        .addComponent(dataLinkDev4)
-                        .addGap(18, 18, 18)
-                        .addComponent(dataLinkDescDev4))
-                    .addComponent(jLabel8)))
-            .addGroup(panelDev4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelDev4Layout.createSequentialGroup()
-                    .addGap(20, 20, 20)
-                    .addComponent(device4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(116, Short.MAX_VALUE)))
-        );
+        panelDev4.add(dataLinkDescDev4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 132, 171, -1));
 
         panelDev2.setBackground(new java.awt.Color(51, 255, 0));
         panelDev2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelDev2.setMaximumSize(new java.awt.Dimension(340, 178));
+        panelDev2.setMinimumSize(new java.awt.Dimension(340, 178));
+        panelDev2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel7.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\Industry-Rfid-Signal-icon.png")); // NOI18N
+        panelDev2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 76, -1, -1));
 
         device2.setBackground(new java.awt.Color(51, 255, 0));
         device2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         device2.setText("jToggleButton1");
+        panelDev2.add(device2, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 26, 326, 30));
 
         descDev2.setText("jLabel1");
+        panelDev2.add(descDev2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 76, 200, -1));
 
         dataLinkDev2.setText("jLabel1");
+        panelDev2.add(dataLinkDev2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 108, 171, -1));
 
         dataLinkDescDev2.setText("jLabel1");
-
-        javax.swing.GroupLayout panelDev2Layout = new javax.swing.GroupLayout(panelDev2);
-        panelDev2.setLayout(panelDev2Layout);
-        panelDev2Layout.setHorizontalGroup(
-            panelDev2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDev2Layout.createSequentialGroup()
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addGroup(panelDev2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDev2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(dataLinkDev2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(dataLinkDescDev2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(descDev2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(panelDev2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelDev2Layout.createSequentialGroup()
-                    .addComponent(device2, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        panelDev2Layout.setVerticalGroup(
-            panelDev2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDev2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(panelDev2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDev2Layout.createSequentialGroup()
-                        .addComponent(descDev2)
-                        .addGap(18, 18, 18)
-                        .addComponent(dataLinkDev2)
-                        .addGap(18, 18, 18)
-                        .addComponent(dataLinkDescDev2))
-                    .addComponent(jLabel7)))
-            .addGroup(panelDev2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelDev2Layout.createSequentialGroup()
-                    .addGap(24, 24, 24)
-                    .addComponent(device2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(120, Short.MAX_VALUE)))
-        );
+        panelDev2.add(dataLinkDescDev2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 171, -1));
 
         panelDev3.setBackground(new java.awt.Color(153, 0, 153));
         panelDev3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelDev3.setMaximumSize(new java.awt.Dimension(330, 182));
+        panelDev3.setMinimumSize(new java.awt.Dimension(330, 182));
+        panelDev3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel10.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\Industry-Rfid-Signal-icon.png")); // NOI18N
+        panelDev3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 80, -1, -1));
 
         device3.setBackground(new java.awt.Color(153, 0, 153));
         device3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         device3.setText("jToggleButton1");
+        panelDev3.add(device3, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 28, 320, 30));
 
         descDev3.setText("jLabel1");
+        panelDev3.add(descDev3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 198, -1));
 
         dataLinkDev3.setText("jLabel1");
+        panelDev3.add(dataLinkDev3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 112, 198, -1));
 
         dataLinkDescDev3.setText("jLabel1");
-
-        javax.swing.GroupLayout panelDev3Layout = new javax.swing.GroupLayout(panelDev3);
-        panelDev3.setLayout(panelDev3Layout);
-        panelDev3Layout.setHorizontalGroup(
-            panelDev3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDev3Layout.createSequentialGroup()
-                .addComponent(jLabel10)
-                .addGap(18, 18, 18)
-                .addGroup(panelDev3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(dataLinkDev3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dataLinkDescDev3, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(descDev3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE))
-                .addGap(0, 10, Short.MAX_VALUE))
-            .addGroup(panelDev3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelDev3Layout.createSequentialGroup()
-                    .addGap(5, 5, 5)
-                    .addComponent(device3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGap(5, 5, 5)))
-        );
-        panelDev3Layout.setVerticalGroup(
-            panelDev3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDev3Layout.createSequentialGroup()
-                .addGap(0, 78, Short.MAX_VALUE)
-                .addGroup(panelDev3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDev3Layout.createSequentialGroup()
-                        .addComponent(descDev3)
-                        .addGap(18, 18, 18)
-                        .addComponent(dataLinkDev3)
-                        .addGap(18, 18, 18)
-                        .addComponent(dataLinkDescDev3))
-                    .addComponent(jLabel10)))
-            .addGroup(panelDev3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelDev3Layout.createSequentialGroup()
-                    .addGap(26, 26, 26)
-                    .addComponent(device3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(122, Short.MAX_VALUE)))
-        );
+        panelDev3.add(dataLinkDescDev3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 144, 171, -1));
 
         panelDev6.setBackground(new java.awt.Color(0, 255, 204));
         panelDev6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelDev6.setMaximumSize(new java.awt.Dimension(330, 178));
+        panelDev6.setMinimumSize(new java.awt.Dimension(330, 178));
+        panelDev6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel11.setBackground(new java.awt.Color(0, 255, 204));
         jLabel11.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\Industry-Rfid-Signal-icon.png")); // NOI18N
+        panelDev6.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 70, -1, -1));
 
         device6.setBackground(new java.awt.Color(0, 255, 204));
         device6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         device6.setText("jToggleButton1");
+        panelDev6.add(device6, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 26, 316, 30));
 
         descDev6.setText("jLabel1");
+        panelDev6.add(descDev6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 181, -1));
 
         dataLinkDev6.setText("jLabel1");
+        panelDev6.add(dataLinkDev6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 102, 181, -1));
 
         dataLinkDescDev6.setText("jLabel1");
-
-        javax.swing.GroupLayout panelDev6Layout = new javax.swing.GroupLayout(panelDev6);
-        panelDev6.setLayout(panelDev6Layout);
-        panelDev6Layout.setHorizontalGroup(
-            panelDev6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDev6Layout.createSequentialGroup()
-                .addComponent(jLabel11)
-                .addGap(18, 18, 18)
-                .addGroup(panelDev6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(dataLinkDev6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(descDev6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                    .addComponent(dataLinkDescDev6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 10, Short.MAX_VALUE))
-            .addGroup(panelDev6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelDev6Layout.createSequentialGroup()
-                    .addGap(5, 5, 5)
-                    .addComponent(device6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGap(5, 5, 5)))
-        );
-        panelDev6Layout.setVerticalGroup(
-            panelDev6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDev6Layout.createSequentialGroup()
-                .addGap(0, 74, Short.MAX_VALUE)
-                .addGroup(panelDev6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDev6Layout.createSequentialGroup()
-                        .addComponent(descDev6)
-                        .addGap(18, 18, 18)
-                        .addComponent(dataLinkDev6)
-                        .addGap(18, 18, 18)
-                        .addComponent(dataLinkDescDev6))
-                    .addComponent(jLabel11)))
-            .addGroup(panelDev6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelDev6Layout.createSequentialGroup()
-                    .addGap(24, 24, 24)
-                    .addComponent(device6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(120, Short.MAX_VALUE)))
-        );
+        panelDev6.add(dataLinkDescDev6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 134, 171, -1));
 
         panelDev5.setBackground(new java.awt.Color(255, 102, 0));
         panelDev5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelDev5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel9.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\Industry-Rfid-Signal-icon.png")); // NOI18N
+        panelDev5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 72, -1, -1));
 
         device5.setBackground(new java.awt.Color(255, 102, 0));
         device5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         device5.setText("jToggleButton1");
+        panelDev5.add(device5, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 24, 316, 30));
 
         descDev5.setText("jLabel1");
+        panelDev5.add(descDev5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 72, 198, -1));
 
         dataLinkDev5.setText("jLabel1");
+        panelDev5.add(dataLinkDev5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 104, 198, -1));
 
         dataLinkDescDev5.setText("jLabel1");
-
-        javax.swing.GroupLayout panelDev5Layout = new javax.swing.GroupLayout(panelDev5);
-        panelDev5.setLayout(panelDev5Layout);
-        panelDev5Layout.setHorizontalGroup(
-            panelDev5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDev5Layout.createSequentialGroup()
-                .addComponent(jLabel9)
-                .addGap(18, 18, 18)
-                .addGroup(panelDev5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(dataLinkDev5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(descDev5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                    .addComponent(dataLinkDescDev5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 10, Short.MAX_VALUE))
-            .addGroup(panelDev5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelDev5Layout.createSequentialGroup()
-                    .addGap(5, 5, 5)
-                    .addComponent(device5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGap(5, 5, 5)))
-        );
-        panelDev5Layout.setVerticalGroup(
-            panelDev5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDev5Layout.createSequentialGroup()
-                .addGap(0, 70, Short.MAX_VALUE)
-                .addGroup(panelDev5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDev5Layout.createSequentialGroup()
-                        .addComponent(descDev5)
-                        .addGap(18, 18, 18)
-                        .addComponent(dataLinkDev5)
-                        .addGap(18, 18, 18)
-                        .addComponent(dataLinkDescDev5))
-                    .addComponent(jLabel9)))
-            .addGroup(panelDev5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelDev5Layout.createSequentialGroup()
-                    .addGap(22, 22, 22)
-                    .addComponent(device5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(118, Short.MAX_VALUE)))
-        );
+        panelDev5.add(dataLinkDescDev5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 136, 171, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel6))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(panelDev1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(panelDev2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(panelDev3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(panelDev4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(panelDev5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(panelDev6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel6)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(panelDev1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(panelDev2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(panelDev4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(panelDev5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(panelDev3, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                            .addComponent(panelDev6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -516,16 +348,17 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelDev3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(panelDev1, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                    .addComponent(panelDev2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelDev3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(panelDev1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panelDev2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelDev4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelDev5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelDev6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(panelDev5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(panelDev4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelDev6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
