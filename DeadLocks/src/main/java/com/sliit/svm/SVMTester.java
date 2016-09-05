@@ -7,7 +7,7 @@ package com.sliit.svm;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.SparkContext;
-import scala.Tuple2;
+
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
@@ -16,6 +16,7 @@ import org.apache.spark.mllib.classification.SVMWithSGD;
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics;
 import org.apache.spark.mllib.regression.LabeledPoint;
 import org.apache.spark.mllib.util.MLUtils;
+import scala.Tuple2;
 
 /**
  *
@@ -25,9 +26,10 @@ public class SVMTester {
 
     public static void main(String[] args) {
 
-        SparkConf conf = new SparkConf().setAppName("SVM Classifier Example");
+        SparkConf conf = new SparkConf().setAppName("Your Application Name").setMaster("local").set("spark.executor.memory", "1g");
+        //SparkConf conf = new SparkConf().setAppName("SVM Classifier Example");
         SparkContext sc = new SparkContext(conf);
-        String path = "D:/deadlocks/data/FeatureTable.csv";
+        String path = "D:/deadlocks/data/a.csv";
         JavaRDD<LabeledPoint> data = MLUtils.loadLibSVMFile(sc, path).toJavaRDD();
 
         // Split initial RDD into two... [60% training data, 40% testing data].
@@ -41,7 +43,7 @@ public class SVMTester {
 
         // Clear the default threshold.
         model.clearThreshold();
-
+ 
         // Compute raw scores on the test set.
         JavaRDD<Tuple2<Object, Object>> scoreAndLabels = test.map(
                 new Function<LabeledPoint, Tuple2<Object, Object>>() {
@@ -60,7 +62,8 @@ public class SVMTester {
         System.out.println("Area under ROC = " + auROC);
 
         // Save and load model
-        model.save(sc, "myModelPath");
-        SVMModel sameModel = SVMModel.load(sc, "myModelPath");
+//        model.save(sc, "myModelPath");
+//        SVMModel sameModel = SVMModel.load(sc, "myModelPath");
+
     }
 }

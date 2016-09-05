@@ -103,7 +103,7 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
         }
       
         for (int i = exist; i < panelList.length; i++) {
-
+            System.out.println(panelList[i]);
             this.remove(panelList[i]);
             this.revalidate();
             this.repaint();

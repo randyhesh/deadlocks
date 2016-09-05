@@ -17,8 +17,10 @@ public class SimpleApp {
 
     public static void main(String[] args) {
 
-        String logFile = "data/FeatureTable.csv"; // Should be some file on your system
-        SparkConf conf = new SparkConf().setAppName("Simple Application");
+        String logFile = "D:/deadlocks/data/new.txt"; // Should be some file on your system
+        SparkConf conf = new SparkConf()
+                .setAppName("JavaNetworkWordCount").setMaster("local[2]");
+        //SparkConf conf = new SparkConf().setAppName("Simple Application");
         JavaSparkContext sc = new JavaSparkContext(conf);
         JavaRDD<String> logData = sc.textFile(logFile).cache();
 
