@@ -7,12 +7,13 @@ package com.sliit.views;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
-import jpcap.JpcapCaptor;
-import jpcap.NetworkInterface;
+import org.jnetpcap.Pcap;
+import org.jnetpcap.PcapIf;
 
 /**
  *
@@ -20,7 +21,7 @@ import jpcap.NetworkInterface;
  */
 public class NetworkInterfacesPanel extends javax.swing.JPanel {
 
-    private NetworkInterface[] networkInterfacesList;
+    private List<PcapIf> networkInterfacesList;
     JToggleButton buttnList[];
     JLabel descList[];
     JLabel datalinkList[];
@@ -60,20 +61,6 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
         descList[4] = descDev5;
         descList[5] = descDev6;
 
-        datalinkList[0] = dataLinkDev1;
-        datalinkList[1] = dataLinkDev2;
-        datalinkList[2] = dataLinkDev3;
-        datalinkList[3] = dataLinkDev4;
-        datalinkList[4] = dataLinkDev5;
-        datalinkList[5] = dataLinkDev6;
-
-        datalinkDescList[0] = dataLinkDescDev1;
-        datalinkDescList[1] = dataLinkDescDev2;
-        datalinkDescList[2] = dataLinkDescDev3;
-        datalinkDescList[3] = dataLinkDescDev4;
-        datalinkDescList[4] = dataLinkDescDev5;
-        datalinkDescList[5] = dataLinkDescDev6;
-
         panelList[0] = panelDev1;
         panelList[1] = panelDev2;
         panelList[2] = panelDev3;
@@ -86,23 +73,32 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
 
     private void getNetworkInterfaces() {
 
-        NetworkInterface[] devices = JpcapCaptor.getDeviceList();
+        //get all NICs
+        List<PcapIf> devices = new ArrayList<PcapIf>();
+        //for any error msg
+        StringBuilder errbuf = new StringBuilder();
+        int r = Pcap.findAllDevs(devices, errbuf);
+        if (r == Pcap.NOT_OK || devices.isEmpty()) {
+            System.out.println("Can't read list of devices, error is " + errbuf.toString());
+            return;
+        }
+
         this.networkInterfacesList = devices;
 
-        int exist = 0;
-        for (int i = 0; i < devices.length; i++) {
-            exist++;
-            buttnList[i].setText(devices[i].name);;
-            descList[i].setText(devices[i].description);
-            datalinkList[i].setText(devices[i].datalink_name);
-            datalinkDescList[i].setText(devices[i].datalink_description);
+        int index = 0;
+        for (PcapIf device : devices) {
+
+            buttnList[index].setText(device.getName());
+            descList[index].setText(device.getDescription());
 
             //add action listener
             DeviceListener deviceListener = new DeviceListener();
-            buttnList[i].addActionListener(deviceListener);
+            buttnList[index].addActionListener(deviceListener);
+
+            index++;
         }
-      
-        for (int i = exist; i < panelList.length; i++) {
+
+        for (int i = index; i < panelList.length; i++) {
             System.out.println(panelList[i]);
             this.remove(panelList[i]);
             this.revalidate();
@@ -138,38 +134,26 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         device1 = new javax.swing.JToggleButton();
         descDev1 = new javax.swing.JLabel();
-        dataLinkDev1 = new javax.swing.JLabel();
-        dataLinkDescDev1 = new javax.swing.JLabel();
         panelDev4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         device4 = new javax.swing.JToggleButton();
         descDev4 = new javax.swing.JLabel();
-        dataLinkDev4 = new javax.swing.JLabel();
-        dataLinkDescDev4 = new javax.swing.JLabel();
         panelDev2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         device2 = new javax.swing.JToggleButton();
         descDev2 = new javax.swing.JLabel();
-        dataLinkDev2 = new javax.swing.JLabel();
-        dataLinkDescDev2 = new javax.swing.JLabel();
         panelDev3 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         device3 = new javax.swing.JToggleButton();
         descDev3 = new javax.swing.JLabel();
-        dataLinkDev3 = new javax.swing.JLabel();
-        dataLinkDescDev3 = new javax.swing.JLabel();
         panelDev6 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         device6 = new javax.swing.JToggleButton();
         descDev6 = new javax.swing.JLabel();
-        dataLinkDev6 = new javax.swing.JLabel();
-        dataLinkDescDev6 = new javax.swing.JLabel();
         panelDev5 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         device5 = new javax.swing.JToggleButton();
         descDev5 = new javax.swing.JLabel();
-        dataLinkDev5 = new javax.swing.JLabel();
-        dataLinkDescDev5 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(1061, 480));
@@ -197,12 +181,6 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
         descDev1.setText("jLabel1");
         panelDev1.add(descDev1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 76, 171, -1));
 
-        dataLinkDev1.setText("jLabel1");
-        panelDev1.add(dataLinkDev1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 108, 171, -1));
-
-        dataLinkDescDev1.setText("jLabel1");
-        panelDev1.add(dataLinkDescDev1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 171, -1));
-
         panelDev4.setBackground(new java.awt.Color(255, 0, 204));
         panelDev4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         panelDev4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -217,12 +195,6 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
 
         descDev4.setText("jLabel1");
         panelDev4.add(descDev4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 68, 198, -1));
-
-        dataLinkDev4.setText("jLabel1");
-        panelDev4.add(dataLinkDev4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 198, -1));
-
-        dataLinkDescDev4.setText("jLabel1");
-        panelDev4.add(dataLinkDescDev4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 132, 171, -1));
 
         panelDev2.setBackground(new java.awt.Color(51, 255, 0));
         panelDev2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -241,12 +213,6 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
         descDev2.setText("jLabel1");
         panelDev2.add(descDev2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 76, 200, -1));
 
-        dataLinkDev2.setText("jLabel1");
-        panelDev2.add(dataLinkDev2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 108, 171, -1));
-
-        dataLinkDescDev2.setText("jLabel1");
-        panelDev2.add(dataLinkDescDev2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 171, -1));
-
         panelDev3.setBackground(new java.awt.Color(153, 0, 153));
         panelDev3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         panelDev3.setMaximumSize(new java.awt.Dimension(330, 182));
@@ -263,12 +229,6 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
 
         descDev3.setText("jLabel1");
         panelDev3.add(descDev3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 198, -1));
-
-        dataLinkDev3.setText("jLabel1");
-        panelDev3.add(dataLinkDev3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 112, 198, -1));
-
-        dataLinkDescDev3.setText("jLabel1");
-        panelDev3.add(dataLinkDescDev3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 144, 171, -1));
 
         panelDev6.setBackground(new java.awt.Color(0, 255, 204));
         panelDev6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -288,12 +248,6 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
         descDev6.setText("jLabel1");
         panelDev6.add(descDev6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 181, -1));
 
-        dataLinkDev6.setText("jLabel1");
-        panelDev6.add(dataLinkDev6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 102, 181, -1));
-
-        dataLinkDescDev6.setText("jLabel1");
-        panelDev6.add(dataLinkDescDev6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 134, 171, -1));
-
         panelDev5.setBackground(new java.awt.Color(255, 102, 0));
         panelDev5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         panelDev5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -308,12 +262,6 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
 
         descDev5.setText("jLabel1");
         panelDev5.add(descDev5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 72, 198, -1));
-
-        dataLinkDev5.setText("jLabel1");
-        panelDev5.add(dataLinkDev5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 104, 198, -1));
-
-        dataLinkDescDev5.setText("jLabel1");
-        panelDev5.add(dataLinkDescDev5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 136, 171, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -364,18 +312,6 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JLabel dataLinkDescDev1;
-    private javax.swing.JLabel dataLinkDescDev2;
-    private javax.swing.JLabel dataLinkDescDev3;
-    private javax.swing.JLabel dataLinkDescDev4;
-    private javax.swing.JLabel dataLinkDescDev5;
-    private javax.swing.JLabel dataLinkDescDev6;
-    private javax.swing.JLabel dataLinkDev1;
-    private javax.swing.JLabel dataLinkDev2;
-    private javax.swing.JLabel dataLinkDev3;
-    private javax.swing.JLabel dataLinkDev4;
-    private javax.swing.JLabel dataLinkDev5;
-    private javax.swing.JLabel dataLinkDev6;
     private javax.swing.JLabel descDev1;
     private javax.swing.JLabel descDev2;
     private javax.swing.JLabel descDev3;

@@ -19,7 +19,14 @@
     </properties>
     
     <dependencies>
+        
         <dependency>
+            <groupId>jnetpcap</groupId>
+            <artifactId>jnetpcap</artifactId>
+            <version>1.4.r1425-1d</version>
+        </dependency>
+
+        <!--<dependency>
             <groupId>org.pcap4j</groupId>
             <artifactId>pcap4j-core</artifactId>
             <version>1.6.4</version>
@@ -28,7 +35,8 @@
             <groupId>org.pcap4j</groupId>
             <artifactId>pcap4j-packetfactory-static</artifactId>
             <version>1.6.4</version>
-        </dependency>
+        </dependency>-->
+        
         <dependency>
             <groupId>org.apache.tiles</groupId>
             <artifactId>tiles-extras</artifactId>

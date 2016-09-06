@@ -13,7 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -21,13 +21,16 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
-import jpcap.JpcapCaptor;
-import jpcap.NetworkInterface;
 import jpcap.PacketReceiver;
 import jpcap.packet.ARPPacket;
 import jpcap.packet.DatalinkPacket;
 import jpcap.packet.IPPacket;
 import jpcap.packet.Packet;
+import org.jnetpcap.Pcap;
+import org.jnetpcap.PcapIf;
+import org.jnetpcap.packet.PcapPacket;
+import org.jnetpcap.packet.PcapPacketHandler;
+import org.jnetpcap.protocol.network.Ip4;
 
 /**
  *
@@ -35,7 +38,7 @@ import jpcap.packet.Packet;
  */
 public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketReceiver {
 
-    private NetworkInterface selectedDevice;
+    private PcapIf selectedDevice;
     private File file;
     private FileWriter fileWriter;
     private final String header;
@@ -64,20 +67,21 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketRe
 
     }
 
-    public TrafficAnalyserPanel(NetworkInterface[] networkInterfaces, String deviceName) {
+    public TrafficAnalyserPanel(List<PcapIf> networkInterfaces, String deviceName) {
         this();
 
-        for (int i = 0; i < networkInterfaces.length; i++) {
+        for (int i = 0; i < networkInterfaces.size(); i++) {
 
-            if (networkInterfaces[i].name.equals(deviceName)) {
-                selectedDevice = networkInterfaces[i];
-                System.out.println(networkInterfaces[i].name);
+            PcapIf device = networkInterfaces.get(i);
+
+            if (device.getName().equals(deviceName)) {
+                selectedDevice = device;
+                System.out.println(device.getName());
                 break;
             }
         }
-
         if (selectedDevice != null) {
-            deviceLabel.setText(selectedDevice.name);
+            deviceLabel.setText(selectedDevice.getName() + " - " + selectedDevice.getDescription());
         }
     }
 
@@ -252,18 +256,49 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketRe
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    //1000 - mili, 10000mili sec = 10sec
-                    int miliSecs = Integer.parseInt(timeText.getText()) * 1000;
-                    System.out.println("Time " + miliSecs + "ms");
 
-                    //openDevice(open specified device,man no of bytes captured at once,promiscous mode,timeout for capture in milliseconds)
-                    //-1 to continue capturing packets infinitely
-                    JpcapCaptor captor = JpcapCaptor.openDevice(selectedDevice, -1, false, miliSecs);
+                    int timeoutms = Integer.parseInt(timeText.getText()) * 1000;
+                    System.out.println("Time " + timeoutms + "ms");
 
-                    //processPacket() supports timeout and non blocking mode, no of captures -1 infinite captures
-                    captor.processPacket(-1, new TrafficAnalyserPanel());
+                    // Capture all packets, no trucation
+                    int snaplen = 64 * 1024;
+                    // capture all packets
+                    int flags = Pcap.MODE_PROMISCUOUS;
 
-                    captor.close();
+                    StringBuilder errbuf = new StringBuilder();
+                    //open device
+                    Pcap pcap = Pcap.openLive(selectedDevice.getName(), snaplen, flags, timeoutms, errbuf);
+                    if (pcap == null) {
+                        System.err.printf("Error while opening device for capture: "
+                                + errbuf.toString());
+                        return;
+                    }
+
+                    //capture packets
+                    PcapPacketHandler<String> jpacketHandler = new PcapPacketHandler<String>() {
+                        public void nextPacket(PcapPacket packet, String user) {
+                            byte[] data = packet.getByteArray(0, packet.size()); // the package data
+                            byte[] sIP = new byte[4];
+                            byte[] dIP = new byte[4];
+                            Ip4 ip = new Ip4();
+                            if (packet.hasHeader(ip) == false) {
+                                return; // Not IP packet
+                            }
+                            ip.source(sIP);
+                            ip.destination(dIP);
+                            /* Use jNetPcap format utilities */
+                            String sourceIP = org.jnetpcap.packet.format.FormatUtils.ip(sIP);
+                            String destinationIP = org.jnetpcap.packet.format.FormatUtils.ip(dIP);
+
+                            System.out.println("srcIP=" + sourceIP
+                                    + " dstIP=" + destinationIP
+                                    + " caplen=" + packet.getCaptureHeader().caplen());
+                        }
+                    };
+
+                    pcap.loop(10, jpacketHandler, "jNetPcap");
+
+                    pcap.close();
 
                     fileWriter.close();
 
