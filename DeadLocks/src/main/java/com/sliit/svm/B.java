@@ -11,7 +11,13 @@ import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapIf;
 import org.jnetpcap.packet.PcapPacket;
 import org.jnetpcap.packet.PcapPacketHandler;
+import org.jnetpcap.packet.format.FormatUtils;
+import org.jnetpcap.protocol.network.Arp;
+import org.jnetpcap.protocol.network.Icmp;
 import org.jnetpcap.protocol.network.Ip4;
+import org.jnetpcap.protocol.tcpip.Http;
+import org.jnetpcap.protocol.tcpip.Tcp;
+import org.jnetpcap.protocol.tcpip.Udp;
 
 /**
  *
@@ -67,25 +73,61 @@ public class B {
          * ************************************************************************
          */
         PcapPacketHandler<String> jpacketHandler = new PcapPacketHandler<String>() {
+            int i=0;
             public void nextPacket(PcapPacket packet, String user) {
 
-                System.out.println("  " + packet);
-                byte[] data = packet.getByteArray(0, packet.size()); // the package data
-                byte[] sIP = new byte[4];
-                byte[] dIP = new byte[4];
-                Ip4 ip = new Ip4();
-                if (packet.hasHeader(ip) == false) {
-                    return; // Not IP packet
-                }
-                ip.source(sIP);
-                ip.destination(dIP);
-                /* Use jNetPcap format utilities */
-                String sourceIP = org.jnetpcap.packet.format.FormatUtils.ip(sIP);
-                String destinationIP = org.jnetpcap.packet.format.FormatUtils.ip(dIP);
+                i++;
+                
+                System.out.println("================START PACKET=================" + i);
 
-                System.out.println("srcIP=" + sourceIP
-                        + " dstIP=" + destinationIP
-                        + " caplen=" + packet.getCaptureHeader().caplen());
+                //ip packet
+                Ip4 ip = new Ip4();
+
+                if (packet.hasHeader(ip) == true) {
+
+                    System.out.println("-------------IP-------------------");
+                    System.out.println("hlen " + ip.hlen());
+                    System.out.println("source " + FormatUtils.ip(ip.source()) + " dest " + FormatUtils.ip(ip.destination()) + " version " + ip.version());
+                }
+
+                //tcp 
+                Tcp tcp = new Tcp();
+                if (packet.hasHeader(tcp) == true) {
+
+                    System.out.println("----------------TCP----------------");
+                    System.out.println("hlen " + tcp.hlen());
+                    System.out.println("source " + tcp.source() + " dest " + tcp.destination());
+                }
+
+                Udp udp = new Udp();
+                if (packet.hasHeader(udp) == true) {
+
+                    System.out.println("----------------UDP----------------");
+                    System.out.println("hlen " + udp.getHeaderLength());
+                    System.out.println("source " + udp.source() + " dest " + udp.destination());
+                }
+
+                Arp arp = new Arp();
+                if (packet.hasHeader(arp) == true) {
+                    System.out.println("----------------ARP----------------");
+                    System.out.println("hlen " + arp.hlen());
+
+                }
+
+                Icmp icmp = new Icmp();
+                if (packet.hasHeader(icmp) == true) {
+
+                    System.out.println("----------------ICMP----------------");
+                    System.out.println("hlen " + icmp.getHeaderLength());
+
+                }
+
+                
+                System.out.println("wirelen " + packet.getCaptureHeader().wirelen());
+                System.out.println("caplen " + packet.getCaptureHeader().caplen());
+                System.out.println("time ms " + packet.getCaptureHeader().timestampInMillis());
+
+                System.out.println("================END PACKET=================");
             }
         };
 

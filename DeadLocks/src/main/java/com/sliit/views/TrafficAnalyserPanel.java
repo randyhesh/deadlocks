@@ -30,13 +30,14 @@ import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapIf;
 import org.jnetpcap.packet.PcapPacket;
 import org.jnetpcap.packet.PcapPacketHandler;
+import org.jnetpcap.packet.format.FormatUtils;
 import org.jnetpcap.protocol.network.Ip4;
 
 /**
  *
  * @author Heshani
  */
-public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketReceiver {
+public class TrafficAnalyserPanel extends javax.swing.JPanel {
 
     private PcapIf selectedDevice;
     private File file;
@@ -52,7 +53,7 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketRe
     public TrafficAnalyserPanel() {
 
         initComponents();
-        header = "time,source,destination,protocol,length,caplen,hop_limit,version \n";
+        header = "time,source,destination,protocol,length,caplen,hlen,version \n";
         dtmPacketTable = (DefaultTableModel) packetsDisplayTable.getModel();
 
         filePath = locationText.getText() + "/" + fileNameText.getText();
@@ -187,7 +188,7 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketRe
                     .addGroup(layout.createSequentialGroup()
                         .addGap(221, 221, 221)
                         .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,33 +277,57 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketRe
 
                     //capture packets
                     PcapPacketHandler<String> jpacketHandler = new PcapPacketHandler<String>() {
-                        public void nextPacket(PcapPacket packet, String user) {
-                            byte[] data = packet.getByteArray(0, packet.size()); // the package data
-                            byte[] sIP = new byte[4];
-                            byte[] dIP = new byte[4];
-                            Ip4 ip = new Ip4();
-                            if (packet.hasHeader(ip) == false) {
-                                return; // Not IP packet
-                            }
-                            ip.source(sIP);
-                            ip.destination(dIP);
-                            /* Use jNetPcap format utilities */
-                            String sourceIP = org.jnetpcap.packet.format.FormatUtils.ip(sIP);
-                            String destinationIP = org.jnetpcap.packet.format.FormatUtils.ip(dIP);
 
-                            System.out.println("srcIP=" + sourceIP
-                                    + " dstIP=" + destinationIP
-                                    + " caplen=" + packet.getCaptureHeader().caplen());
+                        String dataPacket = "";
+                        String time = "";
+                        String source = "";
+                        String destination = "";
+                        String protocol = "";
+                        String length = "";
+                        String caplen = "";
+                        String hlen = "";
+                        String version = "";
+
+                        public void nextPacket(PcapPacket packet, String user) {
+
+                            time = packet.getCaptureHeader().timestampInMillis() + "";
+                            length = packet.getCaptureHeader().wirelen() + "";
+                            caplen = packet.getCaptureHeader().caplen() + "";
+
+                            //ip packet
+                            Ip4 ip = new Ip4();
+                            if (packet.hasHeader(ip) == true) {
+                                source = FormatUtils.ip(ip.source());
+                                destination = FormatUtils.ip(ip.destination());
+                                protocol = "IP";
+                                hlen = ip.hlen() + "";
+                                version = ip.version() + "";
+                            }
+
+                            dataPacket = time + "," + source + "," + destination + ","
+                                    + protocol + "," + length + "," + caplen + ","
+                                    + hlen + "," + version + "\n";
+
+                            Object[] ob = {time, source, destination, protocol, length, caplen, hlen, version};
+                            dtmPacketTable.addRow(ob);
+
+                            System.out.println(dataPacket);
+
+                            try {
+                                fileWriter.write(dataPacket);
+                                fileWriter.flush();
+                            } catch (IOException ex) {
+                                Logger.getLogger(TrafficAnalyserPanel.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
                         }
                     };
 
-                    pcap.loop(10, jpacketHandler, "jNetPcap");
+                    pcap.loop(Pcap.LOOP_INFINITE, jpacketHandler, "jNetPcap");
 
                     pcap.close();
 
                     fileWriter.close();
-
-                    writeToTable(filePath, dtmPacketTable, true);
 
                 } catch (IOException ex) {
                     Logger.getLogger(TrafficAnalyserPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -311,148 +336,6 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel implements PacketRe
         }).start();
 
     }//GEN-LAST:event_startButtonActionPerformed
-
-    @Override
-    public void receivePacket(Packet packet) {
-
-        String dataPacket = "";
-        Object[] ob = new Object[8];
-
-        //System.out.println(packet);               
-        int caplen = packet.caplen;
-        byte data[] = packet.data;
-        DatalinkPacket datalink = packet.datalink;
-        byte header[] = packet.header;
-        int length = packet.len;
-        long sec = packet.sec;
-        long usec = packet.usec;
-
-//        System.out.println("caplen " + caplen); //Captured length
-//        System.out.println("data " + data); //Packet data (excluding the header)
-//        System.out.println("datalink " + datalink); //Datalink layer header
-//        System.out.println("header " + header); //Header data
-//        System.out.println("length " + length); //Length of this packet
-//        System.out.println("sec " + sec); // Captured timestamp (sec)
-//        System.out.println("usec " + usec + "\n"); //Captured timestamp (micro sec)
-        ob[0] = usec;
-        ob[4] = length;
-        ob[5] = caplen;
-
-        if (packet instanceof IPPacket) {
-            IPPacket ipPacket = (IPPacket) packet;
-
-            System.out.println("IP---------");
-//            System.out.println(ipPacket);
-
-            //remove / from source and dest
-            String source = removeCharacter(ipPacket.src_ip.toString());
-            String dest = removeCharacter(ipPacket.dst_ip.toString());
-
-            dataPacket = usec + "," + source + "," + dest + ","
-                    + ipPacket.protocol + "," + length + "," + caplen + ","
-                    + ipPacket.hop_limit + "," + ipPacket.version + "\n";
-
-            ob[1] = source;
-            ob[2] = dest;
-            ob[3] = ipPacket.protocol;
-            ob[6] = ipPacket.hop_limit;
-            ob[7] = ipPacket.version;
-
-        } else if (packet instanceof ARPPacket) {
-            ARPPacket arpPacket = (ARPPacket) packet;
-
-            System.out.println("ARP---------------");
-            System.out.println(arpPacket);
-
-            //remove / from source and dest
-            String source = removeCharacter(arpPacket.getSenderProtocolAddress().toString());
-            String dest = removeCharacter(arpPacket.getTargetProtocolAddress().toString());
-
-            dataPacket = usec + "," + source + ","
-                    + dest + "," + "54" + ","
-                    + length + "," + caplen + "," + "0" + "," + "0" + "\n";
-
-            ob[1] = source;
-            ob[2] = dest;
-            ob[3] = 54;
-            ob[6] = 0;
-            ob[7] = 0;
-
-        } else {
-
-            dataPacket = usec + "," + "0" + ","
-                    + "0" + "," + "0" + ","
-                    + length + "," + caplen + "," + "0" + "," + "0" + "\n";
-
-            ob[1] = 0;
-            ob[2] = 0;
-            ob[3] = 0;
-            ob[6] = 0;
-            ob[7] = 0;
-        }
-
-        System.out.println(dataPacket);
-
-        //writing to file
-        try {
-            fileWriter.write(dataPacket);
-            fileWriter.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(TrafficAnalyserPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        //send data to GUI
-//        java.awt.EventQueue.invokeLater(
-//                new Runnable() {
-//            public void run() {
-//                addDataToTable(ob);
-//            }
-//        });
-    }
-
-//    void addDataToTable(Object ob[]) {
-//        System.out.println("added");
-//        dtmPacketTable.addRow(ob);
-//    }
-    private String removeCharacter(String value) {
-        return value.replace("/", "");
-    }
-
-    private void writeToTable(String inputFile, DefaultTableModel dtm, boolean isHeader) {
-
-        try {
-            BufferedReader br = null;
-            String line = "";
-            String cvsSplitBy = ",";
-
-            br = new BufferedReader(new FileReader(inputFile));
-            int headerLine = 0;
-
-            while ((line = br.readLine()) != null) {
-
-                if (isHeader == true && headerLine == 0) {
-                    headerLine++;
-                    continue;
-                }
-
-                // use comma as separator
-                String[] dataFields = line.split(cvsSplitBy);
-                Object[] ob = new Object[dataFields.length];
-
-                for (int i = 0; i < dataFields.length; i++) {
-                    ob[i] = dataFields[i];
-                }
-                dtm.addRow(ob);
-
-            }
-
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(TrafficAnalyserPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(TrafficAnalyserPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
