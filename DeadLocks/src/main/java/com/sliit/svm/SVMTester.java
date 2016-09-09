@@ -7,13 +7,13 @@ package com.sliit.svm;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.SparkContext;
-
-
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.mllib.classification.SVMModel;
 import org.apache.spark.mllib.classification.SVMWithSGD;
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics;
+import org.apache.spark.mllib.linalg.Vector;
+import org.apache.spark.mllib.optimization.L1Updater;
 import org.apache.spark.mllib.regression.LabeledPoint;
 import org.apache.spark.mllib.util.MLUtils;
 import scala.Tuple2;
@@ -43,27 +43,31 @@ public class SVMTester {
 
         // Clear the default threshold.
         model.clearThreshold();
- 
+
         // Compute raw scores on the test set.
         JavaRDD<Tuple2<Object, Object>> scoreAndLabels = test.map(
                 new Function<LabeledPoint, Tuple2<Object, Object>>() {
-            public Tuple2<Object, Object> call(LabeledPoint p) {
-                Double score = model.predict(p.features());
-                return new Tuple2<Object, Object>(score, p.label());
-            }
-        }
+                    public Tuple2<Object, Object> call(LabeledPoint p) {
+                        Double score = model.predict(p.features());
+                        return new Tuple2<Object, Object>(score, p.label());
+                    }
+                }
         );
 
-        // Get evaluation metrics.
-        BinaryClassificationMetrics metrics
-                = new BinaryClassificationMetrics(JavaRDD.toRDD(scoreAndLabels));
+        //Get evaluation metrics.
+        BinaryClassificationMetrics metrics = new BinaryClassificationMetrics(JavaRDD.toRDD(scoreAndLabels));
         double auROC = metrics.areaUnderROC();
 
         System.out.println("Area under ROC = " + auROC);
 
+        //https://github.com/apache/spark/blob/master/examples/src/main/java/org/apache/spark/examples/mllib/JavaSVMWithSGDExample.java
+        //sc.stop();
+//        SVMWithSGD svmAlg = new SVMWithSGD();
+//        svmAlg.optimizer().setNumIterations(200).setRegParam(0.1).setUpdater(new L1Updater());
+//        final SVMModel modelL1 = svmAlg.run(training.rdd());
+        //http://blogs.quovantis.com/image-classification-using-apache-spark-with-linear-svm/        
         // Save and load model
 //        model.save(sc, "myModelPath");
 //        SVMModel sameModel = SVMModel.load(sc, "myModelPath");
-
     }
 }

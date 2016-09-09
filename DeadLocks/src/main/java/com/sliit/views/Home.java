@@ -25,9 +25,10 @@ public class Home extends javax.swing.JFrame {
         setTitle("DeadLocks");
         buttonGroup.add(showDevicesButton);
         buttonGroup.add(analyzerButton);
+        buttonGroup.add(dataVisualiserButton);
         buttonGroup.add(predictorButton);
 
-        setLocationRelativeTo(null);      
+        setLocationRelativeTo(null);
 
         containerPanel = this.contentPanel;
 
@@ -51,7 +52,7 @@ public class Home extends javax.swing.JFrame {
         analyzerButton = new javax.swing.JToggleButton();
         showDevicesButton = new javax.swing.JToggleButton();
         predictorButton = new javax.swing.JToggleButton();
-        predictorButton1 = new javax.swing.JToggleButton();
+        dataVisualiserButton = new javax.swing.JToggleButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -104,16 +105,16 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        predictorButton1.setBackground(new java.awt.Color(255, 255, 255));
-        predictorButton1.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\analyzer.png")); // NOI18N
-        predictorButton1.setText("Data Visualiser");
-        predictorButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        predictorButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        predictorButton1.setPressedIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\pressedanalyzer.png")); // NOI18N
-        predictorButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        predictorButton1.addActionListener(new java.awt.event.ActionListener() {
+        dataVisualiserButton.setBackground(new java.awt.Color(255, 255, 255));
+        dataVisualiserButton.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\analyzer.png")); // NOI18N
+        dataVisualiserButton.setText("Data Visualiser");
+        dataVisualiserButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        dataVisualiserButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        dataVisualiserButton.setPressedIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\pressedanalyzer.png")); // NOI18N
+        dataVisualiserButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        dataVisualiserButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                predictorButton1ActionPerformed(evt);
+                dataVisualiserButtonActionPerformed(evt);
             }
         });
 
@@ -124,7 +125,7 @@ public class Home extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(predictorButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dataVisualiserButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(menuPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(analyzerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -142,7 +143,7 @@ public class Home extends javax.swing.JFrame {
                 .addGap(150, 150, 150)
                 .addComponent(analyzerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(predictorButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dataVisualiserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(predictorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -261,9 +262,12 @@ public class Home extends javax.swing.JFrame {
         containerPanel.revalidate();
     }//GEN-LAST:event_predictorButtonActionPerformed
 
-    private void predictorButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_predictorButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_predictorButton1ActionPerformed
+    private void dataVisualiserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataVisualiserButtonActionPerformed
+
+        containerPanel.removeAll();
+        containerPanel.add(new DataVisualizerPanel(), "dataVisualizerPanel", 0);
+        containerPanel.revalidate();
+    }//GEN-LAST:event_dataVisualiserButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -304,6 +308,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JToggleButton analyzerButton;
     private javax.swing.ButtonGroup buttonGroup;
     private javax.swing.JPanel contentPanel;
+    private javax.swing.JToggleButton dataVisualiserButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -312,7 +317,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JToggleButton predictorButton;
-    private javax.swing.JToggleButton predictorButton1;
     private javax.swing.JToggleButton showDevicesButton;
     // End of variables declaration//GEN-END:variables
 }

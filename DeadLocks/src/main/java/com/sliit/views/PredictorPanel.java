@@ -27,23 +27,63 @@ public class PredictorPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        algorithmList = new javax.swing.JComboBox();
+
+        setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(905, 509));
         setMinimumSize(new java.awt.Dimension(905, 509));
         setPreferredSize(new java.awt.Dimension(905, 509));
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel1.setText("Select Algorithm : ");
+
+        algorithmList.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        algorithmList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SVM", "KNN", "Random Forest" }));
+        algorithmList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                algorithmListActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 905, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(algorithmList, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(433, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 509, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(algorithmList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addContainerGap(461, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void algorithmListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_algorithmListActionPerformed
+
+        if (algorithmList.getSelectedIndex() == 0) {
+            //call to svm algorithm
+        } else if (algorithmList.getSelectedIndex() == 1) {
+            //call to knn algorithm
+
+        } else if (algorithmList.getSelectedIndex() == 2) {
+            //call to random forest algorithm
+        }
+
+    }//GEN-LAST:event_algorithmListActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox algorithmList;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

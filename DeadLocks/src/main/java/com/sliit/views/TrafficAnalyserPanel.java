@@ -31,7 +31,11 @@ import org.jnetpcap.PcapIf;
 import org.jnetpcap.packet.PcapPacket;
 import org.jnetpcap.packet.PcapPacketHandler;
 import org.jnetpcap.packet.format.FormatUtils;
+import org.jnetpcap.protocol.network.Arp;
+import org.jnetpcap.protocol.network.Icmp;
 import org.jnetpcap.protocol.network.Ip4;
+import org.jnetpcap.protocol.tcpip.Tcp;
+import org.jnetpcap.protocol.tcpip.Udp;
 
 /**
  *
@@ -53,18 +57,7 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
     public TrafficAnalyserPanel() {
 
         initComponents();
-        header = "time,source,destination,protocol,length,caplen,hlen,version \n";
-        dtmPacketTable = (DefaultTableModel) packetsDisplayTable.getModel();
-
-        filePath = locationText.getText() + "/" + fileNameText.getText();
-        try {
-            file = new File(filePath);
-            fileWriter = new FileWriter(file);
-
-            fileWriter.write(header);
-        } catch (IOException ex) {
-            Logger.getLogger(TrafficAnalyserPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        header = "time,source,destination,protocol,length,caplen,hlen,version,output \n";
 
     }
 
@@ -167,7 +160,6 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(deviceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane2)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel1)
@@ -184,11 +176,12 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(locationText, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(locationText, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(deviceLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(221, 221, 221)
                         .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,6 +232,18 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
 
+        dtmPacketTable = (DefaultTableModel) packetsDisplayTable.getModel();
+        filePath = locationText.getText() + "/" + fileNameText.getText();
+
+        try {
+            file = new File(filePath);
+            fileWriter = new FileWriter(file);
+
+            fileWriter.write(header);
+        } catch (IOException ex) {
+            Logger.getLogger(TrafficAnalyserPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         //progress bar thread
         new Thread(new Runnable() {
             public void run() {
@@ -287,6 +292,7 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
                         String caplen = "";
                         String hlen = "";
                         String version = "";
+                        String output = "0";
 
                         public void nextPacket(PcapPacket packet, String user) {
 
@@ -304,9 +310,45 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
                                 version = ip.version() + "";
                             }
 
+                            Tcp tcp = new Tcp();
+                            if (packet.hasHeader(tcp) == true) {
+                                source = tcp.source() + "";
+                                destination = tcp.destination() + "";
+                                protocol = "Tcp";
+                                hlen = tcp.hlen() + "";
+                                version = "0";
+                            }
+
+                            Udp udp = new Udp();
+                            if (packet.hasHeader(udp) == true) {
+                                source = udp.source() + "";
+                                destination = udp.destination() + "";
+                                protocol = "Udp";
+                                hlen = udp.getHeaderLength() + "";
+                                version = "0";
+                            }
+
+                            Arp arp = new Arp();
+                            if (packet.hasHeader(arp) == true) {
+                                source = "0.0.0.0";
+                                destination = "0.0.0.0";
+                                protocol = "Arp";
+                                hlen = arp.hlen() + "";
+                                version = "0";
+                            }
+
+                            Icmp icmp = new Icmp();
+                            if (packet.hasHeader(icmp) == true) {
+                                source = "0.0.0.0";
+                                destination = "0.0.0.0";
+                                protocol = "Icmp";
+                                hlen = icmp.getHeaderLength() + "";
+                                version = "0";
+                            }
+
                             dataPacket = time + "," + source + "," + destination + ","
                                     + protocol + "," + length + "," + caplen + ","
-                                    + hlen + "," + version + "\n";
+                                    + hlen + "," + version + "," + output + "\n";
 
                             Object[] ob = {time, source, destination, protocol, length, caplen, hlen, version};
                             dtmPacketTable.addRow(ob);
