@@ -289,7 +289,7 @@ public class RandomForestView extends javax.swing.JPanel {
     }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        ViewRF_Tree tree = new ViewRF_Tree();
+        ViewRFTree tree = new ViewRFTree();
         tree.setTextArea(dTree);
         tree.setVisible(true);
 

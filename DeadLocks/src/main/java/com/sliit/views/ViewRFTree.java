@@ -19,12 +19,12 @@ import javax.swing.JOptionPane;
  *
  * @author indu
  */
-public class ViewRF_Tree extends javax.swing.JFrame {
+public class ViewRFTree extends javax.swing.JFrame {
 
     /**
      * Creates new form ViewRF_Tree
      */
-    public ViewRF_Tree() {
+    public ViewRFTree() {
         initComponents();
     }
 
@@ -179,9 +179,9 @@ public class ViewRF_Tree extends javax.swing.JFrame {
 
                 jTextArea1.setText(buffer.toString());
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(ViewRF_Tree.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ViewRFTree.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(ViewRF_Tree.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ViewRFTree.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
@@ -205,21 +205,23 @@ public class ViewRF_Tree extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewRF_Tree.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewRFTree.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewRF_Tree.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewRFTree.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewRF_Tree.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewRFTree.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewRF_Tree.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewRFTree.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ViewRF_Tree().setVisible(true);
+                new ViewRFTree().setVisible(true);
             }
         });
     }
