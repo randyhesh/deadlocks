@@ -41,7 +41,7 @@ public class PredictorPanel extends javax.swing.JPanel {
         jLabel1.setText("Select Algorithm : ");
 
         algorithmList.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        algorithmList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SVM", "KNN", "Random Forest" }));
+        algorithmList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select Algorithm", "SVM", "KNN", "Random Forest" }));
         algorithmList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 algorithmListActionPerformed(evt);
@@ -90,12 +90,17 @@ public class PredictorPanel extends javax.swing.JPanel {
 
     private void algorithmListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_algorithmListActionPerformed
 
-        if (algorithmList.getSelectedIndex() == 0) {
+        if (algorithmList.getSelectedIndex() == 1) {
             //call to svm algorithm
-        } else if (algorithmList.getSelectedIndex() == 1) {
-            //call to knn algorithm
+
+            algorithmContainer.removeAll();
+            algorithmContainer.add(new SVMView(), "svmView", 0);
+            algorithmContainer.revalidate();
 
         } else if (algorithmList.getSelectedIndex() == 2) {
+            //call to knn algorithm
+
+        } else if (algorithmList.getSelectedIndex() == 3) {
             //call to random forest algorithm
         }
 
