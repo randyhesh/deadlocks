@@ -6,6 +6,11 @@
 package com.sliit.deadlocks;
 
 import com.sliit.views.Home;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 /**
  *
@@ -14,9 +19,15 @@ import com.sliit.views.Home;
 public class MainWindow {
 
     public static void main(String[] args) {
-        Home home = new Home();
-        home.setLocationRelativeTo(null);
-        home.pack();
-        home.setVisible(true);
+
+        try {
+            UIManager.setLookAndFeel(new NimbusLookAndFeel());
+            Home home = new Home();
+            home.setLocationRelativeTo(null);
+            home.pack();
+            home.setVisible(true);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
