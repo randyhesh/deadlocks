@@ -28,7 +28,8 @@ import org.python.util.PythonInterpreter;
 public class ExtractData implements Serializable  {
 
     public void extract() throws IOException{
-        System.out.println("ggggggggg");
+        
+        
 // set up the command and parameter
         String pythonScriptPath = "extract.py";
         String[] cmd = new String[2];
