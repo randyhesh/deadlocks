@@ -52,7 +52,7 @@ public class PredictorPanel extends javax.swing.JPanel {
         jLabel6.setForeground(new java.awt.Color(0, 204, 255));
         jLabel6.setText("PREDICTOR");
 
-        algorithmContainer.setBackground(new java.awt.Color(255, 153, 102));
+        algorithmContainer.setBackground(new java.awt.Color(255, 255, 255));
         algorithmContainer.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -99,9 +99,16 @@ public class PredictorPanel extends javax.swing.JPanel {
 
         } else if (algorithmList.getSelectedIndex() == 2) {
             //call to knn algorithm
+            algorithmContainer.removeAll();
+            algorithmContainer.add(new KNNView(), "knnView", 0);
+            algorithmContainer.revalidate();
 
         } else if (algorithmList.getSelectedIndex() == 3) {
             //call to random forest algorithm
+            algorithmContainer.removeAll();
+            algorithmContainer.add(new RandomForestView(), "randomForestView", 0);
+            algorithmContainer.revalidate();
+
         }
 
     }//GEN-LAST:event_algorithmListActionPerformed
