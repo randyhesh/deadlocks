@@ -5,26 +5,15 @@
  */
 package com.sliit.randomForestAnalysis;
 
-import java.awt.BorderLayout;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStreamReader;
-
-;
-import org.python.core.PyInstance;
-import org.python.util.PythonInterpreter;
 
 /**
  *
  * @author indu
  */
-
-
 public class ExtractData implements Serializable  {
 
     public void extract() throws IOException{

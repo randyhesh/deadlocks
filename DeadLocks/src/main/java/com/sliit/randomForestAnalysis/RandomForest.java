@@ -60,7 +60,7 @@ public class RandomForest implements Serializable {
 
         JavaRDD<LabeledPoint> trainingData = splits[0];
         JavaRDD<LabeledPoint> testData = splits[1];
-System.out.println("eee");
+        System.out.println("eee");
 // Train a RandomForest model.
 // Empty categoricalFeaturesInfo indicates all features are continuous.
         Integer numClasses = 3;
@@ -75,8 +75,7 @@ System.out.println("eee");
         final RandomForestModel model = org.apache.spark.mllib.tree.RandomForest.trainClassifier(trainingData, numClasses,
                 categoricalFeaturesInfo, numTrees, featureSubsetStrategy, impurity, maxDepth, maxBins,
                 seed);
-System.out.println("eee");
-
+        System.out.println("eee");
 
 // Evaluate model on test instances and compute test error
         JavaPairRDD<Object, Object> predictionAndLabel
@@ -95,7 +94,7 @@ System.out.println("eee");
                 }).count() / testData.count();
 
         MulticlassMetrics metrics = new MulticlassMetrics(predictionAndLabel.rdd());
-  //prints like the following
+        //prints like the following
 
 //
         List<String> output = new ArrayList<String>();
