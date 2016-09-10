@@ -29,7 +29,6 @@ public class ExtractData implements Serializable  {
 
     public void extract() throws IOException{
         
-        
 // set up the command and parameter
         String pythonScriptPath = "extract.py";
         String[] cmd = new String[2];
