@@ -101,10 +101,11 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
         for (int i = index; i < panelList.length; i++) {
             System.out.println(panelList[i]);
             devPanelContainer.remove(panelList[i]);
-            devPanelContainer.revalidate();
-            devPanelContainer.repaint();
+            
 
         }
+        devPanelContainer.revalidate();
+            devPanelContainer.repaint();
     }
 
     class DeviceListener implements ActionListener {
@@ -395,7 +396,7 @@ public class NetworkInterfacesPanel extends javax.swing.JPanel {
                 .addGroup(devPanelContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelDev3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelDev6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         devPanelContainerLayout.setVerticalGroup(
             devPanelContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

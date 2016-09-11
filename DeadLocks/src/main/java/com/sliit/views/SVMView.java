@@ -5,17 +5,26 @@
  */
 package com.sliit.views;
 
+import com.sliit.svmanalysis.SvmAnalyser;
+
 /**
  *
  * @author Heshani
  */
 public class SVMView extends javax.swing.JPanel {
 
+    private String dataset;
+
     /**
      * Creates new form SVMView
      */
     public SVMView() {
         initComponents();
+    }
+
+    public SVMView(String dataset) {
+        this();
+        this.dataset = dataset;
     }
 
     /**
@@ -28,29 +37,133 @@ public class SVMView extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        svmPredictButton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        conclutionText = new javax.swing.JTextArea();
+        rouText = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
 
-        jLabel1.setText("SVM");
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setText("Support Vector Machine Algorithm");
+
+        svmPredictButton.setText("Predict");
+        svmPredictButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                svmPredictButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Area Under ROU : ");
+
+        jLabel3.setText("Conclusion : ");
+
+        conclutionText.setColumns(20);
+        conclutionText.setForeground(new java.awt.Color(255, 0, 0));
+        conclutionText.setRows(5);
+        jScrollPane1.setViewportView(conclutionText);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("The Area Under an ROC Curve"));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 534, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 339, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(154, 154, 154)
-                .addComponent(jLabel1)
-                .addContainerGap(545, Short.MAX_VALUE))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(svmPredictButton))
+                    .addComponent(rouText))
+                .addGap(43, 43, 43)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(84, 84, 84)
-                .addComponent(jLabel1)
-                .addContainerGap(238, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(svmPredictButton))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rouText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void svmPredictButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_svmPredictButtonActionPerformed
+        SvmAnalyser svmAnalyser = new SvmAnalyser();
+        System.out.println(dataset);
+        double auROC = svmAnalyser.perfomeAnalysis(dataset);
+        rouText.setText(auROC + "");
+
+        String conclusion = "";
+
+        //excellent 
+        if (auROC >= 0.9 && auROC <= 1) {
+            conclusion = "Your Machine is Protected.\nSuspicious network traffic not detected.";
+
+            //good
+        } else if (auROC >= 0.8 && auROC <= 0.9) {
+            conclusion = "Your Machine is Protected.\nSuspicious network traffic not detected.You might face network treats";
+
+            //fair 
+        } else if (auROC >= 0.7 && auROC <= 0.8) {
+            conclusion = "Your Machine is Not Protected.\nSuspicious network traffic not detected.";
+
+            //poor
+        } else if (auROC >= 0.6 && auROC <= 0.7) {
+            conclusion = "Your Machine is Highly Vulnerable.\nSuspicious network traffic detected.";
+
+            //fail
+        } else if (auROC >= 0.5 && auROC <= 0.6) {
+            conclusion = "Your Machine is Highly Vulnerable for an Attack.\nYou will face network treats";
+        } else {
+            conclusion = "Your Machine is Attacked";
+        }
+
+        conclutionText.setText(conclusion);
+
+    }//GEN-LAST:event_svmPredictButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea conclutionText;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField rouText;
+    private javax.swing.JButton svmPredictButton;
     // End of variables declaration//GEN-END:variables
 }

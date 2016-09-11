@@ -5,6 +5,9 @@
  */
 package com.sliit.views;
 
+import java.io.File;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author Heshani
@@ -31,16 +34,17 @@ public class PredictorPanel extends javax.swing.JPanel {
         algorithmList = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
         algorithmContainer = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        locationText = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(905, 509));
         setMinimumSize(new java.awt.Dimension(905, 509));
         setPreferredSize(new java.awt.Dimension(905, 509));
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel1.setText("Select Algorithm : ");
 
-        algorithmList.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         algorithmList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select Algorithm", "SVM", "KNN", "Random Forest" }));
         algorithmList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -54,6 +58,17 @@ public class PredictorPanel extends javax.swing.JPanel {
 
         algorithmContainer.setBackground(new java.awt.Color(255, 255, 255));
         algorithmContainer.setLayout(new java.awt.CardLayout());
+
+        jLabel2.setText("Feature Table : ");
+
+        locationText.setText("D:\\deadlocks\\data\\a.csv");
+
+        jButton1.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\file-explorer-icon.png")); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -69,8 +84,14 @@ public class PredictorPanel extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(algorithmList, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 625, Short.MAX_VALUE)))
+                                .addComponent(algorithmList, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(locationText, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 32, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -79,11 +100,17 @@ public class PredictorPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(algorithmList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(algorithmList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(locationText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(algorithmContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+                .addComponent(algorithmContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -94,7 +121,7 @@ public class PredictorPanel extends javax.swing.JPanel {
             //call to svm algorithm
 
             algorithmContainer.removeAll();
-            algorithmContainer.add(new SVMView(), "svmView", 0);
+            algorithmContainer.add(new SVMView(locationText.getText()), "svmView", 0);
             algorithmContainer.revalidate();
 
         } else if (algorithmList.getSelectedIndex() == 2) {
@@ -113,11 +140,21 @@ public class PredictorPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_algorithmListActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFileChooser jfcOpen = new JFileChooser();
+        jfcOpen.showOpenDialog(null);
+        File f = jfcOpen.getSelectedFile();
+        locationText.setText(f.getAbsoluteFile() + "");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel algorithmContainer;
     private javax.swing.JComboBox algorithmList;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
+    public javax.swing.JTextField locationText;
     // End of variables declaration//GEN-END:variables
 }
