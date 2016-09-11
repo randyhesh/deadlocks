@@ -18,6 +18,7 @@ import java.io.IOException;
  */
 public class RandomForestView extends javax.swing.JPanel {
 
+    private String dataset;
     String predictiveValue;
     String dTree;
     String confusionMatrix;
@@ -41,6 +42,11 @@ public class RandomForestView extends javax.swing.JPanel {
         weightedFpRate = "";
         weightedF1Score = "";
         confusionMatrix = "";
+    }
+
+    public RandomForestView(String dataset) {
+        this();
+        this.dataset = dataset;
     }
 
     /**
@@ -236,7 +242,7 @@ public class RandomForestView extends javax.swing.JPanel {
         weightedRecall = l.load(param1, param2, param3, param4).get(8).substring(0, 4);
         weightedF1Score = l.load(param1, param2, param3, param4).get(9).substring(0, 4);
         weightedFpRate = l.load(param1, param2, param3, param4).get(10).substring(0, 4);
-        jTextArea1.append(predictiveValue+"\n");
+        jTextArea1.append(predictiveValue + "\n");
         jTextArea1.append("\t\tPrecision   Recall   F-Messure \n\n");
         jTextArea1.append("Weighted results\t" + presission + "            " + recall + "        " + F1Score + " \n");
         jTextArea1.append("Weighted results\t" + weightedPrecision + "            " + weightedRecall + "        " + weightedF1Score + " \n\n");

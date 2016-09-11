@@ -5,17 +5,42 @@
  */
 package com.sliit.views;
 
+import com.sliit.knnanalysis.features.Destination;
+import com.sliit.knnanalysis.features.Feature;
+import com.sliit.knnanalysis.features.Length;
+import com.sliit.knnanalysis.features.Protocol;
+import com.sliit.knnanalysis.features.Source;
+import com.sliit.knnanlysis.FileReader;
+import com.sliit.knnanlysis.Instance;
+import com.sliit.knnanlysis.Neighbor;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Heshani
  */
 public class KNNView extends javax.swing.JPanel {
 
+    String dataset;
+    final int K = 10;
+
     /**
      * Creates new form KNNView
      */
     public KNNView() {
         initComponents();
+    }
+
+    public KNNView(String dataset) {
+        this();
+        this.dataset = dataset;
     }
 
     /**
@@ -27,30 +52,163 @@ public class KNNView extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        knnPredictButton = new javax.swing.JButton();
+        rouText = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        conclutionText = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
-        jLabel1.setText("KKNN");
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel2.setText("K-Nearest Neibours Algorithm");
+
+        knnPredictButton.setText("Predict");
+        knnPredictButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                knnPredictButtonActionPerformed(evt);
+            }
+        });
+
+        conclutionText.setColumns(20);
+        conclutionText.setForeground(new java.awt.Color(255, 0, 0));
+        conclutionText.setRows(5);
+        jScrollPane1.setViewportView(conclutionText);
+
+        jLabel3.setText("Conclusion : ");
+
+        jLabel4.setText("Fraud Status :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(103, 103, 103)
-                .addComponent(jLabel1)
-                .addContainerGap(271, Short.MAX_VALUE))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(knnPredictButton))
+                    .addComponent(rouText)
+                    .addComponent(jScrollPane1))
+                .addContainerGap(599, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(87, 87, 87)
-                .addComponent(jLabel1)
-                .addContainerGap(199, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(knnPredictButton))
+                .addGap(33, 33, 33)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rouText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(169, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void knnPredictButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_knnPredictButtonActionPerformed
 
+        try {
+
+            List<Instance> instances = new FileReader(dataset).getInstances();
+            Instance classificationInstance = getClassificationInstance();
+            List<Neighbor> nearestNeighbors = getKNearestNeighbors(K, instances, classificationInstance);
+            Instance classifiedInstance = determineFraudStatus(classificationInstance, nearestNeighbors);
+
+            System.out.println("Frud Status of Classification Instance : " + classifiedInstance.getFeatures());
+        } catch (IOException ex) {
+            Logger.getLogger(KNNView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_knnPredictButtonActionPerformed
+
+    private Instance getClassificationInstance() {
+        List<Feature> attributes = new ArrayList<>();
+        Instance instance = new Instance();
+        attributes.add(new Source(Source.Sources.source2));
+        attributes.add(new Destination(Destination.Destinations.destination3));
+        attributes.add(new Protocol(Protocol.Protocols.IPv4));
+        attributes.add(new Length(22.5));
+        instance.setFeatures(attributes);
+        return instance;
+    }
+
+    private List<Neighbor> getKNearestNeighbors(int K,
+            List<Instance> instances, Instance classificationInstance) {
+
+        HashMap<String, Double> ciFeatureDistances = new HashMap<>();
+        for (Feature feature : classificationInstance.getFeatures()) {
+            ciFeatureDistances.put(feature.getFeatureName(), feature.getDistance());
+        }
+
+        List<Neighbor> neighbors = new ArrayList<>();
+        for (Instance instance : instances) {
+            double distance = 0;
+            for (Feature feature : classificationInstance.getFeatures()) {
+                double ciFeatureDistance = ciFeatureDistances.get(feature.getFeatureName());
+                distance += Math.pow((feature.getDistance() - ciFeatureDistance), 2);
+            }
+            Neighbor neighbor = new Neighbor(instance, distance);
+            neighbors.add(neighbor);
+        }
+
+        if (K < neighbors.size()) {
+            Collections.sort(neighbors, new Comparator<Neighbor>() {
+                @Override
+                public int compare(Neighbor neighbor1, Neighbor neighbor2) {
+                    double difference = neighbor1.getDistance() - neighbor2.getDistance();
+                    if (difference == 0) {
+                        return 0;
+                    } else if (difference > 0) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            });
+
+            neighbors = neighbors.subList(0, K);
+        }
+        return neighbors;
+    }
+
+    private Instance determineFraudStatus(
+            Instance classificationInstance, List<Neighbor> nearestNeighbors) {
+        int frudCount = 0, normalCount = 0;
+
+        for (Neighbor neighbor : nearestNeighbors) {
+            if (neighbor.getInstance().isFraud()) {
+                frudCount++;
+            } else {
+                normalCount++;
+            }
+        }
+
+        if (frudCount > normalCount) {
+            classificationInstance.setFraudStatus(true);
+        } else {
+            classificationInstance.setFraudStatus(false);
+        }
+
+        return classificationInstance;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextArea conclutionText;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton knnPredictButton;
+    private javax.swing.JTextField rouText;
     // End of variables declaration//GEN-END:variables
 }

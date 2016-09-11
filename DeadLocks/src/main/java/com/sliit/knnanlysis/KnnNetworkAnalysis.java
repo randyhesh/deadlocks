@@ -14,7 +14,7 @@ import java.util.List;
 
 public class KnnNetworkAnalysis {
 
-    public static final String FILE_PATH = "featureTable.csv";
+    public static final String FILE_PATH = "D:/deadlocks/data/FeatureTable.csv";
     public static final int K = 10;
 
     public static void main(String[] args) throws IOException {

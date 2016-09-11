@@ -207,7 +207,7 @@ public class ScatterPlot extends DataVisualizer implements KnowledgeFlowApp.KFPe
         try {
             java.io.Reader r;
             r = new java.io.BufferedReader(
-                    new java.io.FileReader("train.arff"));
+                    new java.io.FileReader("D:/deadlocks/data/train.arff"));
             Instances inst = new Instances(r);
             final javax.swing.JFrame jf = new javax.swing.JFrame();
             jf.getContentPane().setLayout(new java.awt.BorderLayout());

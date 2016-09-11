@@ -9,7 +9,7 @@ package com.sliit.knnanalysis.features;
  *
  * @author Heshani
  */
-public class Source  extends Feature{
+public class Source extends Feature{
 
     private final Sources SOURCE;
     

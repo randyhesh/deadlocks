@@ -159,8 +159,10 @@ public class DataVisualizerPanel extends javax.swing.JPanel {
 
     private void getScatterPlot() {
         System.out.println(datasetPathText.getText());
-        try {
-            Reader r = new BufferedReader(new FileReader(datasetPathText.getText()));
+       try {
+            java.io.Reader r;
+            r = new java.io.BufferedReader(
+                    new java.io.FileReader("D:/deadlocks/data/train.arff"));
             Instances inst = new Instances(r);
             final javax.swing.JFrame jf = new javax.swing.JFrame();
             jf.getContentPane().setLayout(new java.awt.BorderLayout());

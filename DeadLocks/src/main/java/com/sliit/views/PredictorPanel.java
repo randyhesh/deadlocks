@@ -127,13 +127,13 @@ public class PredictorPanel extends javax.swing.JPanel {
         } else if (algorithmList.getSelectedIndex() == 2) {
             //call to knn algorithm
             algorithmContainer.removeAll();
-            algorithmContainer.add(new KNNView(), "knnView", 0);
+            algorithmContainer.add(new KNNView(locationText.getText()), "knnView", 0);
             algorithmContainer.revalidate();
 
         } else if (algorithmList.getSelectedIndex() == 3) {
             //call to random forest algorithm
             algorithmContainer.removeAll();
-            algorithmContainer.add(new RandomForestView(), "randomForestView", 0);
+            algorithmContainer.add(new RandomForestView(locationText.getText()), "randomForestView", 0);
             algorithmContainer.revalidate();
 
         }
