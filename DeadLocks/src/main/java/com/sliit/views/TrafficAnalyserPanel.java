@@ -198,30 +198,6 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private Timer timer = new Timer(1000, new ActionListener() {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            counter += 10;
-            progressBar.setValue(counter);
-
-            System.out.println("timer " + counter);
-
-            if (counter >= 100) {
-                Border border = BorderFactory.createTitledBorder("Done...");
-                progressBar.setBorder(border);
-
-                timer.stop();
-            } else {
-                Border border = BorderFactory.createTitledBorder("Reading...");
-                progressBar.setBorder(border);
-            }
-        }
-
-    });
-
-
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
 
         dtmPacketTable = (DefaultTableModel) packetsDisplayTable.getModel();
@@ -236,28 +212,18 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
             Logger.getLogger(TrafficAnalyserPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        //progress bar thread
-        new Thread(new Runnable() {
-            public void run() {
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        dtmPacketTable.setRowCount(0);
-                        counter = 0;
-                        progressBar.setValue(0);
-                        timer.start();
-                    }
-                });
-            }
-        }).start();
+        dtmPacketTable.setRowCount(0);
+        progressBar.setValue(0);
 
         //packet capturing thread
         new Thread(new Runnable() {
             public void run() {
                 try {
 
-                    long start = System.currentTimeMillis();
+                    double start = System.currentTimeMillis();
+                    double timeoutsec = Double.parseDouble(timeText.getText());
                     int timeoutms = Integer.parseInt(timeText.getText()) * 1000;
-                    System.out.println("Time " + timeoutms + "ms");
+                    System.out.println("Timeout " + timeoutms + "ms");
 
                     // Capture all packets, no trucation
                     int snaplen = 64 * 1024;
@@ -288,14 +254,27 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
                         String output = "0";
 
                         public void nextPacket(PcapPacket packet, String user) {
-                            long now = System.currentTimeMillis();
+
+                            //break loop when timeout
+                            double now = System.currentTimeMillis();
                             double elapsedtime = (now - start) / 1000.0;
 
-                            if (now >= packet.getCaptureHeader().timestampInMillis()) {
-                                System.out.println("break");
+                            System.out.println("elapsed time " + elapsedtime);
+
+                            progressBar.setValue((int) elapsedtime);
+                            Border borderR = BorderFactory.createTitledBorder("Reading...");
+                            progressBar.setBorder(borderR);
+
+                            if (elapsedtime >= timeoutsec) {
+                                progressBar.setValue(100);
+                                Border border = BorderFactory.createTitledBorder("Done...");
+                                progressBar.setBorder(border);
+
+                                System.out.println("breaked");
                                 pcap.breakloop();
                             }
 
+                            //capturing fields
                             time = packet.getCaptureHeader().timestampInMillis() + "";
                             length = packet.getCaptureHeader().wirelen() + "";
                             caplen = packet.getCaptureHeader().caplen() + "";
@@ -361,17 +340,16 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
                             } catch (IOException ex) {
                                 Logger.getLogger(TrafficAnalyserPanel.class.getName()).log(Level.SEVERE, null, ex);
                             }
-
                         }
                     };
 
                     pcap.loop(Pcap.LOOP_INFINITE, jpacketHandler, "jNetPcap");
 
-                    System.out.println("closed");
-
                     pcap.close();
 
                     fileWriter.close();
+
+                    System.out.println("Device closed");
 
                 } catch (IOException ex) {
                     Logger.getLogger(TrafficAnalyserPanel.class.getName()).log(Level.SEVERE, null, ex);

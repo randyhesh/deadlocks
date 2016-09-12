@@ -49,14 +49,10 @@ public class DevicePanel extends javax.swing.JPanel {
         panelDev1Layout.setHorizontalGroup(
             panelDev1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDev1Layout.createSequentialGroup()
-                .addGroup(panelDev1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDev1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(descLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 119, Short.MAX_VALUE))
-                    .addComponent(deviceNameBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addComponent(descLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+            .addComponent(deviceNameBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelDev1Layout.setVerticalGroup(
             panelDev1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

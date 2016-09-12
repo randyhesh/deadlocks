@@ -17,13 +17,16 @@ import weka.gui.visualize.MatrixPanel;
  *
  * @author indu
  */
-public class ScatterPlot extends DataVisualizer implements KnowledgeFlowApp.KFPerspective {
+public class ScatterPlotMatrix extends DataVisualizer implements KnowledgeFlowApp.KFPerspective {
 
+    /**
+     * for serialization
+     */
     private static final long serialVersionUID = -657856527563507491L;
 
     protected MatrixPanel m_matrixPanel;
 
-    public ScatterPlot() {
+    public ScatterPlotMatrix() {
         java.awt.GraphicsEnvironment ge
                 = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment();
         if (!ge.isHeadless()) {
@@ -200,33 +203,6 @@ public class ScatterPlot extends DataVisualizer implements KnowledgeFlowApp.KFPe
         } else {
             throw new IllegalArgumentException(request
                     + " not supported (ScatterPlotMatrix)");
-        }
-    }
-
-    public static void main(String[] args) {
-        try {
-            java.io.Reader r;
-            r = new java.io.BufferedReader(
-                    new java.io.FileReader("D:/deadlocks/data/train.arff"));
-            Instances inst = new Instances(r);
-            final javax.swing.JFrame jf = new javax.swing.JFrame();
-            jf.getContentPane().setLayout(new java.awt.BorderLayout());
-            final ScatterPlot as = new ScatterPlot();
-            as.setInstances(inst);
-
-            jf.getContentPane().add(as, java.awt.BorderLayout.CENTER);
-            jf.addWindowListener(new java.awt.event.WindowAdapter() {
-                public void windowClosing(java.awt.event.WindowEvent e) {
-                    jf.dispose();
-
-                    System.exit(0);
-                }
-            });
-            jf.setSize(800, 600);
-            jf.setVisible(true);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.err.println(ex.getMessage());
         }
     }
 
