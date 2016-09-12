@@ -255,6 +255,7 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
             public void run() {
                 try {
 
+                    long start = System.currentTimeMillis();
                     int timeoutms = Integer.parseInt(timeText.getText()) * 1000;
                     System.out.println("Time " + timeoutms + "ms");
 
@@ -287,6 +288,13 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
                         String output = "0";
 
                         public void nextPacket(PcapPacket packet, String user) {
+                            long now = System.currentTimeMillis();
+                            double elapsedtime = (now - start) / 1000.0;
+
+                            if (now >= packet.getCaptureHeader().timestampInMillis()) {
+                                System.out.println("break");
+                                pcap.breakloop();
+                            }
 
                             time = packet.getCaptureHeader().timestampInMillis() + "";
                             length = packet.getCaptureHeader().wirelen() + "";
@@ -358,6 +366,8 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
                     };
 
                     pcap.loop(Pcap.LOOP_INFINITE, jpacketHandler, "jNetPcap");
+
+                    System.out.println("closed");
 
                     pcap.close();
 

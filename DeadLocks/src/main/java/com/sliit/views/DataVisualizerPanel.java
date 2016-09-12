@@ -6,24 +6,46 @@
 package com.sliit.views;
 
 import com.sliit.graph.ScatterPlot;
+import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
+import javax.swing.Icon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import weka.core.Instances;
+import weka.gui.beans.BeanVisual;
+import weka.gui.beans.KnowledgeFlowApp;
+import weka.gui.visualize.MatrixPanel;
 
 /**
  *
  * @author heshanih
  */
-public class DataVisualizerPanel extends javax.swing.JPanel {
+public class DataVisualizerPanel extends javax.swing.JPanel implements KnowledgeFlowApp.KFPerspective {
+
+    private static final long serialVersionUID = -657856527563507491L;
+    protected MatrixPanel m_matrixPanel;
+    protected BeanVisual m_visual;
+    protected boolean m_design;
+    protected transient Instances m_visualizeDataSet;
+    protected boolean m_framePoppedUp;
+    protected transient JFrame m_popupFrame;
 
     /**
      * Creates new form DataVisualizerPanel
      */
     public DataVisualizerPanel() {
         initComponents();
+
+        java.awt.GraphicsEnvironment ge
+                = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment();
+        if (!ge.isHeadless()) {
+            appearanceFinal();
+        }
+        
+        getScatterPlot();
     }
 
     /**
@@ -42,7 +64,7 @@ public class DataVisualizerPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         datasetPathText = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        processButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -91,10 +113,10 @@ public class DataVisualizerPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        processButton.setText("Process");
+        processButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                processButtonActionPerformed(evt);
             }
         });
 
@@ -113,7 +135,7 @@ public class DataVisualizerPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
+                        .addComponent(processButton))
                     .addComponent(graphTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1034, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
@@ -129,7 +151,7 @@ public class DataVisualizerPanel extends javax.swing.JPanel {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(datasetPathText, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel1))
-                            .addComponent(jButton1))
+                            .addComponent(processButton))
                         .addGap(15, 15, 15)
                         .addComponent(graphTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton3))
@@ -153,20 +175,19 @@ public class DataVisualizerPanel extends javax.swing.JPanel {
         datasetPathText.setText(f.getAbsoluteFile().toString());
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void processButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_processButtonActionPerformed
         getScatterPlot();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_processButtonActionPerformed
 
     private void getScatterPlot() {
         System.out.println(datasetPathText.getText());
-       try {
+        try {
             java.io.Reader r;
-            r = new java.io.BufferedReader(
-                    new java.io.FileReader("D:/deadlocks/data/train.arff"));
+            r = new java.io.BufferedReader(new java.io.FileReader("D:/deadlocks/data/train.arff"));
             Instances inst = new Instances(r);
             final javax.swing.JFrame jf = new javax.swing.JFrame();
             jf.getContentPane().setLayout(new java.awt.BorderLayout());
-            final ScatterPlot as = new ScatterPlot();
+            final DataVisualizerPanel as = new DataVisualizerPanel();
             as.setInstances(inst);
 
             jf.getContentPane().add(as, java.awt.BorderLayout.CENTER);
@@ -185,14 +206,186 @@ public class DataVisualizerPanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Global info for this bean
+     *
+     * @return a String value
+     */
+    public String globalInfo() {
+        return "Visualize incoming data/training/test sets in a scatter "
+                + "plot matrix.";
+    }
+
+    protected void appearanceDesign() {
+        m_matrixPanel = null;
+        removeAll();
+        m_visual
+                = new BeanVisual("ScatterPlotMatrix",
+                        BeanVisual.ICON_PATH + "ScatterPlotMatrix.gif",
+                        BeanVisual.ICON_PATH + "ScatterPlotMatrix_animated.gif");
+        setLayout(new BorderLayout());
+        add(m_visual, BorderLayout.CENTER);
+    }
+
+    protected void appearanceFinal() {
+        removeAll();
+        setLayout(new BorderLayout());
+        setUpFinal();
+    }
+
+    protected void setUpFinal() {
+        if (m_matrixPanel == null) {
+            m_matrixPanel = new MatrixPanel();
+        }
+        add(m_matrixPanel, BorderLayout.CENTER);
+    }
+
+    /**
+     * Set instances for this bean. This method is a convenience method for
+     * clients who use this component programatically
+     *
+     * @param inst an Instances value
+     * @exception Exception if an error occurs
+     */
+    public void setInstances(Instances inst) throws Exception {
+        if (m_design) {
+            throw new Exception("This method is not to be used during design "
+                    + "time. It is meant to be used if this "
+                    + "bean is being used programatically as as "
+                    + "stand alone component.");
+        }
+        m_visualizeDataSet = inst;
+        m_matrixPanel.setInstances(m_visualizeDataSet);
+    }
+
+    /**
+     * Returns true if this perspective accepts instances
+     *
+     * @return true if this perspective can accept instances
+     */
+    public boolean acceptsInstances() {
+        return true;
+    }
+
+    /**
+     * Get the title of this perspective
+     *
+     * @return the title of this perspective
+     */
+    public String getPerspectiveTitle() {
+        return "Scatter plot matrix";
+    }
+
+    /**
+     * Get the tool tip text for this perspective.
+     *
+     * @return the tool tip text for this perspective
+     */
+    public String getPerspectiveTipText() {
+        return "Scatter plot matrix";
+    }
+
+    /**
+     * Get the icon for this perspective.
+     *
+     * @return the Icon for this perspective (or null if the perspective does
+     * not have an icon)
+     */
+    public Icon getPerspectiveIcon() {
+        java.awt.Image pic = null;
+        java.net.URL imageURL = this.getClass().getClassLoader().
+                getResource("weka/gui/beans/icons/application_view_tile.png");
+
+        if (imageURL == null) {
+        } else {
+            pic = java.awt.Toolkit.getDefaultToolkit().
+                    getImage(imageURL);
+        }
+        return new javax.swing.ImageIcon(pic);
+    }
+
+    /**
+     * Set active status of this perspective. True indicates that this
+     * perspective is the visible active perspective in the KnowledgeFlow
+     *
+     * @param active true if this perspective is the active one
+     */
+    public void setActive(boolean active) {
+
+    }
+
+    /**
+     * Set whether this perspective is "loaded" - i.e. whether or not the user
+     * has opted to have it available in the perspective toolbar. The
+     * perspective can make the decision as to allocating or freeing resources
+     * on the basis of this.
+     *
+     * @param loaded true if the perspective is available in the perspective
+     * toolbar of the KnowledgeFlow
+     */
+    public void setLoaded(boolean loaded) {
+
+    }
+
+    /**
+     * Set a reference to the main KnowledgeFlow perspective - i.e. the
+     * perspective that manages flow layouts.
+     *
+     * @param main the main KnowledgeFlow perspective.
+     */
+    public void setMainKFPerspective(KnowledgeFlowApp.MainKFPerspective main) {
+
+    }
+
+    /**
+     * Perform a named user request
+     *
+     * @param request a string containing the name of the request to perform
+     * @exception IllegalArgumentException if request is not supported
+     */
+    public void performRequest(String request) {
+        if (request.compareTo("Show plot") == 0) {
+            try {
+                // popup matrix panel
+                if (!m_framePoppedUp) {
+                    m_framePoppedUp = true;
+                    final MatrixPanel vis = new MatrixPanel();
+                    vis.setInstances(m_visualizeDataSet);
+
+                    final javax.swing.JFrame jf
+                            = new javax.swing.JFrame("Visualize");
+                    jf.setSize(800, 600);
+                    jf.getContentPane().setLayout(new BorderLayout());
+                    jf.getContentPane().add(vis, BorderLayout.CENTER);
+                    jf.addWindowListener(new java.awt.event.WindowAdapter() {
+                        public void windowClosing(java.awt.event.WindowEvent e) {
+                            jf.dispose();
+                            m_framePoppedUp = false;
+                        }
+                    });
+                    jf.setVisible(true);
+                    m_popupFrame = jf;
+                } else {
+                    m_popupFrame.toFront();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                m_framePoppedUp = false;
+            }
+        } else {
+            throw new IllegalArgumentException(request
+                    + " not supported (ScatterPlotMatrix)");
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField datasetPathText;
     private javax.swing.JTabbedPane graphTabPane;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton processButton;
     // End of variables declaration//GEN-END:variables
 }
