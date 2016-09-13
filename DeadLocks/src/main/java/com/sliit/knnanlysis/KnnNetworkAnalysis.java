@@ -1,10 +1,13 @@
 package com.sliit.knnanlysis;
 
+import com.sliit.knnanalysis.features.Caplen;
 import com.sliit.knnanalysis.features.Destination;
 import com.sliit.knnanalysis.features.Feature;
+import com.sliit.knnanalysis.features.Hlen;
 import com.sliit.knnanalysis.features.Length;
 import com.sliit.knnanalysis.features.Protocol;
 import com.sliit.knnanalysis.features.Source;
+import com.sliit.knnanalysis.features.Version;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +17,7 @@ import java.util.List;
 
 public class KnnNetworkAnalysis {
 
-    public static final String FILE_PATH = "D:/deadlocks/data/FeatureTable.csv";
+    public static final String FILE_PATH = "featureTable.csv";
     public static final int K = 10;
 
     public static void main(String[] args) throws IOException {
@@ -23,16 +26,19 @@ public class KnnNetworkAnalysis {
         List<Neighbor> nearestNeighbors = getKNearestNeighbors(K, instances, classificationInstance);
         Instance classifiedInstance = determineFraudStatus(classificationInstance, nearestNeighbors);
 
-        System.out.println("Frud Status of Classification Instance : " + classifiedInstance.getFeatures());
+        System.out.println("Frud Status of Classification Instance : " + classifiedInstance.getFraudStatus());
     }
 
     private static Instance getClassificationInstance() {
         List<Feature> attributes = new ArrayList<>();
         Instance instance = new Instance();
-        attributes.add(new Source(Source.Sources.source2));
-        attributes.add(new Destination(Destination.Destinations.destination3));
-        attributes.add(new Protocol(Protocol.Protocols.IPv4));
-        attributes.add(new Length(22.5));
+        attributes.add(new Source("443"));
+        attributes.add(new Destination("63846"));
+        attributes.add(new Protocol(Protocol.Protocols.Tcp));
+        attributes.add(new Length(54));
+        attributes.add(new Caplen(54));
+        attributes.add(new Hlen(5));
+        attributes.add(new Version(0));
         instance.setFeatures(attributes);
         return instance;
     }

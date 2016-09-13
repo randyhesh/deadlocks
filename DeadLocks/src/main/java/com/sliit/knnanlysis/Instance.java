@@ -20,6 +20,10 @@ public class Instance {
         this.fraudStatus = fraudStatus;
     }
 
+    public boolean getFraudStatus() {
+        return fraudStatus;
+    }
+
     public boolean isFraud() {
         return fraudStatus;
     }

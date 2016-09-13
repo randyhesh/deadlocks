@@ -5,11 +5,14 @@
  */
 package com.sliit.views;
 
+import com.sliit.knnanalysis.features.Caplen;
 import com.sliit.knnanalysis.features.Destination;
 import com.sliit.knnanalysis.features.Feature;
+import com.sliit.knnanalysis.features.Hlen;
 import com.sliit.knnanalysis.features.Length;
 import com.sliit.knnanalysis.features.Protocol;
 import com.sliit.knnanalysis.features.Source;
+import com.sliit.knnanalysis.features.Version;
 import com.sliit.knnanlysis.FileReader;
 import com.sliit.knnanlysis.Instance;
 import com.sliit.knnanlysis.Neighbor;
@@ -132,32 +135,42 @@ public class KNNView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void knnPredictButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_knnPredictButtonActionPerformed
-
         try {
-            List<Instance> instances = new FileReader(dataset).getInstances();
+            List<Instance> instances = new FileReader("D:/SLIIT/deadlocks/data/knn.csv").getInstances();
             Instance classificationInstance = getClassificationInstance();
             List<Neighbor> nearestNeighbors = getKNearestNeighbors(K, instances, classificationInstance);
             Instance classifiedInstance = determineFraudStatus(classificationInstance, nearestNeighbors);
 
-            System.out.println("Frud Status of Classification Instance : " + classifiedInstance.getFeatures());
+            System.out.println("Frud Status of Classification Instance : " + classifiedInstance.getFraudStatus());
+
+            if (classifiedInstance.getFraudStatus() == true) {
+                rouText.setText("True");
+            } else {
+                rouText.setText("False");
+            }
+
         } catch (IOException ex) {
             Logger.getLogger(KNNView.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        getRocCurve();
     }//GEN-LAST:event_knnPredictButtonActionPerformed
 
-    private Instance getClassificationInstance() {
+    private static Instance getClassificationInstance() {
         List<Feature> attributes = new ArrayList<>();
         Instance instance = new Instance();
-        attributes.add(new Source(Source.Sources.source2));
-        attributes.add(new Destination(Destination.Destinations.destination3));
-        attributes.add(new Protocol(Protocol.Protocols.IPv4));
-        attributes.add(new Length(22.5));
+        attributes.add(new Source("443"));
+        attributes.add(new Destination("63846"));
+        attributes.add(new Protocol(Protocol.Protocols.Tcp));
+        attributes.add(new Length(54));
+        attributes.add(new Caplen(54));
+        attributes.add(new Hlen(5));
+        attributes.add(new Version(0));
         instance.setFeatures(attributes);
         return instance;
     }
 
-    private List<Neighbor> getKNearestNeighbors(int K,
+    private static List<Neighbor> getKNearestNeighbors(int K,
             List<Instance> instances, Instance classificationInstance) {
 
         HashMap<String, Double> ciFeatureDistances = new HashMap<>();
@@ -196,7 +209,7 @@ public class KNNView extends javax.swing.JPanel {
         return neighbors;
     }
 
-    private Instance determineFraudStatus(
+    private static Instance determineFraudStatus(
             Instance classificationInstance, List<Neighbor> nearestNeighbors) {
         int frudCount = 0, normalCount = 0;
 
@@ -221,7 +234,7 @@ public class KNNView extends javax.swing.JPanel {
         try {
             Instances data;
             data = new Instances(
-                    new BufferedReader(new java.io.FileReader("D:/SLIIT/deadlocks/data/train.arff")));
+                    new BufferedReader(new java.io.FileReader(modal)));
             data.setClassIndex(data.numAttributes() - 1);
 
             // train classifier

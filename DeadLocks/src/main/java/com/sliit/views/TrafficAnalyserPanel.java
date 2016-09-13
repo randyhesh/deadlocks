@@ -120,11 +120,11 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Time", "Source", "Destination", "Protocol", "Legth", "Caplen", "Hop limit", "Version"
+                "#", "Time", "Source", "Destination", "Protocol", "Legth", "Caplen", "Hlen", "Version"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -174,7 +174,7 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(282, 282, 282)
                         .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,6 +242,7 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
                     //capture packets
                     PcapPacketHandler<String> jpacketHandler = new PcapPacketHandler<String>() {
 
+                        int i = 0;
                         String dataPacket = "";
                         String time = "";
                         String source = "";
@@ -254,7 +255,7 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
                         String output = "0";
 
                         public void nextPacket(PcapPacket packet, String user) {
-
+                            ++i;
                             //break loop when timeout
                             double now = System.currentTimeMillis();
                             double elapsedtime = (now - start) / 1000.0;
@@ -329,7 +330,7 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
                                     + protocol + "," + length + "," + caplen + ","
                                     + hlen + "," + version + "," + output + "\n";
 
-                            Object[] ob = {time, source, destination, protocol, length, caplen, hlen, version};
+                            Object[] ob = {i, time, source, destination, protocol, length, caplen, hlen, version};
                             dtmPacketTable.addRow(ob);
 
                             System.out.println(dataPacket);

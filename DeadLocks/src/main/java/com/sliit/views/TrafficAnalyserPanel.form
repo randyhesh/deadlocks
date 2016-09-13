@@ -59,7 +59,7 @@
                       <Component id="progressBar" min="-2" pref="481" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="49" max="32767" attributes="0"/>
+              <EmptySpace pref="30" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -129,14 +129,15 @@
         <Component class="javax.swing.JTable" name="packetsDisplayTable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="8" rowCount="0">
+              <Table columnCount="9" rowCount="0">
+                <Column editable="false" title="#" type="java.lang.Object"/>
                 <Column editable="false" title="Time" type="java.lang.Object"/>
                 <Column editable="false" title="Source" type="java.lang.Object"/>
                 <Column editable="false" title="Destination" type="java.lang.Object"/>
                 <Column editable="false" title="Protocol" type="java.lang.Object"/>
                 <Column editable="false" title="Legth" type="java.lang.Object"/>
                 <Column editable="false" title="Caplen" type="java.lang.Object"/>
-                <Column editable="false" title="Hop limit" type="java.lang.Object"/>
+                <Column editable="false" title="Hlen" type="java.lang.Object"/>
                 <Column editable="false" title="Version" type="java.lang.Object"/>
               </Table>
             </Property>

@@ -170,7 +170,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="modalText">
       <Properties>
-        <Property name="text" type="java.lang.String" value="D:/SLIIT/deadlocks/data/train.arff"/>
+        <Property name="text" type="java.lang.String" value="D:\u005cSLIIT\u005cdeadlocks\u005cdata\u005ctrain.arff" containsInvalidXMLChars="true"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>

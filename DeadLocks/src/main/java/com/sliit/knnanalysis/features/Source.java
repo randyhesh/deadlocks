@@ -1,33 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.sliit.knnanalysis.features;
 
-/**
- *
- * @author Heshani
- */
 public class Source extends Feature{
 
-    private final Sources SOURCE;
+    private final double SOURCE;
     
-    public Source(Sources source) {
-        super(source.name());
-        this.SOURCE = source;
-    }
-
-    public enum Sources {
-        source1,
-        source2,
-        source3,
-        source4
+    public Source(String source) {
+        super(source);
+        if("0.0.0.0".equals(source) || "192.168.1.6".equals(source)){
+            this.SOURCE = 0;
+        }else{
+            this.SOURCE = Double.parseDouble(source);
+        }
     }
 
     @Override
     void calculateDistances() {
-        setDistance(SOURCE.ordinal());
+        setDistance(SOURCE);
     }
     
 }

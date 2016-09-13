@@ -6,7 +6,6 @@
 package com.sliit.views;
 
 import javax.swing.JPanel;
-import jpcap.NetworkInterface;
 
 /**
  *
@@ -153,7 +152,7 @@ public class Home extends javax.swing.JFrame {
                     .addContainerGap(398, Short.MAX_VALUE)))
         );
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel1.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\dlogo.png")); // NOI18N
 
