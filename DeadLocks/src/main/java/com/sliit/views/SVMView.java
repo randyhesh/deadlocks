@@ -6,6 +6,21 @@
 package com.sliit.views;
 
 import com.sliit.svmanalysis.SvmAnalyser;
+import java.awt.BorderLayout;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import weka.classifiers.Classifier;
+import weka.classifiers.Evaluation;
+import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.evaluation.ThresholdCurve;
+import weka.core.Instances;
+import weka.core.Utils;
+import weka.gui.visualize.PlotData2D;
+import weka.gui.visualize.ThresholdVisualizePanel;
 
 /**
  *
@@ -14,6 +29,7 @@ import com.sliit.svmanalysis.SvmAnalyser;
 public class SVMView extends javax.swing.JPanel {
 
     private String dataset;
+    private String modal;
 
     /**
      * Creates new form SVMView
@@ -22,9 +38,10 @@ public class SVMView extends javax.swing.JPanel {
         initComponents();
     }
 
-    public SVMView(String dataset) {
+    public SVMView(String dataset, String modal) {
         this();
         this.dataset = dataset;
+        this.modal = modal;
     }
 
     /**
@@ -36,18 +53,15 @@ public class SVMView extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         svmPredictButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         conclutionText = new javax.swing.JTextArea();
         rouText = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
+        rocPanel = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel1.setText("Support Vector Machine Algorithm");
 
         svmPredictButton.setText("Predict");
         svmPredictButton.addActionListener(new java.awt.event.ActionListener() {
@@ -56,7 +70,7 @@ public class SVMView extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setText("Area Under ROU : ");
+        jLabel2.setText("Area Under ROC : ");
 
         jLabel3.setText("Conclusion : ");
 
@@ -65,58 +79,43 @@ public class SVMView extends javax.swing.JPanel {
         conclutionText.setRows(5);
         jScrollPane1.setViewportView(conclutionText);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("The Area Under an ROC Curve"));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 534, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 339, Short.MAX_VALUE)
-        );
+        rocPanel.setBackground(new java.awt.Color(255, 255, 255));
+        rocPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("The Area Under an ROC Curve"));
+        rocPanel.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(rocPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(svmPredictButton))
-                    .addComponent(rouText))
-                .addGap(43, 43, 43)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(svmPredictButton)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rouText, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(svmPredictButton))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(svmPredictButton)
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(rouText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel3))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rocPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -153,16 +152,61 @@ public class SVMView extends javax.swing.JPanel {
 
         conclutionText.setText(conclusion);
 
+        getRocCurve();
+
     }//GEN-LAST:event_svmPredictButtonActionPerformed
 
+    void getRocCurve() {
+        try {
+            Instances data;
+            data = new Instances(
+                    new BufferedReader(new FileReader(modal)));
+            data.setClassIndex(data.numAttributes() - 1);
+
+            //train classifier
+            Classifier cl = new NaiveBayes();
+            Evaluation eval = new Evaluation(data);
+            eval.crossValidateModel(cl, data, 10, new Random(1));
+
+            // generate curve
+            ThresholdCurve tc = new ThresholdCurve();
+            int classIndex = 0;
+            Instances result = tc.getCurve(eval.predictions(), classIndex);
+
+            // plot curve
+            ThresholdVisualizePanel vmc = new ThresholdVisualizePanel();
+            vmc.setROCString("(Area under ROC = "
+                    + Utils.doubleToString(tc.getROCArea(result), 4) + ")");
+            vmc.setName(result.relationName());
+            PlotData2D tempd = new PlotData2D(result);
+            tempd.setPlotName(result.relationName());
+            tempd.addInstanceNumberAttribute();
+            // specify which points are connected
+            boolean[] cp = new boolean[result.numInstances()];
+            for (int n = 1; n < cp.length; n++) {
+                cp[n] = true;
+            }
+            tempd.setConnectPoints(cp);
+            // add plot
+            vmc.addPlot(tempd);
+
+            rocPanel.removeAll();
+            rocPanel.add(vmc, "vmc", 0);
+            rocPanel.revalidate();
+
+        } catch (IOException ex) {
+            Logger.getLogger(DataVisualizerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(DataVisualizerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea conclutionText;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel rocPanel;
     private javax.swing.JTextField rouText;
     private javax.swing.JButton svmPredictButton;
     // End of variables declaration//GEN-END:variables

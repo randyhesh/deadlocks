@@ -20,14 +20,14 @@ public class MainWindow {
 
     public static void main(String[] args) {
 
-        try {
-            UIManager.setLookAndFeel(new NimbusLookAndFeel());
+//        try {
+//            UIManager.setLookAndFeel(new NimbusLookAndFeel());
             Home home = new Home();
             home.setLocationRelativeTo(null);
             home.pack();
             home.setVisible(true);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        } catch (UnsupportedLookAndFeelException ex) {
+//            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 }

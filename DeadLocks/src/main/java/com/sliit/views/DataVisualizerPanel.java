@@ -5,10 +5,25 @@
  */
 package com.sliit.views;
 
-import com.sliit.graph.ScatterPlotMatrix;
+import java.awt.BorderLayout;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import weka.classifiers.Classifier;
+import weka.classifiers.Evaluation;
+import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.evaluation.ThresholdCurve;
 import weka.core.Instances;
+import weka.core.Utils;
+import weka.gui.beans.ScatterPlotMatrix;
+import weka.gui.visualize.PlotData2D;
+import weka.gui.visualize.ThresholdVisualizePanel;
 
 /**
  *
@@ -34,8 +49,7 @@ public class DataVisualizerPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         graphTabPane = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        scatterplotpanel = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         datasetPathText = new javax.swing.JTextField();
@@ -50,31 +64,8 @@ public class DataVisualizerPanel extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1029, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 415, Short.MAX_VALUE)
-        );
-
-        graphTabPane.addTab("Scatter Plot", jPanel2);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1029, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 415, Short.MAX_VALUE)
-        );
-
-        graphTabPane.addTab("Histogram", jPanel1);
+        scatterplotpanel.setLayout(new java.awt.CardLayout());
+        graphTabPane.addTab("Scatter Plot", scatterplotpanel);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 204, 255));
@@ -91,7 +82,7 @@ public class DataVisualizerPanel extends javax.swing.JPanel {
             }
         });
 
-        processButton.setText("Process");
+        processButton.setText("Generate");
         processButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 processButtonActionPerformed(evt);
@@ -138,12 +129,7 @@ public class DataVisualizerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void graphTabPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_graphTabPaneStateChanged
-        if (graphTabPane.getSelectedIndex() == 0) {
-            System.out.println("Scatter plot");
-            //getScatterPlot();
-        } else if (graphTabPane.getSelectedIndex() == 1) {
-            System.out.println("histrogram");
-        }
+
     }//GEN-LAST:event_graphTabPaneStateChanged
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -154,32 +140,79 @@ public class DataVisualizerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void processButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_processButtonActionPerformed
-//D:/deadlocks/data/train.arff
+        getScatterPlot();
+    }//GEN-LAST:event_processButtonActionPerformed
 
+    void getScatterPlot() {
         try {
-            java.io.Reader r;
-            r = new java.io.BufferedReader(
-                    new java.io.FileReader("train.arff"));
+            Reader r = new BufferedReader(new FileReader(datasetPathText.getText()));
             Instances inst = new Instances(r);
-            final javax.swing.JFrame jf = new javax.swing.JFrame();
-            jf.getContentPane().setLayout(new java.awt.BorderLayout());
-            final ScatterPlotMatrix as = new ScatterPlotMatrix();
-            as.setInstances(inst);
+            final ScatterPlotMatrix scatterPlotMatrix = new ScatterPlotMatrix();
+            scatterPlotMatrix.setInstances(inst);
 
-            jf.getContentPane().add(as, java.awt.BorderLayout.CENTER);
-            jf.addWindowListener(new java.awt.event.WindowAdapter() {
-                public void windowClosing(java.awt.event.WindowEvent e) {
-                    jf.dispose();
-                    System.exit(0);
-                }
-            });
-            jf.setSize(800, 600);
-            jf.setVisible(true);
+            scatterplotpanel.removeAll();
+            scatterplotpanel.add(scatterPlotMatrix, "scatterplotpanel", 0);
+            scatterplotpanel.revalidate();
+
         } catch (Exception ex) {
             ex.printStackTrace();
             System.err.println(ex.getMessage());
         }
-    }//GEN-LAST:event_processButtonActionPerformed
+    }
+
+    void getRocCurve() {
+        try {
+            Instances data;
+            data = new Instances(
+                    new BufferedReader(new FileReader(datasetPathText.getText())));
+            data.setClassIndex(data.numAttributes() - 1);
+
+            // train classifier
+            Classifier cl = new NaiveBayes();
+            Evaluation eval = new Evaluation(data);
+            eval.crossValidateModel(cl, data, 10, new Random(1));
+
+            // generate curve
+            ThresholdCurve tc = new ThresholdCurve();
+            int classIndex = 0;
+            Instances result = tc.getCurve(eval.predictions(), classIndex);
+
+            // plot curve
+            ThresholdVisualizePanel vmc = new ThresholdVisualizePanel();
+            vmc.setROCString("(Area under ROC = "
+                    + Utils.doubleToString(tc.getROCArea(result), 4) + ")");
+            vmc.setName(result.relationName());
+            PlotData2D tempd = new PlotData2D(result);
+            tempd.setPlotName(result.relationName());
+            tempd.addInstanceNumberAttribute();
+            // specify which points are connected
+            boolean[] cp = new boolean[result.numInstances()];
+            for (int n = 1; n < cp.length; n++) {
+                cp[n] = true;
+            }
+            tempd.setConnectPoints(cp);
+            // add plot
+            vmc.addPlot(tempd);
+
+            // display curve
+            String plotName = vmc.getName();
+            final javax.swing.JFrame jf
+                    = new javax.swing.JFrame("Weka Classifier Visualize: " + plotName);
+            jf.setSize(500, 400);
+            jf.getContentPane().setLayout(new BorderLayout());
+            jf.getContentPane().add(vmc, BorderLayout.CENTER);
+            jf.addWindowListener(new java.awt.event.WindowAdapter() {
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    jf.dispose();
+                }
+            });
+            jf.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(DataVisualizerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(DataVisualizerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField datasetPathText;
@@ -187,8 +220,7 @@ public class DataVisualizerPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JButton processButton;
+    private javax.swing.JPanel scatterplotpanel;
     // End of variables declaration//GEN-END:variables
 }

@@ -93,10 +93,15 @@
         </dependency>
         
         <dependency>
-            <groupId>weka-dev</groupId>
+            <groupId>nz.ac.waikato.cms.weka</groupId>
             <artifactId>weka-dev</artifactId>
-            <version>3.7.6</version>
-            <type>jar</type>
+            <version>3.9.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>nz.ac.waikato.cms.weka</groupId>
+            <artifactId>weka-stable</artifactId>
+            <version>3.8.0</version>
         </dependency>
         
         <dependency>

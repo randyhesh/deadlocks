@@ -13,14 +13,24 @@ import com.sliit.knnanalysis.features.Source;
 import com.sliit.knnanlysis.FileReader;
 import com.sliit.knnanlysis.Instance;
 import com.sliit.knnanlysis.Neighbor;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import weka.classifiers.Classifier;
+import weka.classifiers.Evaluation;
+import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.evaluation.ThresholdCurve;
+import weka.core.Instances;
+import weka.core.Utils;
+import weka.gui.visualize.PlotData2D;
+import weka.gui.visualize.ThresholdVisualizePanel;
 
 /**
  *
@@ -28,7 +38,8 @@ import java.util.logging.Logger;
  */
 public class KNNView extends javax.swing.JPanel {
 
-    String dataset;
+    private String dataset;
+    private String modal;
     final int K = 10;
 
     /**
@@ -38,9 +49,10 @@ public class KNNView extends javax.swing.JPanel {
         initComponents();
     }
 
-    public KNNView(String dataset) {
+    public KNNView(String dataset, String modal) {
         this();
         this.dataset = dataset;
+        this.modal = modal;
     }
 
     /**
@@ -52,17 +64,15 @@ public class KNNView extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
         knnPredictButton = new javax.swing.JButton();
         rouText = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         conclutionText = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        rocPanel = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel2.setText("K-Nearest Neibours Algorithm");
 
         knnPredictButton.setText("Predict");
         knnPredictButton.addActionListener(new java.awt.event.ActionListener() {
@@ -80,46 +90,50 @@ public class KNNView extends javax.swing.JPanel {
 
         jLabel4.setText("Fraud Status :");
 
+        rocPanel.setBackground(new java.awt.Color(255, 255, 255));
+        rocPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("The Area Under an ROC Curve"));
+        rocPanel.setLayout(new java.awt.CardLayout());
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(knnPredictButton)
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(knnPredictButton))
-                    .addComponent(rouText)
-                    .addComponent(jScrollPane1))
-                .addContainerGap(599, Short.MAX_VALUE))
+                        .addComponent(rouText, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE))
+                    .addComponent(rocPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(knnPredictButton))
-                .addGap(33, 33, 33)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rouText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(knnPredictButton)
+                        .addComponent(jLabel4)
+                        .addComponent(rouText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addComponent(rocPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void knnPredictButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_knnPredictButtonActionPerformed
 
         try {
-
             List<Instance> instances = new FileReader(dataset).getInstances();
             Instance classificationInstance = getClassificationInstance();
             List<Neighbor> nearestNeighbors = getKNearestNeighbors(K, instances, classificationInstance);
@@ -202,13 +216,58 @@ public class KNNView extends javax.swing.JPanel {
 
         return classificationInstance;
     }
+
+    void getRocCurve() {
+        try {
+            Instances data;
+            data = new Instances(
+                    new BufferedReader(new java.io.FileReader("D:/SLIIT/deadlocks/data/train.arff")));
+            data.setClassIndex(data.numAttributes() - 1);
+
+            // train classifier
+            Classifier cl = new NaiveBayes();
+            Evaluation eval = new Evaluation(data);
+            eval.crossValidateModel(cl, data, 10, new Random(1));
+
+            // generate curve
+            ThresholdCurve tc = new ThresholdCurve();
+            int classIndex = 0;
+            Instances result = tc.getCurve(eval.predictions(), classIndex);
+
+            // plot curve
+            ThresholdVisualizePanel vmc = new ThresholdVisualizePanel();
+            vmc.setROCString("(Area under ROC = "
+                    + Utils.doubleToString(tc.getROCArea(result), 4) + ")");
+            vmc.setName(result.relationName());
+            PlotData2D tempd = new PlotData2D(result);
+            tempd.setPlotName(result.relationName());
+            tempd.addInstanceNumberAttribute();
+            // specify which points are connected
+            boolean[] cp = new boolean[result.numInstances()];
+            for (int n = 1; n < cp.length; n++) {
+                cp[n] = true;
+            }
+            tempd.setConnectPoints(cp);
+            // add plot
+            vmc.addPlot(tempd);
+
+            rocPanel.removeAll();
+            rocPanel.add(vmc, "vmc", 0);
+            rocPanel.revalidate();
+
+        } catch (IOException ex) {
+            Logger.getLogger(DataVisualizerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(DataVisualizerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea conclutionText;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton knnPredictButton;
+    private javax.swing.JPanel rocPanel;
     private javax.swing.JTextField rouText;
     // End of variables declaration//GEN-END:variables
 }

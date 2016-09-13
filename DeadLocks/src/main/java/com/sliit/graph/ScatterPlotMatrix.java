@@ -32,6 +32,7 @@ public class ScatterPlotMatrix extends DataVisualizer implements KnowledgeFlowAp
         if (!ge.isHeadless()) {
             appearanceFinal();
         }
+
     }
 
     /**
@@ -206,4 +207,28 @@ public class ScatterPlotMatrix extends DataVisualizer implements KnowledgeFlowAp
         }
     }
 
+//    public static void main(String[] args) {
+//        try {
+//            java.io.Reader r;
+//            r = new java.io.BufferedReader(new java.io.FileReader("D:/SLIIT/deadlocks/data/train.arff"));
+//            Instances inst = new Instances(r);
+//            final javax.swing.JFrame jf = new javax.swing.JFrame();
+//            jf.getContentPane().setLayout(new java.awt.BorderLayout());
+//            final ScatterPlotMatrix as = new ScatterPlotMatrix();
+//            as.setInstances(inst);
+//
+//            jf.getContentPane().add(as, java.awt.BorderLayout.CENTER);
+//            jf.addWindowListener(new java.awt.event.WindowAdapter() {
+//                public void windowClosing(java.awt.event.WindowEvent e) {
+//                    jf.dispose();
+//                    System.exit(0);
+//                }
+//            });
+//            jf.setSize(800, 600);
+//            jf.setVisible(true);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            System.err.println(ex.getMessage());
+//        }
+//    }
 }
