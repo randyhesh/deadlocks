@@ -108,16 +108,13 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\incoming.png"/>
+              <Image iconType="3" name="/images/incoming.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Traffic Analyzer"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\pressedincoming.png"/>
-            </Property>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
           <Events>
@@ -130,16 +127,13 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\devices.png"/>
+              <Image iconType="3" name="/images/devices.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Network Interfaces"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\presseddevices.png"/>
-            </Property>
             <Property name="verticalAlignment" type="int" value="1"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
@@ -153,16 +147,13 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\predictor.png"/>
+              <Image iconType="3" name="/images/predictor.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Predictor"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\pressedpredictor.png"/>
-            </Property>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
           <Events>
@@ -175,16 +166,13 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\analyzer.png"/>
+              <Image iconType="3" name="/images/analyzer.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Data Visualiser"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\pressedanalyzer.png"/>
-            </Property>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
           <Events>
@@ -196,7 +184,7 @@
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+          <Color blue="ff" green="cc" red="cc" type="rgb"/>
         </Property>
       </Properties>
 
@@ -204,8 +192,8 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                  <Component id="jLabel1" min="-2" pref="192" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -242,7 +230,7 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\dlogo.png"/>
+              <Image iconType="3" name="/images/dlogo.png"/>
             </Property>
           </Properties>
         </Component>
@@ -257,14 +245,14 @@
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\green.png"/>
+              <Image iconType="3" name="/images/green.png"/>
             </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\deadlocks\DeadLocks\src\main\java\com\sliit\images\device.png"/>
+              <Image iconType="3" name="/images/device.png"/>
             </Property>
           </Properties>
         </Component>

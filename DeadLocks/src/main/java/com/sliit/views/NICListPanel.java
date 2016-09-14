@@ -25,15 +25,6 @@ public class NICListPanel extends javax.swing.JPanel {
      */
     public NICListPanel() {
         initComponents();
-
-//        for (int i = 0; i < 2; i++) {
-//            DevicePanel devicePanel = new DevicePanel();
-//            devicePanel.descLabel.setText("dsdad" + i);
-//            System.out.println(i);
-//            //  jPanel1.removeAll();
-//            jPanel1.add(devicePanel, "networkInterfacesPanel", 0);
-//            jPanel1.revalidate();
-//        }
         getNetworkInterfaces();
     }
 

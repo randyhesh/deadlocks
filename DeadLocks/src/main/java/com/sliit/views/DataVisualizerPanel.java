@@ -75,7 +75,7 @@ public class DataVisualizerPanel extends javax.swing.JPanel {
 
         datasetPathText.setText("D:\\SLIIT\\deadlocks\\data\\train.arff");
 
-        jButton3.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\file-explorer-icon.png")); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/file-explorer-icon.png"))); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);

@@ -64,11 +64,10 @@ public class Home extends javax.swing.JFrame {
         menuPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         analyzerButton.setBackground(new java.awt.Color(255, 255, 255));
-        analyzerButton.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\incoming.png")); // NOI18N
+        analyzerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/incoming.png"))); // NOI18N
         analyzerButton.setText("Traffic Analyzer");
         analyzerButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         analyzerButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        analyzerButton.setPressedIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\pressedincoming.png")); // NOI18N
         analyzerButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         analyzerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,11 +76,10 @@ public class Home extends javax.swing.JFrame {
         });
 
         showDevicesButton.setBackground(new java.awt.Color(255, 255, 255));
-        showDevicesButton.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\devices.png")); // NOI18N
+        showDevicesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/devices.png"))); // NOI18N
         showDevicesButton.setText("Network Interfaces");
         showDevicesButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         showDevicesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        showDevicesButton.setPressedIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\presseddevices.png")); // NOI18N
         showDevicesButton.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         showDevicesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         showDevicesButton.addActionListener(new java.awt.event.ActionListener() {
@@ -91,11 +89,10 @@ public class Home extends javax.swing.JFrame {
         });
 
         predictorButton.setBackground(new java.awt.Color(255, 255, 255));
-        predictorButton.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\predictor.png")); // NOI18N
+        predictorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/predictor.png"))); // NOI18N
         predictorButton.setText("Predictor");
         predictorButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         predictorButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        predictorButton.setPressedIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\pressedpredictor.png")); // NOI18N
         predictorButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         predictorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,11 +101,10 @@ public class Home extends javax.swing.JFrame {
         });
 
         dataVisualiserButton.setBackground(new java.awt.Color(255, 255, 255));
-        dataVisualiserButton.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\analyzer.png")); // NOI18N
+        dataVisualiserButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/analyzer.png"))); // NOI18N
         dataVisualiserButton.setText("Data Visualiser");
         dataVisualiserButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         dataVisualiserButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        dataVisualiserButton.setPressedIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\pressedanalyzer.png")); // NOI18N
         dataVisualiserButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         dataVisualiserButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,24 +148,24 @@ public class Home extends javax.swing.JFrame {
                     .addContainerGap(398, Short.MAX_VALUE)))
         );
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\dlogo.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dlogo.png"))); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel4.setText("CONNECTED ");
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\green.png")); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/green.png"))); // NOI18N
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("D:\\deadlocks\\DeadLocks\\src\\main\\java\\com\\sliit\\images\\device.png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/device.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -228,7 +224,6 @@ public class Home extends javax.swing.JFrame {
         containerPanel.removeAll();
         containerPanel.add(new NICListPanel(), "networkInterfacesPanel", 0);
         containerPanel.revalidate();
-
     }//GEN-LAST:event_showDevicesButtonActionPerformed
 
     private void analyzerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analyzerButtonActionPerformed
