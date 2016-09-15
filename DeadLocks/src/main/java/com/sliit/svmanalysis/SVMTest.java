@@ -26,7 +26,6 @@ public class SVMTest {
     public static void main(String[] args) {
 
         SparkConf conf = new SparkConf().setAppName("Your Application Name").setMaster("local").set("spark.executor.memory", "1g");
-        //SparkConf conf = new SparkConf().setAppName("SVM Classifier Example");
         SparkContext sc = new SparkContext(conf);
         String path = "D:/SLIIT/deadlocks/data/a.csv";
         JavaRDD<LabeledPoint> data = MLUtils.loadLibSVMFile(sc, path).toJavaRDD();
@@ -59,17 +58,19 @@ public class SVMTest {
 
         System.out.println("Area under ROC = " + auROC);
 
-        // Save and load model
-        model.save(sc, "D:/SLIIT/deadlocks/modal/svmModel");
-        SVMModel sameModel = SVMModel.load(sc, "D:/SLIIT/deadlocks/modal/svmModel");
-
-        String testPath = "D:/SLIIT/deadlocks/data/a.csv";
-       // JavaRDD<LabeledPoint> testData = MLUtils.loadLibSVMFile(sc, testPath).toJavaRDD();
-
-       // System.out.println("samemodel " + sameModel.predict((Vector) testData));
-
         sc.stop();
 
     }
 
+//    public static void main(String[] args) {
+//
+//        SparkConf conf = new SparkConf().setAppName("Your Application Name").setMaster("local").set("spark.executor.memory", "1g");
+//        SparkContext sc = new SparkContext(conf);
+//
+//        String testPath = "D:/SLIIT/deadlocks/data/a.csv";
+//        JavaRDD<LabeledPoint> testData = MLUtils.loadLibSVMFile(sc, testPath).toJavaRDD();
+//
+//        SVMModel sameModel = SVMModel.load(sc, "D:/SLIIT/deadlocks/modal/svmModel");
+//        System.out.println("samemodel " + sameModel.predict((Vector) testData));
+//    }
 }

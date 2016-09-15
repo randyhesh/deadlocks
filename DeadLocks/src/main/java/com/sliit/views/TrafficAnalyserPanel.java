@@ -328,7 +328,7 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
                                 version = "0";
                             }
 
-                            dataPacket = time + "," + source + "," + destination + ","
+                            dataPacket = time + "," + "\"" + source + "\"" + "," + "\"" + destination + "\"" + ","
                                     + protocol + "," + length + "," + caplen + ","
                                     + hlen + "," + version + "," + output + "\n";
 
