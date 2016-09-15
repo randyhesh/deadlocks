@@ -93,14 +93,14 @@ public class SVMView extends javax.swing.JPanel {
                     .addComponent(rocPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(svmPredictButton)
-                        .addGap(30, 30, 30)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rouText, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(rouText, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -122,7 +122,7 @@ public class SVMView extends javax.swing.JPanel {
     private void svmPredictButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_svmPredictButtonActionPerformed
         SvmAnalyser svmAnalyser = new SvmAnalyser();
         System.out.println(dataset);
-        double auROC = svmAnalyser.perfomeAnalysis(dataset);
+        double auROC = svmAnalyser.perfomeAnalysis(PredictorPanel.locationText.getText());
         rouText.setText(auROC + "");
 
         String conclusion = "";
@@ -160,7 +160,7 @@ public class SVMView extends javax.swing.JPanel {
         try {
             Instances data;
             data = new Instances(
-                    new BufferedReader(new FileReader(modal)));
+                    new BufferedReader(new FileReader(PredictorPanel.modalText.getText())));
             data.setClassIndex(data.numAttributes() - 1);
 
             //train classifier

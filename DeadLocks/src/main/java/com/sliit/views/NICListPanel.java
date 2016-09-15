@@ -65,11 +65,12 @@ public class NICListPanel extends javax.swing.JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            Home.containerPanel.removeAll();
-            Home.containerPanel.add(new TrafficAnalyserPanel(networkInterfacesList, e.getActionCommand()), "trafficAnalyserPanel", 0);
-            Home.containerPanel.revalidate();
-        }
+            MainHome.tabbedPane.setSelectedIndex(1);
+            MainHome.trafficAnalyzerPanel.removeAll();
+            MainHome.trafficAnalyzerPanel.add(new TrafficAnalyserPanel(networkInterfacesList, e.getActionCommand()), "trafficAnalyserPanel", 0);
+            MainHome.trafficAnalyzerPanel.revalidate();
 
+        }
     }
 
     /**
@@ -116,11 +117,7 @@ public class NICListPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel descDev1;
     private javax.swing.JPanel devPanelContainer;
-    private javax.swing.JToggleButton device1;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel panelDev1;
     // End of variables declaration//GEN-END:variables
 }

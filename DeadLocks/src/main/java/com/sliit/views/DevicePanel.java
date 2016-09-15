@@ -33,6 +33,7 @@ public class DevicePanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
 
         panelDev1.setBackground(new java.awt.Color(255, 255, 255));
+        panelDev1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 255)));
         panelDev1.setMaximumSize(new java.awt.Dimension(330, 178));
         panelDev1.setMinimumSize(new java.awt.Dimension(330, 178));
 
@@ -51,16 +52,18 @@ public class DevicePanel extends javax.swing.JPanel {
         panelDev1Layout.setHorizontalGroup(
             panelDev1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDev1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(panelDev1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(deviceNameBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
-                    .addComponent(descLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelDev1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(deviceNameBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(descLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelDev1Layout.setVerticalGroup(
             panelDev1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDev1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(panelDev1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(panelDev1Layout.createSequentialGroup()
@@ -78,7 +81,7 @@ public class DevicePanel extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelDev1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelDev1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -87,6 +90,6 @@ public class DevicePanel extends javax.swing.JPanel {
     public javax.swing.JLabel descLabel;
     public javax.swing.JToggleButton deviceNameBtn;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel panelDev1;
+    public javax.swing.JPanel panelDev1;
     // End of variables declaration//GEN-END:variables
 }

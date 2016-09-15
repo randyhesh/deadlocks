@@ -106,14 +106,14 @@ public class KNNView extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(knnPredictButton)
-                        .addGap(42, 42, 42)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(rouText, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
+                        .addGap(33, 33, 33)
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE))
                     .addComponent(rocPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -136,7 +136,7 @@ public class KNNView extends javax.swing.JPanel {
 
     private void knnPredictButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_knnPredictButtonActionPerformed
         try {
-            List<Instance> instances = new FileReader("D:/SLIIT/deadlocks/data/knn.csv").getInstances();
+            List<Instance> instances = new FileReader(PredictorPanel.locationText.getText()).getInstances();
             Instance classificationInstance = getClassificationInstance();
             List<Neighbor> nearestNeighbors = getKNearestNeighbors(K, instances, classificationInstance);
             Instance classifiedInstance = determineFraudStatus(classificationInstance, nearestNeighbors);
@@ -234,7 +234,7 @@ public class KNNView extends javax.swing.JPanel {
         try {
             Instances data;
             data = new Instances(
-                    new BufferedReader(new java.io.FileReader(modal)));
+                    new BufferedReader(new java.io.FileReader(PredictorPanel.modalText.getText())));
             data.setClassIndex(data.numAttributes() - 1);
 
             // train classifier

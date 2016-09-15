@@ -111,5 +111,23 @@
             <type>jar</type>
         </dependency>
         
+        <dependency>
+            <groupId>com.synthetica</groupId>
+            <artifactId>synthetica</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.synthetica</groupId>
+            <artifactId>syntheticaSkyMetallicLookAndFeel</artifactId>
+            <version>1.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.synthetica</groupId>
+            <artifactId>syntheticaAluOxide</artifactId>
+            <version>1.0</version>
+        </dependency>
+        
     </dependencies>
 </project>

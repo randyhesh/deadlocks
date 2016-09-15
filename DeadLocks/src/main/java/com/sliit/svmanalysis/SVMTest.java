@@ -12,27 +12,27 @@ import org.apache.spark.api.java.function.Function;
 import org.apache.spark.mllib.classification.SVMModel;
 import org.apache.spark.mllib.classification.SVMWithSGD;
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics;
-import org.apache.spark.mllib.optimization.L1Updater;
+import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.regression.LabeledPoint;
 import org.apache.spark.mllib.util.MLUtils;
 import scala.Tuple2;
 
 /**
  *
- * @author Heshani
+ * @author heshanih
  */
-public class SVMTester {
+public class SVMTest {
 
     public static void main(String[] args) {
 
         SparkConf conf = new SparkConf().setAppName("Your Application Name").setMaster("local").set("spark.executor.memory", "1g");
         //SparkConf conf = new SparkConf().setAppName("SVM Classifier Example");
         SparkContext sc = new SparkContext(conf);
-        String path = "D:/deadlocks/data/a.csv";
+        String path = "D:/SLIIT/deadlocks/data/a.csv";
         JavaRDD<LabeledPoint> data = MLUtils.loadLibSVMFile(sc, path).toJavaRDD();
 
         // Split initial RDD into two... [60% training data, 40% testing data].
-        JavaRDD<LabeledPoint> training = data.sample(false, 0.6, 11L);
+        JavaRDD<LabeledPoint> training = data.sample(false, 1.0, 11L);
         training.cache();
         JavaRDD<LabeledPoint> test = data.subtract(training);
 
@@ -46,11 +46,11 @@ public class SVMTester {
         // Compute raw scores on the test set.
         JavaRDD<Tuple2<Object, Object>> scoreAndLabels = test.map(
                 new Function<LabeledPoint, Tuple2<Object, Object>>() {
-            public Tuple2<Object, Object> call(LabeledPoint p) {
-                Double score = model.predict(p.features());
-                return new Tuple2<Object, Object>(score, p.label());
-            }
-        }
+                    public Tuple2<Object, Object> call(LabeledPoint p) {
+                        Double score = model.predict(p.features());
+                        return new Tuple2<Object, Object>(score, p.label());
+                    }
+                }
         );
 
         //Get evaluation metrics.
@@ -58,12 +58,18 @@ public class SVMTester {
         double auROC = metrics.areaUnderROC();
 
         System.out.println("Area under ROC = " + auROC);
-        System.out.println("Area under PR " + metrics.areaUnderPR());
+
+        // Save and load model
+        model.save(sc, "D:/SLIIT/deadlocks/modal/svmModel");
+        SVMModel sameModel = SVMModel.load(sc, "D:/SLIIT/deadlocks/modal/svmModel");
+
+        String testPath = "D:/SLIIT/deadlocks/data/a.csv";
+       // JavaRDD<LabeledPoint> testData = MLUtils.loadLibSVMFile(sc, testPath).toJavaRDD();
+
+       // System.out.println("samemodel " + sameModel.predict((Vector) testData));
 
         sc.stop();
 
-//        SVMWithSGD svmAlg = new SVMWithSGD();
-//        svmAlg.optimizer().setNumIterations(200).setRegParam(0.1).setUpdater(new L1Updater());
-//        final SVMModel modelL1 = svmAlg.run(training.rdd());
     }
+
 }
