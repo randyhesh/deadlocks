@@ -190,11 +190,6 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
               <SubComponents>
                 <Container class="javax.swing.JPanel" name="jPanel3">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                    </Property>
-                  </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
                       <CardConstraints cardName="card2"/>
@@ -218,7 +213,7 @@
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="processButton" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="arffGenerator" min="-2" pref="148" max="-2" attributes="0"/>
+                                          <Component id="arffGenerator" min="-2" pref="162" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="graphTabPane" alignment="0" min="-2" pref="1053" max="-2" attributes="0"/>
                                   </Group>
@@ -287,7 +282,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="datasetPathText">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="D:\u005cSLIIT\u005cdeadlocks\u005cdata\u005ctrain.arff" containsInvalidXMLChars="true"/>
+                        <Property name="text" type="java.lang.String" value="D:\u005cdeadlocks\u005cdata\u005ctrain.arff" containsInvalidXMLChars="true"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="dataVisualizerFileChooser">
@@ -310,7 +305,7 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="arffGenerator">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Arff File Generator"/>
+                        <Property name="text" type="java.lang.String" value="File Format Converter"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="arffGeneratorActionPerformed"/>

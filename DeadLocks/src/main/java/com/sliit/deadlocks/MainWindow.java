@@ -31,6 +31,7 @@ public class MainWindow {
                 UIManager.setLookAndFeel(new SyntheticaSkyMetallicLookAndFeel());
                 MainHome home = new MainHome();
                 home.setLocationRelativeTo(null);
+                home.setTitle("DeadLocks");
                 home.pack();
                 home.setVisible(true);
             } catch (ParseException ex) {

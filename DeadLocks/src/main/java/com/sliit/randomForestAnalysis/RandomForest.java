@@ -6,6 +6,7 @@
 package com.sliit.randomForestAnalysis;
 
 import au.com.bytecode.opencsv.CSVReader;
+import com.sliit.views.PredictorPanel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +51,7 @@ public class RandomForest implements Serializable {
         JavaSparkContext jsc = new JavaSparkContext(sparkConf);
 
 // Load and parse the data file.
-        String datapath = "Data.txt";
+        String datapath = PredictorPanel.locationText.getText();
 //String datapath1 = "Test";
         JavaRDD<LabeledPoint> data = MLUtils.loadLibSVMFile(jsc.sc(), datapath).toJavaRDD();
 //JavaRDD<LabeledPoint> testData = MLUtils.loadLibSVMFile(jsc.sc(), datapath1).toJavaRDD();

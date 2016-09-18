@@ -133,7 +133,7 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(packetsDisplayTable);
 
-        locationText.setText("D:\\SLIIT\\deadlocks\\data\\FeatureTable.csv");
+        locationText.setText("D:\\deadlocks\\data\\FeatureTable.csv");
 
         jLabel4.setText("secs");
 
@@ -192,11 +192,11 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
                         .addComponent(jLabel1)
                         .addComponent(timeText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4)))
-                .addGap(20, 20, 20)
+                .addGap(21, 21, 21)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -216,6 +216,8 @@ public class TrafficAnalyserPanel extends javax.swing.JPanel {
 
         dtmPacketTable.setRowCount(0);
         progressBar.setValue(0);
+        Border borderStart = BorderFactory.createTitledBorder("Reading...");
+        progressBar.setBorder(borderStart);
 
         //packet capturing thread
         new Thread(new Runnable() {

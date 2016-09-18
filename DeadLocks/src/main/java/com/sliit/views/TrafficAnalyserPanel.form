@@ -82,11 +82,11 @@
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="378" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="progressBar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="13" max="32767" attributes="0"/>
+              <EmptySpace pref="12" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -203,7 +203,7 @@
     </Container>
     <Component class="javax.swing.JTextField" name="locationText">
       <Properties>
-        <Property name="text" type="java.lang.String" value="D:\u005cSLIIT\u005cdeadlocks\u005cdata\u005cFeatureTable.csv" containsInvalidXMLChars="true"/>
+        <Property name="text" type="java.lang.String" value="D:\u005cdeadlocks\u005cdata\u005cFeatureTable.csv" containsInvalidXMLChars="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">

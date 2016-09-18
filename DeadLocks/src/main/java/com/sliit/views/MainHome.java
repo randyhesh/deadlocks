@@ -119,8 +119,6 @@ public class MainHome extends javax.swing.JFrame {
 
         dataVisualizerPanel.setLayout(new java.awt.CardLayout());
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-
         scatterplotpanel.setLayout(new java.awt.CardLayout());
         graphTabPane.addTab("Scatter Plot", scatterplotpanel);
 
@@ -130,7 +128,7 @@ public class MainHome extends javax.swing.JFrame {
 
         jLabel5.setText(" Dataset : ");
 
-        datasetPathText.setText("D:\\SLIIT\\deadlocks\\data\\train.arff");
+        datasetPathText.setText("D:\\deadlocks\\data\\train.arff");
 
         dataVisualizerFileChooser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/file-explorer-icon.png"))); // NOI18N
         dataVisualizerFileChooser.addActionListener(new java.awt.event.ActionListener() {
@@ -146,7 +144,7 @@ public class MainHome extends javax.swing.JFrame {
             }
         });
 
-        arffGenerator.setText("Arff File Generator");
+        arffGenerator.setText("File Format Converter");
         arffGenerator.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 arffGeneratorActionPerformed(evt);
@@ -171,7 +169,7 @@ public class MainHome extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(processButton)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(arffGenerator, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(arffGenerator, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(graphTabPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1053, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
@@ -265,7 +263,8 @@ public class MainHome extends javax.swing.JFrame {
     }//GEN-LAST:event_processButtonActionPerformed
 
     private void arffGeneratorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arffGeneratorActionPerformed
-        // TODO add your handling code here:
+        ArffFileGenerator converter = new ArffFileGenerator(this, true);
+        converter.setVisible(true);
     }//GEN-LAST:event_arffGeneratorActionPerformed
 
     void getScatterPlot() {
