@@ -157,6 +157,9 @@ public class SVMView extends javax.swing.JPanel {
 
     }//GEN-LAST:event_svmPredictButtonActionPerformed
 
+    /**
+     * draw ROC curve
+     */
     void getRocCurve() {
         try {
             Instances data;

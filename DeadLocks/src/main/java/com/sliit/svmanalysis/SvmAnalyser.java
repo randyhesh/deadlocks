@@ -17,6 +17,7 @@ import org.apache.spark.mllib.regression.LabeledPoint;
 import org.apache.spark.mllib.util.MLUtils;
 import scala.Tuple2;
 
+
 /**
  *
  * @author Heshani
@@ -27,9 +28,14 @@ public class SvmAnalyser implements Serializable {
 
     }
 
+    /**
+     * perform analysis using SVM algorithm    
+     * @param dataset
+     * @return
+     */
     public double perfomeAnalysis(String dataset) {
 
-        SparkConf conf = new SparkConf().setAppName("Your Application Name").setMaster("local").set("spark.executor.memory", "1g");
+        SparkConf conf = new SparkConf().setAppName("DeadLocks").setMaster("local").set("spark.executor.memory", "1g");
         //SparkConf conf = new SparkConf().setAppName("SVM Classifier Example");
         SparkContext sc = new SparkContext(conf);
         String path = dataset;

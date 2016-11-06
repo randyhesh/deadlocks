@@ -143,13 +143,17 @@ public class KNNView extends javax.swing.JPanel {
             Instance classifiedInstance = determineFraudStatus(classificationInstance, nearestNeighbors);
 
             System.out.println("Frud Status of Classification Instance : " + classifiedInstance.getFraudStatus());
+            String conclusion = "";
 
             if (classifiedInstance.getFraudStatus() == true) {
                 rouText.setText("True");
+                conclusion = "Your Machine is Protected.\nSuspicious network traffic not detected.";
             } else {
                 rouText.setText("False");
+                conclusion = "Your Machine is Highly Vulnerable for an Attack.\nYou will face network treats";
             }
 
+            conclutionText.setText(conclusion);
         } catch (IOException ex) {
             Logger.getLogger(KNNView.class.getName()).log(Level.SEVERE, null, ex);
         }

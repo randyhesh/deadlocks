@@ -48,7 +48,7 @@ public class PredictorPanel extends javax.swing.JPanel {
 
         jLabel1.setText("Algorithm : ");
 
-        algorithmList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select Algorithm", "SVM", "KNN", "Random Forest" }));
+        algorithmList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select Algorithm", "Recurrent Neural Network", "SVM", "Random Forest", "KNN" }));
         algorithmList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 algorithmListActionPerformed(evt);
@@ -99,7 +99,7 @@ public class PredictorPanel extends javax.swing.JPanel {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(algorithmList, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(locationText, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -152,19 +152,25 @@ public class PredictorPanel extends javax.swing.JPanel {
         if (algorithmList.getSelectedIndex() == 1) {
             //call to svm algorithm
             algorithmContainer.removeAll();
-            algorithmContainer.add(new SVMView(locationText.getText(), modalText.getText()), "svmView", 0);
+            algorithmContainer.add(new NeuralNetworkView(locationText.getText(), modalText.getText()), "nnView", 0);
             algorithmContainer.revalidate();
 
         } else if (algorithmList.getSelectedIndex() == 2) {
-            //call to knn algorithm
+            //call to svm algorithm
             algorithmContainer.removeAll();
-            algorithmContainer.add(new KNNView(locationText.getText(), modalText.getText()), "knnView", 0);
+            algorithmContainer.add(new SVMView(locationText.getText(), modalText.getText()), "svmView", 0);
             algorithmContainer.revalidate();
 
         } else if (algorithmList.getSelectedIndex() == 3) {
             //call to random forest algorithm
             algorithmContainer.removeAll();
             algorithmContainer.add(new RandomForestView(locationText.getText(), modalText.getText()), "randomForestView", 0);
+            algorithmContainer.revalidate();
+
+        } else if (algorithmList.getSelectedIndex() == 4) {
+            //call to knn algorithm
+            algorithmContainer.removeAll();
+            algorithmContainer.add(new KNNView(locationText.getText(), modalText.getText()), "knnView", 0);
             algorithmContainer.revalidate();
 
         }
@@ -179,7 +185,10 @@ public class PredictorPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        JFileChooser jfcOpen = new JFileChooser();
+        jfcOpen.showOpenDialog(null);
+        File f = jfcOpen.getSelectedFile();
+        modalText.setText(f.getAbsoluteFile() + "");
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

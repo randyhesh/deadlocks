@@ -168,6 +168,10 @@ public class ArffFileGenerator extends javax.swing.JDialog {
 
         String csvFile = csvText.getText();
         String arffFile = arffFileLocation.getText() + "\\" + arffFileName.getText();
+
+        if (csvFile == null || arffFile == null) {
+            JOptionPane.showMessageDialog(null, "Enter File Name");
+        }
         System.out.println(arffFile);
         try {
             // load CSV
@@ -180,7 +184,7 @@ public class ArffFileGenerator extends javax.swing.JDialog {
             saver.setInstances(data);
             saver.setFile(new File(arffFile));
             saver.writeBatch();
-            
+
             JOptionPane.showMessageDialog(null, "Successfully Converted!!!");
         } catch (IOException ex) {
             Logger.getLogger(ArffFileGenerator.class.getName()).log(Level.SEVERE, null, ex);

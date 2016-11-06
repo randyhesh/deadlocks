@@ -42,7 +42,7 @@
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="algorithmList" min="-2" pref="202" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="18" max="32767" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="locationText" min="-2" pref="214" max="-2" attributes="0"/>
@@ -113,11 +113,12 @@
     <Component class="javax.swing.JComboBox" name="algorithmList">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
+          <StringArray count="5">
             <StringItem index="0" value="Select Algorithm"/>
-            <StringItem index="1" value="SVM"/>
-            <StringItem index="2" value="KNN"/>
+            <StringItem index="1" value="Recurrent Neural Network"/>
+            <StringItem index="2" value="SVM"/>
             <StringItem index="3" value="Random Forest"/>
+            <StringItem index="4" value="KNN"/>
           </StringArray>
         </Property>
       </Properties>
