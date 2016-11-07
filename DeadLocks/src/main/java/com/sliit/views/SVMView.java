@@ -123,7 +123,7 @@ public class SVMView extends javax.swing.JPanel {
     private void svmPredictButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_svmPredictButtonActionPerformed
         SvmAnalyser svmAnalyser = new SvmAnalyser();
         System.out.println(dataset);
-        double auROC = svmAnalyser.perfomeAnalysis(PredictorPanel.locationText.getText());
+        double auROC = svmAnalyser.perfomeAnalysis(PredictorPanel.locationText.getText(), PredictorPanel.modalText.getText());
         rouText.setText(auROC + "");
 
         String conclusion = "";
