@@ -6,6 +6,13 @@
 package com.sliit.views;
 
 import com.sliit.neuralnetwork.RecurrentNN;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -208,16 +215,45 @@ public class NeuralNetworkView extends javax.swing.JPanel {
         RecurrentNN neuralNetwork = new RecurrentNN();
         System.out.println("start=======================");
         try {
+            //Train data
             neuralNetwork.inputs = Integer.parseInt(noOfInputText.getText());
             neuralNetwork.numHiddenNodes = Integer.parseInt(noHiddenNodesText.getText());
             neuralNetwork.HIDDEN_LAYER_COUNT = Integer.parseInt(hiddenLayerCountText.getText());
             neuralNetwork.outputNum = Integer.parseInt(noOfOutputText.getText());
             neuralNetwork.buildModel();
-            System.out.println("Dataset "+dataset);
+            System.out.println("Dataset " + dataset);
             String output = neuralNetwork.trainModel("nn", dataset, 2, 10);
-            
-            rocText.setText(neuralNetwork.getRoc()+"");
+
+            rocText.setText(neuralNetwork.getRoc() + "");
             outputAreaText.setText(output);
+
+            //Test data
+            System.out.println("Testing........................");
+            Charset charset = Charset.forName("ISO-8859-1");
+            Path filePath = Paths.get("D:/SLIIT/deadlocks/data/", "normtrainadded.csv");
+
+            List<String> lines = Files.readAllLines(filePath, charset);
+            String[] testDataArr = lines.toArray(new String[lines.size()]);
+
+            Map<Integer, String> map = new HashMap<Integer, String>();
+            map.put(0, "AA");
+            map.put(1, "AA");
+            map.put(2, "AA");
+            map.put(3, "AA");
+            map.put(4, "AA");
+            map.put(5, "AA");
+            map.put(6, "AA");
+            map.put(7, "AA");
+            map.put(8, "AA");
+            map.put(9, "AA");
+            map.put(10, "AA");
+            map.put(11, "AA");
+
+            String testOutput = neuralNetwork.testModel("nn", testDataArr, map, 10, 2, "D:/Data/Test", modal);
+            //System.out.println("Test output " + testOutput);
+
+            conclutionText.setText(testOutput);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

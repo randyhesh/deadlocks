@@ -62,7 +62,7 @@ public class PredictorPanel extends javax.swing.JPanel {
         algorithmContainer.setBackground(new java.awt.Color(255, 255, 255));
         algorithmContainer.setLayout(new java.awt.CardLayout());
 
-        jLabel2.setText("Feature Table : ");
+        jLabel2.setText("Train Data :");
 
         locationText.setText("D:\\deadlocks\\data\\a.csv");
 
@@ -73,7 +73,7 @@ public class PredictorPanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel3.setText("Modal : ");
+        jLabel3.setText("Test Data :");
 
         modalText.setText("D:\\deadlocks\\data\\train.arff");
 
@@ -99,7 +99,7 @@ public class PredictorPanel extends javax.swing.JPanel {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(algorithmList, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(locationText, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)

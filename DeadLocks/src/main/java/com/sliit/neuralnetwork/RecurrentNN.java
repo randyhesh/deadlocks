@@ -33,16 +33,22 @@ import weka.filters.Filter;
 import weka.filters.supervised.instance.StratifiedRemoveFolds;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import static weka.gui.beans.BeanConnection.outputs;
 
 /**
  *
  * @author Heshani
  */
 public class RecurrentNN {
-    
+
     public int outputNum = 4;
     private int iterations = 5;
     private int seed = 1234;
@@ -50,15 +56,14 @@ public class RecurrentNN {
     public int HIDDEN_LAYER_COUNT = 2;
     public int numHiddenNodes = 5;
     public int inputs = 10;
-    private String uploadDirectory = "D:/deadlocks/NN_data";
-    private ArrayList<Map<String,Double>> roc;
+    private String uploadDirectory = "D:/Data";
+    private ArrayList<Map<String, Double>> roc;
 
-    public RecurrentNN(){
-
+    public RecurrentNN() {
 
     }
 
-    public void buildModel(){
+    public void buildModel() {
 
         System.out.println("Build model....");
         iterations = outputNum + 1;
@@ -75,20 +80,20 @@ public class RecurrentNN {
 
         NeuralNetConfiguration.ListBuilder list = builder.list();
 
-        for(int i=0;i<HIDDEN_LAYER_COUNT;i++){
+        for (int i = 0; i < HIDDEN_LAYER_COUNT; i++) {
 
             GravesLSTM.Builder hiddenLayerBuilder = new GravesLSTM.Builder();
-            hiddenLayerBuilder.nIn(i==0 ? inputs : numHiddenNodes);
+            hiddenLayerBuilder.nIn(i == 0 ? inputs : numHiddenNodes);
             hiddenLayerBuilder.nOut(numHiddenNodes);
             hiddenLayerBuilder.activation("tanh");
-            list.layer(i,hiddenLayerBuilder.build());
+            list.layer(i, hiddenLayerBuilder.build());
         }
 
         RnnOutputLayer.Builder outputLayer = new RnnOutputLayer.Builder(LossFunction.MCXENT);
         outputLayer.activation("softmax");
         outputLayer.nIn(numHiddenNodes);
         outputLayer.nOut(outputNum);
-        list.layer(HIDDEN_LAYER_COUNT,outputLayer.build());
+        list.layer(HIDDEN_LAYER_COUNT, outputLayer.build());
         list.pretrain(false);
         list.backprop(true);
         MultiLayerConfiguration configuration = list.build();
@@ -98,22 +103,22 @@ public class RecurrentNN {
 
     }
 
-    public String trainModel(String modelName,String filePath,int outputs,int inputsTot) throws NeuralException {
+    public String trainModel(String modelName, String filePath, int outputs, int inputsTot) throws NeuralException {
         System.out.println("calling trainModel");
         try {
 
             System.out.println("Neural Network Training start");
-            loadSaveNN(modelName,false);
-            if(model== null){
+            loadSaveNN(modelName, false);
+            if (model == null) {
 
                 buildModel();
             }
-            
+
             File fileGeneral = new File(filePath);
             CSVLoader loader = new CSVLoader();
             loader.setSource(fileGeneral);
             Instances instances = loader.getDataSet();
-            instances.setClassIndex(instances.numAttributes()-1);
+            instances.setClassIndex(instances.numAttributes() - 1);
             StratifiedRemoveFolds stratified = new StratifiedRemoveFolds();
             String[] options = new String[6];
             options[0] = "-N";
@@ -125,19 +130,19 @@ public class RecurrentNN {
             stratified.setOptions(options);
             stratified.setInputFormat(instances);
             stratified.setInvertSelection(false);
-            Instances testInstances = Filter.useFilter(instances,stratified);
+            Instances testInstances = Filter.useFilter(instances, stratified);
             stratified.setInvertSelection(true);
-            Instances trainInstances = Filter.useFilter(instances,stratified);
+            Instances trainInstances = Filter.useFilter(instances, stratified);
             String directory = fileGeneral.getParent();
             CSVSaver saver = new CSVSaver();
-            File trainFile = new File(directory+"/"+"normtrainadded.csv");
-            File testFile = new File(directory+"/"+"normtestadded.csv");
-            if(trainFile.exists()){
+            File trainFile = new File(directory + "/" + "normtrainadded.csv");
+            File testFile = new File(directory + "/" + "normtestadded.csv");
+            if (trainFile.exists()) {
 
                 trainFile.delete();
             }
             trainFile.createNewFile();
-            if(testFile.exists()){
+            if (testFile.exists()) {
 
                 testFile.delete();
             }
@@ -149,33 +154,33 @@ public class RecurrentNN {
             saver.setFile(testFile);
             saver.setInstances(testInstances);
             saver.writeBatch();
-            SequenceRecordReader recordReader = new CSVSequenceRecordReader(0,",");
+            SequenceRecordReader recordReader = new CSVSequenceRecordReader(0, ",");
             recordReader.initialize(new org.datavec.api.split.FileSplit(trainFile));
-            SequenceRecordReader testReader = new CSVSequenceRecordReader(0,",");
+            SequenceRecordReader testReader = new CSVSequenceRecordReader(0, ",");
             testReader.initialize(new org.datavec.api.split.FileSplit(testFile));
-            DataSetIterator iterator = new org.deeplearning4j.datasets.datavec.SequenceRecordReaderDataSetIterator(recordReader,2,outputs,inputsTot,false);
-            DataSetIterator testIterator = new org.deeplearning4j.datasets.datavec.SequenceRecordReaderDataSetIterator(testReader,2,outputs,inputsTot,false);
+            DataSetIterator iterator = new org.deeplearning4j.datasets.datavec.SequenceRecordReaderDataSetIterator(recordReader, 2, outputs, inputsTot, false);
+            DataSetIterator testIterator = new org.deeplearning4j.datasets.datavec.SequenceRecordReaderDataSetIterator(testReader, 2, outputs, inputsTot, false);
             roc = new ArrayList<Map<String, Double>>();
-            String statMsg="";
+            String statMsg = "";
             Evaluation evaluation;
 
-            for(int i=0;i<100;i++) {
-                if(i%2==0) {
+            for (int i = 0; i < 100; i++) {
+                if (i % 2 == 0) {
 
                     model.fit(iterator);
                     evaluation = model.evaluate(testIterator);
-                }else{
+                } else {
 
                     model.fit(testIterator);
                     evaluation = model.evaluate(iterator);
                 }
                 Map<String, Double> map = new HashMap<String, Double>();
-                Map<Integer,Integer> falsePositives = evaluation.falsePositives();
-                Map<Integer,Integer> trueNegatives = evaluation.trueNegatives();
-                Map<Integer,Integer> truePositives = evaluation.truePositives();
-                Map<Integer,Integer> falseNegatives = evaluation.falseNegatives();
-                double fpr = falsePositives.get(1)/(falsePositives.get(1)+trueNegatives.get(1));
-                double tpr = truePositives.get(1)/(truePositives.get(1)+falseNegatives.get(1));
+                Map<Integer, Integer> falsePositives = evaluation.falsePositives();
+                Map<Integer, Integer> trueNegatives = evaluation.trueNegatives();
+                Map<Integer, Integer> truePositives = evaluation.truePositives();
+                Map<Integer, Integer> falseNegatives = evaluation.falseNegatives();
+                double fpr = falsePositives.get(1) / (falsePositives.get(1) + trueNegatives.get(1));
+                double tpr = truePositives.get(1) / (truePositives.get(1) + falseNegatives.get(1));
                 map.put("FPR", fpr);
                 map.put("TPR", tpr);
                 roc.add(map);
@@ -183,19 +188,19 @@ public class RecurrentNN {
                 iterator.reset();
                 testIterator.reset();
             }
-            loadSaveNN(modelName,true);
-            System.out.println("ROC "+roc);
-            
+            loadSaveNN(modelName, true);
+            System.out.println("ROC " + roc);
+
             return statMsg;
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Error ocuured while building neural netowrk :"+e.getMessage());
-            throw new NeuralException(e.getLocalizedMessage(),e);
+            System.out.println("Error ocuured while building neural netowrk :" + e.getMessage());
+            throw new NeuralException(e.getLocalizedMessage(), e);
         }
     }
 
-    public boolean generateModel(String modelName){
+    public boolean generateModel(String modelName) {
         System.out.println("recNN generateModel");
 
         boolean status = false;
@@ -203,14 +208,14 @@ public class RecurrentNN {
 
             loadSaveNN(modelName, true);
             status = true;
-        }catch (Exception e){
+        } catch (Exception e) {
 
-            System.out.println("Error occurred:"+e.getLocalizedMessage());
+            System.out.println("Error occurred:" + e.getLocalizedMessage());
         }
         return status;
     }
 
-    private void loadSaveNN(String name,boolean save){
+    private void loadSaveNN(String name, boolean save) {
         System.out.println("recNN loadSaveNN");
 
         File directory = new File(uploadDirectory);
@@ -218,11 +223,11 @@ public class RecurrentNN {
         boolean status = false;
         try {
 
-            if(model == null && save){
+            if (model == null && save) {
 
                 buildModel();
             }
-            if(allNN != null && allNN.length > 0) {
+            if (allNN != null && allNN.length > 0) {
                 for (File NN : allNN) {
 
                     String fnme = FilenameUtils.removeExtension(NN.getName());
@@ -231,7 +236,7 @@ public class RecurrentNN {
                         status = true;
                         if (save) {
 
-                            ModelSerializer.writeModel(model,NN,true);
+                            ModelSerializer.writeModel(model, NN, true);
                             System.out.println("Model Saved With Weights Successfully");
 
                         } else {
@@ -242,47 +247,47 @@ public class RecurrentNN {
                     }
                 }
             }
-            if(!status && save){
+            if (!status && save) {
 
                 //File tempFIle = File.createTempFile(name,".zip",directory);
-                File tempFile = new File(directory.getAbsolutePath()+"/"+name+".zip");
-                if(!tempFile.exists()){
+                File tempFile = new File(directory.getAbsolutePath() + "/" + name + ".zip");
+                if (!tempFile.exists()) {
 
                     tempFile.createNewFile();
                 }
-                ModelSerializer.writeModel(model,tempFile,true);
+                ModelSerializer.writeModel(model, tempFile, true);
             }
         } catch (IOException e) {
-            System.out.println("Error occurred:"+e.getMessage());
+            System.out.println("Error occurred:" + e.getMessage());
         }
     }
 
-    public String testModel(String modelName,String[] rawData,Map<Integer,String> map,int inputs,int outputs,String ruleModelSavePath) throws Exception{
+    public String testModel(String modelName, String[] rawData, Map<Integer, String> map, int inputs, int outputs, String ruleModelSavePath, String testDataSet) throws Exception {
         System.out.println("calling testmodel");
-        
+
         String status = "";
         String fpath = uploadDirectory;
-        FileWriter fwriter = new FileWriter(uploadDirectory+"original/insertdata.csv",true);
+        FileWriter fwriter = new FileWriter(testDataSet, true);
         fwriter.write("\n");
         fwriter.write(rawData[0]);
         fwriter.close();
-        if(model==null) {
+        if (model == null) {
             loadSaveNN(modelName, false);
         }
-        NormalizeDataset norm = new NormalizeDataset(uploadDirectory + "original/insertdata.csv");
+        NormalizeDataset norm = new NormalizeDataset(testDataSet);
         norm.updateStringValues(map);
         norm.whiteningData();
         norm.normalizeDataset();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(uploadDirectory + "originalnorminsertdata.csv")));
-        String output="";
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(uploadDirectory + "/originalnorminsertdata.csv")));
+        String output = "";
         String prevOutput = "";
-        while((output = bufferedReader.readLine())!=null){
+        while ((output = bufferedReader.readLine()) != null) {
 
             prevOutput = output;
         }
         bufferedReader.close();
-        File readFile = new File(uploadDirectory+"normtest.csv");
-        if(readFile.exists()){
+        File readFile = new File(uploadDirectory + "/normtest.csv");
+        if (readFile.exists()) {
 
             readFile.delete();
         }
@@ -292,7 +297,7 @@ public class RecurrentNN {
         writer.flush();
         writer.close();
         SequenceRecordReader recordReader = new CSVSequenceRecordReader(0, ",");
-        recordReader.initialize(new org.datavec.api.split.FileSplit(new File(uploadDirectory+"normtest.csv")));
+        recordReader.initialize(new org.datavec.api.split.FileSplit(new File(uploadDirectory + "/normtest.csv")));
         DataSetIterator iterator = new org.deeplearning4j.datasets.datavec.SequenceRecordReaderDataSetIterator(recordReader, 2, outputs, inputs, false);
         INDArray outputArr = null;
         while (iterator.hasNext()) {
@@ -309,12 +314,12 @@ public class RecurrentNN {
         } else {
 
             status = "Fraud Transaction, ";
-            bufferedReader = new BufferedReader(new FileReader(new File(uploadDirectory+"original/insertdata.csv")));
+            bufferedReader = new BufferedReader(new FileReader(new File(uploadDirectory + "/original/insertdata.csv")));
             String heading = "";
             heading = bufferedReader.readLine();
             bufferedReader.close();
-            File ruleFile = new File(uploadDirectory+"normrules.csv");
-            if(ruleFile.exists()){
+            File ruleFile = new File(uploadDirectory + "/normrules.csv");
+            if (ruleFile.exists()) {
 
                 ruleFile.delete();
             }
@@ -324,12 +329,12 @@ public class RecurrentNN {
             writeNew.println(rawData[0]);
             writeNew.flush();
             writeNew.close();
-            RuleContainer engine = new RuleContainer(fpath + "original/insertdata.csv");
+            RuleContainer engine = new RuleContainer(fpath + "/original/insertdata.csv");
             engine.geneateModel(ruleModelSavePath, false);
-            String finalStatus = status+"Attack Type:"+engine.predictionResult(uploadDirectory+"normrules.csv");
+            String finalStatus = status + "Attack Type:" + engine.predictionResult(uploadDirectory + "normrules.csv");
             status = finalStatus;
         }
-        System.out.println("testModel status "+status);
+        System.out.println("testModel status " + status);
         return status;
     }
 
@@ -349,8 +354,32 @@ public class RecurrentNN {
             neural_network.HIDDEN_LAYER_COUNT = 2;
             neural_network.outputNum = 2;
             neural_network.buildModel();
-            String output = neural_network.trainModel("nn","D:/deadlocks/NN_data/frauddetectkdddataset.csv",2,10);
-            System.out.println("output "+output);
+            String output = neural_network.trainModel("nn", "D:/Data/originalnormkddaddeddata.csv", 2, 10);
+            System.out.println("output " + output);
+
+            System.out.println("Testing........................");
+            Charset charset = Charset.forName("ISO-8859-1");
+            Path wiki_path = Paths.get("D:/SLIIT/deadlocks/data/", "normtrainadded.csv");
+
+            List<String> lines = Files.readAllLines(wiki_path, charset);
+            String[] testDataArr = lines.toArray(new String[lines.size()]);
+
+            Map<Integer, String> map = new HashMap<Integer, String>();
+            map.put(0, "AA");
+            map.put(1, "AA");
+            map.put(2, "AA");
+            map.put(3, "AA");
+            map.put(4, "AA");
+            map.put(5, "AA");
+            map.put(6, "AA");
+            map.put(7, "AA");
+            map.put(8, "AA");
+            map.put(9, "AA");
+            map.put(10, "AA");
+            map.put(11, "AA");
+
+            String testOutput = neural_network.testModel("nn", testDataArr, map, 10, 2, "D:/Data/Test","");
+            System.out.println("Test output " + testOutput);
         } catch (Exception e) {
             e.printStackTrace();
         }
