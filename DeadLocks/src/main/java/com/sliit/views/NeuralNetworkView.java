@@ -6,6 +6,7 @@
 package com.sliit.views;
 
 import com.sliit.neuralnetwork.RecurrentNN;
+import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,6 +29,7 @@ public class NeuralNetworkView extends javax.swing.JPanel {
      */
     public NeuralNetworkView() {
         initComponents();
+        loadingGif.hide();
     }
 
     public NeuralNetworkView(String dataset, String modal) {
@@ -56,17 +58,16 @@ public class NeuralNetworkView extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         noOfOutputText = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        rocText = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         outputAreaText = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         conclutionText = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
+        loadingGif = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        nnPredictButton.setText("Predict");
+        nnPredictButton.setText("Process");
         nnPredictButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nnPredictButtonActionPerformed(evt);
@@ -94,8 +95,6 @@ public class NeuralNetworkView extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Output"));
 
-        jLabel2.setText("ROC:");
-
         outputAreaText.setEditable(false);
         outputAreaText.setColumns(20);
         outputAreaText.setRows(5);
@@ -119,10 +118,6 @@ public class NeuralNetworkView extends javax.swing.JPanel {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(rocText))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -130,12 +125,8 @@ public class NeuralNetworkView extends javax.swing.JPanel {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(rocText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -143,30 +134,36 @@ public class NeuralNetworkView extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        loadingGif.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/loading.gif"))); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(45, 45, 45)
-                            .addComponent(noOfInputText, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel6))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(hiddenLayerCountText, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(noHiddenNodesText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(noOfOutputText, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(nnPredictButton, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(45, 45, 45)
+                                .addComponent(noOfInputText, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel6))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(hiddenLayerCountText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                                    .addComponent(noHiddenNodesText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                                    .addComponent(noOfOutputText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                                    .addComponent(nnPredictButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(114, 114, 114)
+                        .addComponent(loadingGif, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
         );
@@ -192,11 +189,13 @@ public class NeuralNetworkView extends javax.swing.JPanel {
                             .addComponent(jLabel6)
                             .addComponent(noOfOutputText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(39, 39, 39)
-                        .addComponent(nnPredictButton))
+                        .addComponent(nnPredictButton)
+                        .addGap(29, 29, 29)
+                        .addComponent(loadingGif, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -212,47 +211,53 @@ public class NeuralNetworkView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void nnPredictButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nnPredictButtonActionPerformed
+
+        loadingGif.show();
+        
+        String trainData = PredictorPanel.locationText.getText();
+        String testData = PredictorPanel.modalText.getText();
+
+        System.out.println("Train Data " + trainData);
+        System.out.println("Test Data " + testData);
+
         RecurrentNN neuralNetwork = new RecurrentNN();
-        System.out.println("start=======================");
+
         try {
             //Train data
+            System.out.println("Training......................");
             neuralNetwork.inputs = Integer.parseInt(noOfInputText.getText());
             neuralNetwork.numHiddenNodes = Integer.parseInt(noHiddenNodesText.getText());
             neuralNetwork.HIDDEN_LAYER_COUNT = Integer.parseInt(hiddenLayerCountText.getText());
             neuralNetwork.outputNum = Integer.parseInt(noOfOutputText.getText());
             neuralNetwork.buildModel();
-            System.out.println("Dataset " + dataset);
-            String output = neuralNetwork.trainModel("nn", dataset, 2, 10);
+            String output = neuralNetwork.trainModel("nn", trainData, 2, 10);
 
-            rocText.setText(neuralNetwork.getRoc() + "");
             outputAreaText.setText(output);
 
             //Test data
             System.out.println("Testing........................");
             Charset charset = Charset.forName("ISO-8859-1");
-            Path filePath = Paths.get("D:/SLIIT/deadlocks/data/", "normtrainadded.csv");
+
+            File testFile = new File(testData);
+            String fileName = testFile.getName();
+            String location = testData;
+            location = location.replace(fileName, "");
+
+            System.out.println("Location " + location);
+            System.out.println("fileName " + fileName);
+
+            Path filePath = Paths.get(location, fileName);
 
             List<String> lines = Files.readAllLines(filePath, charset);
             String[] testDataArr = lines.toArray(new String[lines.size()]);
 
             Map<Integer, String> map = new HashMap<Integer, String>();
-            map.put(0, "AA");
-            map.put(1, "AA");
-            map.put(2, "AA");
-            map.put(3, "AA");
-            map.put(4, "AA");
-            map.put(5, "AA");
-            map.put(6, "AA");
-            map.put(7, "AA");
-            map.put(8, "AA");
-            map.put(9, "AA");
-            map.put(10, "AA");
-            map.put(11, "AA");
 
-            String testOutput = neuralNetwork.testModel("nn", testDataArr, map, 10, 2, "D:/Data/Test", modal);
-            //System.out.println("Test output " + testOutput);
+            String testOutput = neuralNetwork.testModel("nn", testDataArr, map, 10, 2, "D:/deadlocks/data/Test", testData);
 
             conclutionText.setText(testOutput);
+            
+            loadingGif.hide();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -264,7 +269,6 @@ public class NeuralNetworkView extends javax.swing.JPanel {
     private javax.swing.JTextArea conclutionText;
     private javax.swing.JTextField hiddenLayerCountText;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -273,11 +277,11 @@ public class NeuralNetworkView extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel loadingGif;
     private javax.swing.JButton nnPredictButton;
     private javax.swing.JTextField noHiddenNodesText;
     private javax.swing.JTextField noOfInputText;
     private javax.swing.JTextField noOfOutputText;
     private javax.swing.JTextArea outputAreaText;
-    private javax.swing.JTextField rocText;
     // End of variables declaration//GEN-END:variables
 }

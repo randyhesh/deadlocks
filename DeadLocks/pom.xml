@@ -9,8 +9,7 @@
     <repositories>
         <repository>
             <id>unknown-jars-temp-repo</id>
-            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
-            <!--<url>file:${project.basedir}/lib</url>-->
+            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>            
             <url>http://maven.apache.org</url>
         </repository>
     </repositories>
@@ -224,6 +223,12 @@
             <artifactId>scala-library</artifactId>
             <version>2.11.8</version>
             <type>jar</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.scala-lang.modules</groupId>
+            <artifactId>scala-xml_2.11</artifactId>
+            <version>1.0.1</version>
         </dependency>
         
         <dependency>

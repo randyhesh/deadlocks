@@ -27,6 +27,7 @@ public class ViewRFTree extends javax.swing.JFrame {
     public ViewRFTree() {
         initComponents();
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     public void setTextArea(String tree) {

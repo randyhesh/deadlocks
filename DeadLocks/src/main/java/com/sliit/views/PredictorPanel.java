@@ -6,13 +6,18 @@
 package com.sliit.views;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 /**
  *
  * @author Heshani
  */
-public class PredictorPanel extends javax.swing.JPanel {
+public class PredictorPanel extends javax.swing.JPanel {    
 
     /**
      * Creates new form PredictorPanel
@@ -111,8 +116,7 @@ public class PredictorPanel extends javax.swing.JPanel {
                         .addComponent(modalText, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16)))
-                .addContainerGap())
+                        .addGap(16, 16, 16))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,6 +186,7 @@ public class PredictorPanel extends javax.swing.JPanel {
         jfcOpen.showOpenDialog(null);
         File f = jfcOpen.getSelectedFile();
         locationText.setText(f.getAbsoluteFile() + "");
+      
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -189,6 +194,7 @@ public class PredictorPanel extends javax.swing.JPanel {
         jfcOpen.showOpenDialog(null);
         File f = jfcOpen.getSelectedFile();
         modalText.setText(f.getAbsoluteFile() + "");
+   
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

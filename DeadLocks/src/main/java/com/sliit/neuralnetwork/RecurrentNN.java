@@ -56,7 +56,7 @@ public class RecurrentNN {
     public int HIDDEN_LAYER_COUNT = 2;
     public int numHiddenNodes = 5;
     public int inputs = 10;
-    private String uploadDirectory = "D:/Data";
+    private String uploadDirectory = "D:/deadlocks/data/";
     private ArrayList<Map<String, Double>> roc;
 
     public RecurrentNN() {
@@ -278,7 +278,7 @@ public class RecurrentNN {
         norm.updateStringValues(map);
         norm.whiteningData();
         norm.normalizeDataset();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(uploadDirectory + "/originalnorminsertdata.csv")));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(testDataSet)));
         String output = "";
         String prevOutput = "";
         while ((output = bufferedReader.readLine()) != null) {
@@ -286,7 +286,7 @@ public class RecurrentNN {
             prevOutput = output;
         }
         bufferedReader.close();
-        File readFile = new File(uploadDirectory + "/normtest.csv");
+        File readFile = new File(testDataSet);
         if (readFile.exists()) {
 
             readFile.delete();
@@ -297,7 +297,7 @@ public class RecurrentNN {
         writer.flush();
         writer.close();
         SequenceRecordReader recordReader = new CSVSequenceRecordReader(0, ",");
-        recordReader.initialize(new org.datavec.api.split.FileSplit(new File(uploadDirectory + "/normtest.csv")));
+        recordReader.initialize(new org.datavec.api.split.FileSplit(new File(testDataSet)));
         DataSetIterator iterator = new org.deeplearning4j.datasets.datavec.SequenceRecordReaderDataSetIterator(recordReader, 2, outputs, inputs, false);
         INDArray outputArr = null;
         while (iterator.hasNext()) {
@@ -310,15 +310,15 @@ public class RecurrentNN {
         double result = Double.parseDouble(Nd4j.argMax(outputArr, 1).toString());
         if (result == 0.0) {
 
-            status = "Normal Transaction";
+            status = "Normal Transaction \nYour Machine is safe";
         } else {
 
             status = "Fraud Transaction, ";
-            bufferedReader = new BufferedReader(new FileReader(new File(uploadDirectory + "/original/insertdata.csv")));
+            bufferedReader = new BufferedReader(new FileReader(new File(testDataSet)));
             String heading = "";
             heading = bufferedReader.readLine();
             bufferedReader.close();
-            File ruleFile = new File(uploadDirectory + "/normrules.csv");
+            File ruleFile = new File(testDataSet);
             if (ruleFile.exists()) {
 
                 ruleFile.delete();
@@ -329,12 +329,12 @@ public class RecurrentNN {
             writeNew.println(rawData[0]);
             writeNew.flush();
             writeNew.close();
-            RuleContainer engine = new RuleContainer(fpath + "/original/insertdata.csv");
+            RuleContainer engine = new RuleContainer(testDataSet);
             engine.geneateModel(ruleModelSavePath, false);
-            String finalStatus = status + "Attack Type:" + engine.predictionResult(uploadDirectory + "normrules.csv");
+            String finalStatus = status + "Attack Type:" + engine.predictionResult(testDataSet);
             status = finalStatus;
         }
-        System.out.println("testModel status " + status);
+
         return status;
     }
 
@@ -378,7 +378,7 @@ public class RecurrentNN {
             map.put(10, "AA");
             map.put(11, "AA");
 
-            String testOutput = neural_network.testModel("nn", testDataArr, map, 10, 2, "D:/Data/Test","");
+            String testOutput = neural_network.testModel("nn", testDataArr, map, 10, 2, "D:/Data/Test", "");
             System.out.println("Test output " + testOutput);
         } catch (Exception e) {
             e.printStackTrace();

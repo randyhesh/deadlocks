@@ -24,6 +24,8 @@ import scala.Tuple2;
  */
 public class SvmAnalyser implements Serializable {
 
+    private Double auRoc;
+
     public SvmAnalyser() {
 
     }
@@ -34,21 +36,22 @@ public class SvmAnalyser implements Serializable {
      * @param dataset
      * @return
      */
-    public double perfomeAnalysis(String trainDataset, String testDataset) {
+    public String perfomeAnalysis(String trainDataset, String testDataset) {
+
+        String output = "";
 
         SparkConf conf = new SparkConf().setAppName("DeadLocks").setMaster("local").set("spark.executor.memory", "1g");
         //SparkConf conf = new SparkConf().setAppName("SVM Classifier Example");
         SparkContext sc = new SparkContext(conf);
 
-        JavaRDD<LabeledPoint> trainData = MLUtils.loadLibSVMFile(sc, trainDataset).toJavaRDD();
+        JavaRDD<LabeledPoint> data = MLUtils.loadLibSVMFile(sc, trainDataset).toJavaRDD();
         JavaRDD<LabeledPoint> testData = MLUtils.loadLibSVMFile(sc, testDataset).toJavaRDD();
 
         // Split initial RDD into two... [60% training data, 40% testing data].
-        JavaRDD<LabeledPoint> training = trainData.sample(false, 1, 11L);
+        JavaRDD<LabeledPoint> training = data.sample(false, 1.0, 11L);
         training.cache();
 
-        JavaRDD<LabeledPoint> test = testData.sample(false, 1, 11L);
-        testData.cache();
+        JavaRDD<LabeledPoint> test = testData.sample(false, 1.0, 11L);
 
         // Run training algorithm to build the model.
         int numIterations = 100;
@@ -60,22 +63,74 @@ public class SvmAnalyser implements Serializable {
         // Compute raw scores on the test set.
         JavaRDD<Tuple2<Object, Object>> scoreAndLabels = test.map(
                 new Function<LabeledPoint, Tuple2<Object, Object>>() {
-                    public Tuple2<Object, Object> call(LabeledPoint p) {
-                        Double score = model.predict(p.features());
-                        return new Tuple2<Object, Object>(score, p.label());
+            public Tuple2<Object, Object> call(LabeledPoint p) {
+                Double score = model.predict(p.features());
+                return new Tuple2<Object, Object>(score, p.label());
+            }
+        });
+
+        Double prediction
+                = 100.0 * scoreAndLabels.filter(new Function<Tuple2<Object, Object>, Boolean>() {
+                    @Override
+                    public Boolean call(Tuple2<Object, Object> pl) {
+                        return !pl._1().equals(pl._2());
                     }
-                }
-        );
+                }).count() / testData.count();
+
+        System.out.println("prediction " + prediction);
+        output += "Prediction : " + prediction + "\n";
 
         //Get evaluation metrics.
         BinaryClassificationMetrics metrics = new BinaryClassificationMetrics(JavaRDD.toRDD(scoreAndLabels));
-        double auROC = metrics.areaUnderROC();
+        this.auRoc = metrics.areaUnderROC();
 
-        System.out.println("Area under ROC = " + auROC);
+        // Precision by threshold
+        JavaRDD<Tuple2<Object, Object>> precision = metrics.precisionByThreshold().toJavaRDD();
+        System.out.println("Precision by threshold: " + precision.collect());
+        output += "Precision by threshold : " + precision.collect() + "\n";
 
+        // Recall by threshold
+        JavaRDD<Tuple2<Object, Object>> recall = metrics.recallByThreshold().toJavaRDD();
+        System.out.println("Recall by threshold: " + recall.collect());
+        output += "Precision by threshold : " + precision.collect() + "\n";
+
+        // F Score by threshold
+        JavaRDD<Tuple2<Object, Object>> f1Score = metrics.fMeasureByThreshold().toJavaRDD();
+        System.out.println("F1 Score by threshold: " + f1Score.collect());
+        output += "F1 Score by threshold: " + f1Score.collect() + "\n";
+
+        JavaRDD<Tuple2<Object, Object>> f2Score = metrics.fMeasureByThreshold(2.0).toJavaRDD();
+        System.out.println("F2 Score by threshold: " + f2Score.collect());
+        output += "F2 Score by threshold: " + f2Score.collect() + "\n";
+
+        // Precision-recall curve
+        JavaRDD<Tuple2<Object, Object>> prc = metrics.pr().toJavaRDD();
+        System.out.println("Precision-recall curve: " + prc.collect());
+        output += "Precision-recall curve: " + prc.collect() + "\n";
+
+        // ROC Curve
+        JavaRDD<Tuple2<Object, Object>> roc = metrics.roc().toJavaRDD();
+        System.out.println("ROC curve: " + roc.collect());
+        output += "ROC curve: " + roc.collect() + "\n";
+
+        // AUPRC
+        System.out.println("Area under precision-recall curve = " + metrics.areaUnderPR());
+        output += "Area under precision-recall curve : " + metrics.areaUnderPR() + "\n";
+
+        // AUROC
+        System.out.println("Area under ROC = " + metrics.areaUnderROC());
+        output += "Area under ROC: " + metrics.areaUnderROC() + "\n";
         sc.stop();
 
-        return auROC;
+        return output;
+    }
+
+    public void setRoc(Double auRoc) {
+        this.auRoc = auRoc;
+    }
+
+    public Double getauRoc() {
+        return auRoc;
     }
 
 }
