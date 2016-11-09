@@ -7,6 +7,7 @@ package com.sliit.views;
 
 import com.sliit.svmanalysis.SvmAnalyser;
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -84,6 +85,7 @@ public class SVMView extends javax.swing.JPanel {
             }
         });
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Output"));
 
         conclutionText.setColumns(20);
@@ -136,16 +138,16 @@ public class SVMView extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(99, 99, 99)
+                        .addComponent(loadingGif, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(svmPredictButton, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                            .addComponent(iterartionText)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
-                        .addComponent(loadingGif, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                            .addComponent(svmPredictButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(iterartionText, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46))
         );
@@ -154,13 +156,13 @@ public class SVMView extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
+                        .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(iterartionText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(42, 42, 42)
                         .addComponent(svmPredictButton)
-                        .addGap(31, 31, 31)
+                        .addGap(41, 41, 41)
                         .addComponent(loadingGif, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
@@ -170,39 +172,48 @@ public class SVMView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void svmPredictButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_svmPredictButtonActionPerformed
-        SvmAnalyser svmAnalyser = new SvmAnalyser();
-        System.out.println(dataset);
-        String output = svmAnalyser.perfomeAnalysis(PredictorPanel.locationText.getText(), PredictorPanel.modalText.getText());
-        outputText.setText(output);
 
-        Double auROC = svmAnalyser.getauRoc();
+        loadingGif.show();
 
-        String conclusion = "";
+        new Thread(new Runnable() {
+            public void run() {
+                SvmAnalyser svmAnalyser = new SvmAnalyser();
+                System.out.println(dataset);
+                String output = svmAnalyser.perfomeAnalysis(PredictorPanel.locationText.getText(), PredictorPanel.modalText.getText());
+                outputText.setText(output);
 
-        //excellent 
-        if (auROC >= 0.9 && auROC <= 1) {
-            conclusion = "Your Machine is Protected.\nSuspicious network traffic not detected.";
+                Double auROC = svmAnalyser.getauRoc();
 
-            //good
-        } else if (auROC >= 0.8 && auROC <= 0.9) {
-            conclusion = "Your Machine is Protected.\nSuspicious network traffic not detected.You might face network treats";
+                String conclusion = "";
 
-            //fair 
-        } else if (auROC >= 0.7 && auROC <= 0.8) {
-            conclusion = "Your Machine is Not Protected.\nSuspicious network traffic not detected.";
+                //excellent 
+                if (auROC >= 0.9 && auROC <= 1) {
+                    conclusion = "Your Machine is Protected.\nSuspicious network traffic not detected.";
 
-            //poor
-        } else if (auROC >= 0.6 && auROC <= 0.7) {
-            conclusion = "Your Machine is Highly Vulnerable.\nSuspicious network traffic detected.";
+                    //good
+                } else if (auROC >= 0.8 && auROC <= 0.9) {
+                    conclusion = "Your Machine is Protected.\nSuspicious network traffic not detected.You might face network treats";
 
-            //fail
-        } else if (auROC >= 0.5 && auROC <= 0.6) {
-            conclusion = "Your Machine is Highly Vulnerable for an Attack.\nYou will face network treats";
-        } else {
-            conclusion = "Your Machine is Attacked";
-        }
+                    //fair 
+                } else if (auROC >= 0.7 && auROC <= 0.8) {
+                    conclusion = "Your Machine is Not Protected.\nSuspicious network traffic not detected.";
 
-        conclutionText.setText(conclusion);
+                    //poor
+                } else if (auROC >= 0.6 && auROC <= 0.7) {
+                    conclusion = "Your Machine is Highly Vulnerable.\nSuspicious network traffic detected.";
+
+                    //fail
+                } else if (auROC >= 0.5 && auROC <= 0.6) {
+                    conclusion = "Your Machine is Highly Vulnerable for an Attack.\nYou will face network treats";
+                } else {
+                    conclusion = "Your Machine is Attacked";
+                }
+
+                conclutionText.setText(conclusion);
+
+                loadingGif.hide();
+            }
+        }).start();
 
     }//GEN-LAST:event_svmPredictButtonActionPerformed
 

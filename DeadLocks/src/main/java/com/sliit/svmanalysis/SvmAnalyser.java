@@ -5,7 +5,6 @@
  */
 package com.sliit.svmanalysis;
 
-import com.sliit.views.PredictorPanel;
 import java.io.Serializable;
 import org.apache.spark.SparkConf;
 import org.apache.spark.SparkContext;
@@ -14,6 +13,8 @@ import org.apache.spark.api.java.function.Function;
 import org.apache.spark.mllib.classification.SVMModel;
 import org.apache.spark.mllib.classification.SVMWithSGD;
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics;
+import org.apache.spark.mllib.evaluation.MulticlassMetrics;
+import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.regression.LabeledPoint;
 import org.apache.spark.mllib.util.MLUtils;
 import scala.Tuple2;
@@ -25,29 +26,26 @@ import scala.Tuple2;
 public class SvmAnalyser implements Serializable {
 
     private Double auRoc;
-
+    
     public SvmAnalyser() {
 
     }
 
     /**
-     * perform analysis using SVM algorithm
-     *
+     * perform analysis using SVM algorithm     
      * @param dataset
      * @return
      */
-    public String perfomeAnalysis(String trainDataset, String testDataset) {
+     public String perfomeAnalysis(String trainDataset, String testDataset) {
 
         String output = "";
 
-        SparkConf conf = new SparkConf().setAppName("DeadLocks").setMaster("local").set("spark.executor.memory", "1g");
-        //SparkConf conf = new SparkConf().setAppName("SVM Classifier Example");
+        SparkConf conf = new SparkConf().setAppName("DeadLocks").setMaster("local").set("spark.executor.memory", "1g");        
         SparkContext sc = new SparkContext(conf);
 
         JavaRDD<LabeledPoint> data = MLUtils.loadLibSVMFile(sc, trainDataset).toJavaRDD();
         JavaRDD<LabeledPoint> testData = MLUtils.loadLibSVMFile(sc, testDataset).toJavaRDD();
-
-        // Split initial RDD into two... [60% training data, 40% testing data].
+        
         JavaRDD<LabeledPoint> training = data.sample(false, 1.0, 11L);
         training.cache();
 
@@ -69,6 +67,7 @@ public class SvmAnalyser implements Serializable {
             }
         });
 
+        //calculate test error
         Double prediction
                 = 100.0 * scoreAndLabels.filter(new Function<Tuple2<Object, Object>, Boolean>() {
                     @Override
@@ -77,8 +76,8 @@ public class SvmAnalyser implements Serializable {
                     }
                 }).count() / testData.count();
 
-        System.out.println("prediction " + prediction);
-        output += "Prediction : " + prediction + "\n";
+        System.out.println("Accuracy " + prediction);
+        output += "Accuracy : " + prediction + "\n";
 
         //Get evaluation metrics.
         BinaryClassificationMetrics metrics = new BinaryClassificationMetrics(JavaRDD.toRDD(scoreAndLabels));
@@ -132,5 +131,4 @@ public class SvmAnalyser implements Serializable {
     public Double getauRoc() {
         return auRoc;
     }
-
 }

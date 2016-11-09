@@ -213,55 +213,60 @@ public class NeuralNetworkView extends javax.swing.JPanel {
     private void nnPredictButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nnPredictButtonActionPerformed
 
         loadingGif.show();
-        
-        String trainData = PredictorPanel.locationText.getText();
-        String testData = PredictorPanel.modalText.getText();
 
-        System.out.println("Train Data " + trainData);
-        System.out.println("Test Data " + testData);
+        new Thread(new Runnable() {
+            public void run() {
+                String trainData = PredictorPanel.locationText.getText();
+                String testData = PredictorPanel.modalText.getText();
 
-        RecurrentNN neuralNetwork = new RecurrentNN();
+                System.out.println("Train Data " + trainData);
+                System.out.println("Test Data " + testData);
 
-        try {
-            //Train data
-            System.out.println("Training......................");
-            neuralNetwork.inputs = Integer.parseInt(noOfInputText.getText());
-            neuralNetwork.numHiddenNodes = Integer.parseInt(noHiddenNodesText.getText());
-            neuralNetwork.HIDDEN_LAYER_COUNT = Integer.parseInt(hiddenLayerCountText.getText());
-            neuralNetwork.outputNum = Integer.parseInt(noOfOutputText.getText());
-            neuralNetwork.buildModel();
-            String output = neuralNetwork.trainModel("nn", trainData, 2, 10);
+                RecurrentNN neuralNetwork = new RecurrentNN();
 
-            outputAreaText.setText(output);
+                try {
+                    //Train data
+                    System.out.println("Training......................");
+                    neuralNetwork.inputs = Integer.parseInt(noOfInputText.getText());
+                    neuralNetwork.numHiddenNodes = Integer.parseInt(noHiddenNodesText.getText());
+                    neuralNetwork.HIDDEN_LAYER_COUNT = Integer.parseInt(hiddenLayerCountText.getText());
+                    neuralNetwork.outputNum = Integer.parseInt(noOfOutputText.getText());
+                    neuralNetwork.buildModel();
+                    String output = neuralNetwork.trainModel("nn", trainData, 2, 10);
 
-            //Test data
-            System.out.println("Testing........................");
-            Charset charset = Charset.forName("ISO-8859-1");
+                    outputAreaText.setText(output);
 
-            File testFile = new File(testData);
-            String fileName = testFile.getName();
-            String location = testData;
-            location = location.replace(fileName, "");
+                    //Test data
+                    System.out.println("Testing........................");
+                    Charset charset = Charset.forName("ISO-8859-1");
 
-            System.out.println("Location " + location);
-            System.out.println("fileName " + fileName);
+                    File testFile = new File(testData);
+                    String fileName = testFile.getName();
+                    String location = testData;
+                    location = location.replace(fileName, "");
 
-            Path filePath = Paths.get(location, fileName);
+                    System.out.println("Location " + location);
+                    System.out.println("fileName " + fileName);
 
-            List<String> lines = Files.readAllLines(filePath, charset);
-            String[] testDataArr = lines.toArray(new String[lines.size()]);
+                    Path filePath = Paths.get(location, fileName);
 
-            Map<Integer, String> map = new HashMap<Integer, String>();
+                    List<String> lines = Files.readAllLines(filePath, charset);
+                    String[] testDataArr = lines.toArray(new String[lines.size()]);
 
-            String testOutput = neuralNetwork.testModel("nn", testDataArr, map, 10, 2, "D:/deadlocks/data/Test", testData);
+                    Map<Integer, String> map = new HashMap<Integer, String>();
 
-            conclutionText.setText(testOutput);
-            
-            loadingGif.hide();
+                    String testOutput = neuralNetwork.testModel("nn", testDataArr, map, 10, 2, "D:/deadlocks/data/Test", testData);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                    conclutionText.setText(testOutput);
+
+                    loadingGif.hide();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
     }//GEN-LAST:event_nnPredictButtonActionPerformed
 
 

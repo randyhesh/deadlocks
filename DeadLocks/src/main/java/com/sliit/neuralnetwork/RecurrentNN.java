@@ -365,18 +365,6 @@ public class RecurrentNN {
             String[] testDataArr = lines.toArray(new String[lines.size()]);
 
             Map<Integer, String> map = new HashMap<Integer, String>();
-            map.put(0, "AA");
-            map.put(1, "AA");
-            map.put(2, "AA");
-            map.put(3, "AA");
-            map.put(4, "AA");
-            map.put(5, "AA");
-            map.put(6, "AA");
-            map.put(7, "AA");
-            map.put(8, "AA");
-            map.put(9, "AA");
-            map.put(10, "AA");
-            map.put(11, "AA");
 
             String testOutput = neural_network.testModel("nn", testDataArr, map, 10, 2, "D:/Data/Test", "");
             System.out.println("Test output " + testOutput);
